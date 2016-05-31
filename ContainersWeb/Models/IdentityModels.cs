@@ -24,17 +24,18 @@ namespace ContainersWeb.Models
             : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
-
-        public DbSet<ContainerTracking> ContainerTracking { get; set; }
-
-        public DbSet<Driver> Drivers { get; set; }
-        public DbSet<SecuritySupervisor> SecuritySupervisors { get; set; }
-        public DbSet<Company> Companies { get; set; }
-        public DbSet<Region> Regions { get; set; }
-
+     
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
         }
+
+        public DbSet<ContainerTracking> ContainerTracking { get; set; }
+        public DbSet<Driver> Drivers { get; set; }
+        public DbSet<SecuritySupervisor> SecuritySupervisors { get; set; }
+        public DbSet<Company> Companies { get; set; }
+        public DbSet<Region> Regions { get; set; }
+        public DbSet<LogEntry> LogEntries { get; set; }
+
     }
 }

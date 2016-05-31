@@ -49,6 +49,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.3.4\lib\net45\NLog.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -167,6 +171,8 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="BLL\ILogger.cs" />
+    <Compile Include="BLL\Loger.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CompaniesController.cs" />
     <Compile Include="Controllers\ContainerTrackingsController.cs" />
@@ -182,12 +188,17 @@
     <Compile Include="Migrations\201605312006025_Initial.Designer.cs">
       <DependentUpon>201605312006025_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201605312030438_CreateLogEntryModel.cs" />
+    <Compile Include="Migrations\201605312030438_CreateLogEntryModel.Designer.cs">
+      <DependentUpon>201605312030438_CreateLogEntryModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\ContainerTrackingViewModel.cs" />
     <Compile Include="Models\Driver.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\LogEntry.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Region.cs" />
     <Compile Include="Models\SecuritySupervisor.cs" />
@@ -204,6 +215,10 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="NLog.config" />
+    <None Include="NLog.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -295,6 +310,15 @@
     <EmbeddedResource Include="Migrations\201605312006025_Initial.resx">
       <DependentUpon>201605312006025_Initial.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605312030438_CreateLogEntryModel.resx">
+      <DependentUpon>201605312030438_CreateLogEntryModel.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Resources\Resources.csproj">
+      <Project>{853c0743-a09c-4447-b1d1-b7267373fa57}</Project>
+      <Name>Resources</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
