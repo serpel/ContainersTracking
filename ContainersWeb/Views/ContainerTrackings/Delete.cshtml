@@ -1,0 +1,128 @@
+﻿@model ContainersWeb.Models.ContainerTracking
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>ContainerTracking</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CompanyDestination.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CompanyDestination.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CompanyOrigin.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CompanyOrigin.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Driver.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Driver.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SecuritySupervisor.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SecuritySupervisor.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DocStatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DocStatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContainerNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContainerNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContainerLicensePlate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContainerLicensePlate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContainerLabel)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContainerLabel)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ChasisNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ChasisNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DuaNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DuaNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InsertedAt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InsertedAt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdatedAt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UpdatedAt)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

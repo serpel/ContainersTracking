@@ -1,0 +1,105 @@
+﻿@model IEnumerable<ContainersWeb.Models.ContainerTracking>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CompanyDestination.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompanyOrigin.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Driver.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SecuritySupervisor.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Type)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DocStatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ContainerNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ContainerLicensePlate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ContainerLabel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ChasisNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DuaNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InsertedAt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UpdatedAt)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.CompanyDestination.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CompanyOrigin.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Driver.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SecuritySupervisor.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Type)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DocStatus)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ContainerNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ContainerLicensePlate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ContainerLabel)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ChasisNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DuaNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.InsertedAt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UpdatedAt)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.TrackingId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.TrackingId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.TrackingId })
+        </td>
+    </tr>
+}
+
+</table>
