@@ -10,7 +10,7 @@ using ContainersWeb.Models;
 
 namespace ContainersWeb.Controllers
 {
-    public class DriversController : Controller
+    public class DriversController : BaseController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 

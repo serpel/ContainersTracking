@@ -10,7 +10,7 @@ using ContainersWeb.Models;
 
 namespace ContainersWeb.Controllers
 {
-    public class SecuritySupervisorsController : Controller
+    public class SecuritySupervisorsController : BaseController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 

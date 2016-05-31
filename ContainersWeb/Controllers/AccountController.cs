@@ -9,11 +9,12 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using ContainersWeb.Models;
+using ContainersWeb.BLL;
 
 namespace ContainersWeb.Controllers
 {
     [Authorize]
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
@@ -79,6 +80,7 @@ namespace ContainersWeb.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    MyLogger.GetInstance.Info("Login Success for user: " + model.Email);
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -392,7 +394,21 @@ namespace ContainersWeb.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+
+            MyLogger.GetInstance.Info("User logoff successfull: " + AuthenticationManager.User.Identity.Name);
+
             return RedirectToAction("Index", "Home");
+        }
+
+
+        [HttpGet]
+        public ActionResult LogOut()
+        {
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+
+            MyLogger.GetInstance.Info("User logoff successfull: " + AuthenticationManager.User.Identity.Name);
+
+            return RedirectToAction("Login", "Account");
         }
 
         //

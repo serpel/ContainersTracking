@@ -10,7 +10,7 @@ using ContainersWeb.Models;
 
 namespace ContainersWeb.Controllers
 {
-    public class RegionsController : Controller
+    public class RegionsController : BaseController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 

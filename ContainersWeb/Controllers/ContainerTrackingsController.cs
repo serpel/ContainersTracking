@@ -10,7 +10,7 @@ using ContainersWeb.Models;
 
 namespace ContainersWeb.Controllers
 {
-    public class ContainerTrackingsController : Controller
+    public class ContainerTrackingsController : BaseController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
