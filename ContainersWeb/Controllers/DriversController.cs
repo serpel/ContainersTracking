@@ -14,31 +14,23 @@ namespace ContainersWeb.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        public ActionResult GetDrivers()
+        {
+            var drivers = db.Drivers.Select(s => new { s.DriverId, s.Name, s.CardId });
+
+            return Json(drivers.ToList(), JsonRequestBehavior.AllowGet);
+        }
+
         // GET: Drivers
         public ActionResult Index()
         {
-            return View(db.Drivers.ToList());
-        }
-
-        // GET: Drivers/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Driver driver = db.Drivers.Find(id);
-            if (driver == null)
-            {
-                return HttpNotFound();
-            }
-            return View(driver);
+            return View();
         }
 
         // GET: Drivers/Create
         public ActionResult Create()
         {
-            return View();
+            return PartialView("Create");
         }
 
         // POST: Drivers/Create
@@ -52,10 +44,11 @@ namespace ContainersWeb.Controllers
             {
                 db.Drivers.Add(driver);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
             }
 
-            return View(driver);
+            return PartialView("Create", driver);
         }
 
         // GET: Drivers/Edit/5
@@ -70,7 +63,7 @@ namespace ContainersWeb.Controllers
             {
                 return HttpNotFound();
             }
-            return View(driver);
+            return PartialView("Edit", driver);
         }
 
         // POST: Drivers/Edit/5
@@ -84,9 +77,10 @@ namespace ContainersWeb.Controllers
             {
                 db.Entry(driver).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
             }
-            return View(driver);
+            return PartialView("Edit", driver);
         }
 
         // GET: Drivers/Delete/5
@@ -101,7 +95,7 @@ namespace ContainersWeb.Controllers
             {
                 return HttpNotFound();
             }
-            return View(driver);
+            return PartialView("Delete", driver);
         }
 
         // POST: Drivers/Delete/5
@@ -112,7 +106,8 @@ namespace ContainersWeb.Controllers
             Driver driver = db.Drivers.Find(id);
             db.Drivers.Remove(driver);
             db.SaveChanges();
-            return RedirectToAction("Index");
+
+            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
 
         protected override void Dispose(bool disposing)

@@ -1632,6 +1632,7 @@
     <Content Include="Scripts\jquery-2.2.3.min.js" />
     <Content Include="Scripts\jquery-ui-1.11.4.js" />
     <Content Include="Scripts\jquery-ui-1.11.4.min.js" />
+    <Content Include="Scripts\modal.js" />
     <Content Include="Scripts\select2.js" />
     <Content Include="Scripts\select2.min.js" />
     <Content Include="Web.config" />
@@ -1670,17 +1671,14 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Drivers\Create.cshtml" />
     <Content Include="Views\Drivers\Delete.cshtml" />
-    <Content Include="Views\Drivers\Details.cshtml" />
     <Content Include="Views\Drivers\Edit.cshtml" />
     <Content Include="Views\Drivers\Index.cshtml" />
     <Content Include="Views\Regions\Create.cshtml" />
     <Content Include="Views\Regions\Delete.cshtml" />
-    <Content Include="Views\Regions\Details.cshtml" />
     <Content Include="Views\Regions\Edit.cshtml" />
     <Content Include="Views\Regions\Index.cshtml" />
     <Content Include="Views\Companies\Create.cshtml" />
     <Content Include="Views\Companies\Delete.cshtml" />
-    <Content Include="Views\Companies\Details.cshtml" />
     <Content Include="Views\Companies\Edit.cshtml" />
     <Content Include="Views\Companies\Index.cshtml" />
     <Content Include="Views\ContainerTrackings\Create.cshtml" />
@@ -1690,7 +1688,6 @@
     <Content Include="Views\ContainerTrackings\Index.cshtml" />
     <Content Include="Views\SecuritySupervisors\Create.cshtml" />
     <Content Include="Views\SecuritySupervisors\Delete.cshtml" />
-    <Content Include="Views\SecuritySupervisors\Details.cshtml" />
     <Content Include="Views\SecuritySupervisors\Edit.cshtml" />
     <Content Include="Views\SecuritySupervisors\Index.cshtml" />
     <Content Include="Views\Shared\_LayoutError.cshtml" />

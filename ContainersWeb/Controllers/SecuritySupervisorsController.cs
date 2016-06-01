@@ -14,31 +14,24 @@ namespace ContainersWeb.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        public ActionResult GetSecuritySupervisors()
+        {
+            var securitySupervisors = db.SecuritySupervisors.Select(s => new { s.SecuritySupervisorId, s.Name, s.CardId, s.IsActive });
+
+            return Json(securitySupervisors.ToList(), JsonRequestBehavior.AllowGet);
+        }
+
+
         // GET: SecuritySupervisors
         public ActionResult Index()
         {
-            return View(db.SecuritySupervisors.ToList());
-        }
-
-        // GET: SecuritySupervisors/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            SecuritySupervisor securitySupervisor = db.SecuritySupervisors.Find(id);
-            if (securitySupervisor == null)
-            {
-                return HttpNotFound();
-            }
-            return View(securitySupervisor);
+            return View();
         }
 
         // GET: SecuritySupervisors/Create
         public ActionResult Create()
         {
-            return View();
+            return PartialView("Create");
         }
 
         // POST: SecuritySupervisors/Create
@@ -52,10 +45,11 @@ namespace ContainersWeb.Controllers
             {
                 db.SecuritySupervisors.Add(securitySupervisor);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
             }
 
-            return View(securitySupervisor);
+            return PartialView("Create", securitySupervisor);
         }
 
         // GET: SecuritySupervisors/Edit/5
@@ -70,7 +64,7 @@ namespace ContainersWeb.Controllers
             {
                 return HttpNotFound();
             }
-            return View(securitySupervisor);
+            return PartialView("Edit", securitySupervisor);
         }
 
         // POST: SecuritySupervisors/Edit/5
@@ -84,9 +78,10 @@ namespace ContainersWeb.Controllers
             {
                 db.Entry(securitySupervisor).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
             }
-            return View(securitySupervisor);
+            return PartialView("Edit", securitySupervisor);
         }
 
         // GET: SecuritySupervisors/Delete/5
@@ -101,7 +96,7 @@ namespace ContainersWeb.Controllers
             {
                 return HttpNotFound();
             }
-            return View(securitySupervisor);
+            return PartialView("Delete", securitySupervisor);
         }
 
         // POST: SecuritySupervisors/Delete/5
@@ -112,7 +107,8 @@ namespace ContainersWeb.Controllers
             SecuritySupervisor securitySupervisor = db.SecuritySupervisors.Find(id);
             db.SecuritySupervisors.Remove(securitySupervisor);
             db.SaveChanges();
-            return RedirectToAction("Index");
+
+            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
 
         protected override void Dispose(bool disposing)

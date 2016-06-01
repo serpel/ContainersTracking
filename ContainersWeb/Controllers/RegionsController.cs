@@ -14,31 +14,23 @@ namespace ContainersWeb.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        public ActionResult GetRegions()
+        {
+            var regions = db.Regions.Select(s => new { s.Name, s.RegionId });
+
+            return Json(regions.ToList(), JsonRequestBehavior.AllowGet);
+        }
+
         // GET: Regions
         public ActionResult Index()
         {
-            return View(db.Regions.ToList());
-        }
-
-        // GET: Regions/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Region region = db.Regions.Find(id);
-            if (region == null)
-            {
-                return HttpNotFound();
-            }
-            return View(region);
+            return View();
         }
 
         // GET: Regions/Create
         public ActionResult Create()
         {
-            return View();
+            return PartialView("Create");
         }
 
         // POST: Regions/Create
@@ -52,10 +44,11 @@ namespace ContainersWeb.Controllers
             {
                 db.Regions.Add(region);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
             }
 
-            return View(region);
+            return PartialView("Create", region);
         }
 
         // GET: Regions/Edit/5
@@ -70,7 +63,7 @@ namespace ContainersWeb.Controllers
             {
                 return HttpNotFound();
             }
-            return View(region);
+            return PartialView("Edit", region);
         }
 
         // POST: Regions/Edit/5
@@ -84,9 +77,10 @@ namespace ContainersWeb.Controllers
             {
                 db.Entry(region).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
             }
-            return View(region);
+            return PartialView("Edit", region);
         }
 
         // GET: Regions/Delete/5
@@ -101,7 +95,7 @@ namespace ContainersWeb.Controllers
             {
                 return HttpNotFound();
             }
-            return View(region);
+            return PartialView("Delete", region);
         }
 
         // POST: Regions/Delete/5
@@ -112,7 +106,8 @@ namespace ContainersWeb.Controllers
             Region region = db.Regions.Find(id);
             db.Regions.Remove(region);
             db.SaveChanges();
-            return RedirectToAction("Index");
+
+            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
 
         protected override void Dispose(bool disposing)

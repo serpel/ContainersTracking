@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using ContainersWeb.Models;
+using ContainersWeb.BLL;
 
 namespace ContainersWeb.Controllers
 {
@@ -14,33 +15,26 @@ namespace ContainersWeb.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        public ActionResult GetCompanies()
+        {
+            var companies = db.Companies
+                .ToList()
+                .Select(s => new { s.Name, s.IsActive, s.CompanyId, Region = s.Region.Name });
+
+            return Json(companies, JsonRequestBehavior.AllowGet);
+        }
+
         // GET: Companies
         public ActionResult Index()
         {
-            var companies = db.Companies.Include(c => c.Region);
-            return View(companies.ToList());
-        }
-
-        // GET: Companies/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Company company = db.Companies.Find(id);
-            if (company == null)
-            {
-                return HttpNotFound();
-            }
-            return View(company);
+            return View();
         }
 
         // GET: Companies/Create
         public ActionResult Create()
         {
             ViewBag.RegionId = new SelectList(db.Regions, "RegionId", "Name");
-            return View();
+            return PartialView("Create", new Company());
         }
 
         // POST: Companies/Create
@@ -54,11 +48,13 @@ namespace ContainersWeb.Controllers
             {
                 db.Companies.Add(company);
                 db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+
+                MyLogger.GetInstance.Info("The Company was created succesfull, Name: " + company.Name);
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }         
 
             ViewBag.RegionId = new SelectList(db.Regions, "RegionId", "Name", company.RegionId);
-            return View(company);
+            return PartialView("Create", company);
         }
 
         // GET: Companies/Edit/5
@@ -74,7 +70,7 @@ namespace ContainersWeb.Controllers
                 return HttpNotFound();
             }
             ViewBag.RegionId = new SelectList(db.Regions, "RegionId", "Name", company.RegionId);
-            return View(company);
+            return PartialView("Edit", company);
         }
 
         // POST: Companies/Edit/5
@@ -88,10 +84,12 @@ namespace ContainersWeb.Controllers
             {
                 db.Entry(company).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                MyLogger.GetInstance.Info("The Company was edited succesfull, Id: " + company.CompanyId);
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
             }
             ViewBag.RegionId = new SelectList(db.Regions, "RegionId", "Name", company.RegionId);
-            return View(company);
+            return PartialView("Edit", company);
         }
 
         // GET: Companies/Delete/5
@@ -106,7 +104,7 @@ namespace ContainersWeb.Controllers
             {
                 return HttpNotFound();
             }
-            return View(company);
+            return PartialView("Delete", company);
         }
 
         // POST: Companies/Delete/5
@@ -117,7 +115,9 @@ namespace ContainersWeb.Controllers
             Company company = db.Companies.Find(id);
             db.Companies.Remove(company);
             db.SaveChanges();
-            return RedirectToAction("Index");
+
+            MyLogger.GetInstance.Info("The Company was deleted succesfull, Id: " + id);
+            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
 
         protected override void Dispose(bool disposing)

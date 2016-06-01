@@ -1,51 +1,59 @@
 ﻿@model IEnumerable<ContainersWeb.Models.Company>
+@using ContainersWeb.BLL
+@using Resources
 
-@{
-    ViewBag.Title = "Index";
+<div class="row-fluid">
+    <div class="span12">
+        <div class="grid simple ">
+            <div class="grid-title">
+                <h4>@Resources.Companies</h4>
+                <div class="tools"> <a href="javascript:;" class="collapse"></a> <a href="#grid-config" data-toggle="modal" class="config"></a> <a href="javascript:;" class="reload"></a> <a href="javascript:;" class="remove"></a> </div>
+            </div>
+            <div class="grid-body ">
+
+                <table class="table table-hover table-condensed" id="datatable">
+                    <thead>
+                        <tr>
+                            <th>@Resources.Company</th>
+                            <th>@Resources.Region</th>
+                            <th>@Resources.IsActive</th>
+                            <th>@Html.NoEncodeActionLink("<span class='glyphicon glyphicon-plus'></span>", Resources.CreateNew, "Create", "Companies", routeValues: null, htmlAttributes: new { data_modal = "", @class = "btn btn-primary pull-right" })</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/Scripts/DataTables-1.10.12/media/js/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/DataTables-1.10.12/media/js/dataTables.bootstrap.min.js"></script>
+    <script src="~/Scripts/modal.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var id = '#datatable';
+
+            var controller = 'Companies';
+
+            var columns =
+            [
+                        { data: 'Name'},
+                        { data: 'Region' },
+                        { data: 'IsActive' },
+                        { data: 'CompanyId' }
+            ];
+
+            var url = '@Url.Action("GetCompanies")';
+
+            var datatable = CreateTable(id, columns, url, controller);
+
+            $(id).on('draw.dt', function () {
+                LoadModal(id, columns, url, controller);
+            });
+
+        });
+    </script>
 }
-
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Region.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Code)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsActive)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Region.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Code)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsActive)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.CompanyId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.CompanyId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.CompanyId })
-        </td>
-    </tr>
-}
-
-</table>
