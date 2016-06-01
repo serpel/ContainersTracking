@@ -3,6 +3,21 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ContainersWeb.Models
 {
+    public class UserViewModel
+    {
+        [Required]
+        [Display(Name = "Id")]
+        public string Id { get; set; }
+
+        [Required]
+        [EmailAddress]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
+        //[Range(1, int.MaxValue, ErrorMessage = "Field can't be empty")]
+        public ICollection<string> Roles { get; set; }
+    }
+
     public class ExternalLoginConfirmationViewModel
     {
         [Required]
