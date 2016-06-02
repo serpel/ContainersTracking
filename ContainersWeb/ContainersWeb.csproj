@@ -203,6 +203,7 @@
     <Compile Include="Controllers\DriversController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LogEntriesController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\RegionsController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
@@ -1707,6 +1708,11 @@
     <Content Include="Views\Roles\Delete.cshtml" />
     <Content Include="Views\Roles\Edit.cshtml" />
     <Content Include="Views\Roles\Index.cshtml" />
+    <Content Include="Views\LogEntries\Create.cshtml" />
+    <Content Include="Views\LogEntries\Delete.cshtml" />
+    <Content Include="Views\LogEntries\Details.cshtml" />
+    <Content Include="Views\LogEntries\Edit.cshtml" />
+    <Content Include="Views\LogEntries\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

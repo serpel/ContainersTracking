@@ -7,109 +7,112 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using ContainersWeb.Models;
-using ContainersWeb.DAL.Security;
 
 namespace ContainersWeb.Controllers
 {
-    [AccessAuthorizeAttribute(Roles = "Admin, Manager")]
-    public class DriversController : BaseController
+    public class LogEntriesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        public ActionResult GetDrivers()
+        // GET: LogEntries
+        public ActionResult Index()
         {
-            var drivers = db.Drivers.Select(s => new { s.DriverId, s.Name, s.CardId });
-
-            return Json(drivers.ToList(), JsonRequestBehavior.AllowGet);
+            return View(db.LogEntries.ToList());
         }
 
-        // GET: Drivers
-        public ActionResult Index()
+        // GET: LogEntries/Details/5
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            LogEntry logEntry = db.LogEntries.Find(id);
+            if (logEntry == null)
+            {
+                return HttpNotFound();
+            }
+            return View(logEntry);
+        }
+
+        // GET: LogEntries/Create
+        public ActionResult Create()
         {
             return View();
         }
 
-        // GET: Drivers/Create
-        public ActionResult Create()
-        {
-            return PartialView("Create");
-        }
-
-        // POST: Drivers/Create
+        // POST: LogEntries/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "DriverId,Name,CardId")] Driver driver)
+        public ActionResult Create([Bind(Include = "Id,Date,Username,Level,Message,Exception,Logger,CallSite,ServerName,Port,Url,RemoteAddress")] LogEntry logEntry)
         {
             if (ModelState.IsValid)
             {
-                db.Drivers.Add(driver);
+                db.LogEntries.Add(logEntry);
                 db.SaveChanges();
-
-                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+                return RedirectToAction("Index");
             }
 
-            return PartialView("Create", driver);
+            return View(logEntry);
         }
 
-        // GET: Drivers/Edit/5
+        // GET: LogEntries/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Driver driver = db.Drivers.Find(id);
-            if (driver == null)
+            LogEntry logEntry = db.LogEntries.Find(id);
+            if (logEntry == null)
             {
                 return HttpNotFound();
             }
-            return PartialView("Edit", driver);
+            return View(logEntry);
         }
 
-        // POST: Drivers/Edit/5
+        // POST: LogEntries/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "DriverId,Name,CardId")] Driver driver)
+        public ActionResult Edit([Bind(Include = "Id,Date,Username,Level,Message,Exception,Logger,CallSite,ServerName,Port,Url,RemoteAddress")] LogEntry logEntry)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(driver).State = EntityState.Modified;
+                db.Entry(logEntry).State = EntityState.Modified;
                 db.SaveChanges();
-
-                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+                return RedirectToAction("Index");
             }
-            return PartialView("Edit", driver);
+            return View(logEntry);
         }
 
-        // GET: Drivers/Delete/5
+        // GET: LogEntries/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Driver driver = db.Drivers.Find(id);
-            if (driver == null)
+            LogEntry logEntry = db.LogEntries.Find(id);
+            if (logEntry == null)
             {
                 return HttpNotFound();
             }
-            return PartialView("Delete", driver);
+            return View(logEntry);
         }
 
-        // POST: Drivers/Delete/5
+        // POST: LogEntries/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Driver driver = db.Drivers.Find(id);
-            db.Drivers.Remove(driver);
+            LogEntry logEntry = db.LogEntries.Find(id);
+            db.LogEntries.Remove(logEntry);
             db.SaveChanges();
-
-            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)

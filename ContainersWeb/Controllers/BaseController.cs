@@ -8,8 +8,8 @@ using System.Web.Mvc;
 
 namespace ContainersWeb.Controllers
 {
-    //[Authorize]
-    [AllowAnonymous]
+    [Authorize]
+    //[AllowAnonymous]
     public class BaseController : Controller
     {
         // this exist because we need load cross controllers information on left or top menu

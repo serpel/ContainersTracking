@@ -61,7 +61,7 @@ namespace ContainersWeb.Controllers
             ViewBag.Roles = new MultiSelectList(db.Roles.ToList(), "Id", "Name", null, selectedRoles);
 
             UserViewModel userV = new UserViewModel() { Id = user.Id, Email = user.Email };
-
+                
             return PartialView("Edit", userV);
         }
 

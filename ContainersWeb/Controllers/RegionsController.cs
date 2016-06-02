@@ -7,9 +7,11 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using ContainersWeb.Models;
+using ContainersWeb.DAL.Security;
 
 namespace ContainersWeb.Controllers
 {
+    [AccessAuthorizeAttribute(Roles = "Admin, Manager")]
     public class RegionsController : BaseController
     {
         private ApplicationDbContext db = new ApplicationDbContext();

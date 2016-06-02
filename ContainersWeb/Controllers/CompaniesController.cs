@@ -8,9 +8,11 @@ using System.Web;
 using System.Web.Mvc;
 using ContainersWeb.Models;
 using ContainersWeb.BLL;
+using ContainersWeb.DAL.Security;
 
 namespace ContainersWeb.Controllers
 {
+    [AccessAuthorizeAttribute(Roles = "Admin, Manager")]
     public class CompaniesController : BaseController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
