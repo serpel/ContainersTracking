@@ -79,6 +79,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Chasis Number.
+        /// </summary>
+        public static string ChasisNumber {
+            get {
+                return ResourceManager.GetString("ChasisNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Code.
         /// </summary>
         public static string Code {
@@ -124,6 +133,60 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ContainerLabel.
+        /// </summary>
+        public static string ContainerLabel {
+            get {
+                return ResourceManager.GetString("ContainerLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Container Number.
+        /// </summary>
+        public static string ContainerNumber {
+            get {
+                return ResourceManager.GetString("ContainerNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Container Status.
+        /// </summary>
+        public static string ContainerStatus {
+            get {
+                return ResourceManager.GetString("ContainerStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Container Tracking.
+        /// </summary>
+        public static string ContainerTracking {
+            get {
+                return ResourceManager.GetString("ContainerTracking", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Correlative Aduana.
+        /// </summary>
+        public static string CorrelAduana {
+            get {
+                return ResourceManager.GetString("CorrelAduana", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The container was created.
+        /// </summary>
+        public static string CreatedText {
+            get {
+                return ResourceManager.GetString("CreatedText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create New.
         /// </summary>
         public static string CreateNew {
@@ -142,11 +205,29 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Date.
+        /// </summary>
+        public static string Date {
+            get {
+                return ResourceManager.GetString("Date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete.
         /// </summary>
         public static string Delete {
             get {
                 return ResourceManager.GetString("Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The container was deleted.
+        /// </summary>
+        public static string DeletedText {
+            get {
+                return ResourceManager.GetString("DeletedText", resourceCulture);
             }
         }
         
@@ -160,6 +241,42 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Destination.
+        /// </summary>
+        public static string Destination {
+            get {
+                return ResourceManager.GetString("Destination", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Doc Number.
+        /// </summary>
+        public static string DocNumber {
+            get {
+                return ResourceManager.GetString("DocNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Doc Status.
+        /// </summary>
+        public static string DocStatus {
+            get {
+                return ResourceManager.GetString("DocStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Driver.
+        /// </summary>
+        public static string Driver {
+            get {
+                return ResourceManager.GetString("Driver", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Drivers.
         /// </summary>
         public static string Drivers {
@@ -169,11 +286,29 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to DuaNumber.
+        /// </summary>
+        public static string DuaNumber {
+            get {
+                return ResourceManager.GetString("DuaNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit.
         /// </summary>
         public static string Edit {
             get {
                 return ResourceManager.GetString("Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The container was edited.
+        /// </summary>
+        public static string EditText {
+            get {
+                return ResourceManager.GetString("EditText", resourceCulture);
             }
         }
         
@@ -205,6 +340,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The container is already inside..
+        /// </summary>
+        public static string InsideText {
+            get {
+                return ResourceManager.GetString("InsideText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to IsActive.
         /// </summary>
         public static string IsActive {
@@ -219,6 +363,15 @@ namespace Resources {
         public static string KeepMeReminded {
             get {
                 return ResourceManager.GetString("KeepMeReminded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to LicensePlate.
+        /// </summary>
+        public static string LicensePlate {
+            get {
+                return ResourceManager.GetString("LicensePlate", resourceCulture);
             }
         }
         
@@ -241,11 +394,47 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Message.
+        /// </summary>
+        public static string Message {
+            get {
+                return ResourceManager.GetString("Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name.
         /// </summary>
         public static string Name {
             get {
                 return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Origin.
+        /// </summary>
+        public static string Origin {
+            get {
+                return ResourceManager.GetString("Origin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Container yet is outside. !.
+        /// </summary>
+        public static string OutsideText {
+            get {
+                return ResourceManager.GetString("OutsideText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Container can&apos;t be out because it never In..
+        /// </summary>
+        public static string OutText {
+            get {
+                return ResourceManager.GetString("OutText", resourceCulture);
             }
         }
         
@@ -349,6 +538,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Status.
+        /// </summary>
+        public static string Status {
+            get {
+                return ResourceManager.GetString("Status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tracking.
         /// </summary>
         public static string Tracking {
@@ -363,6 +561,33 @@ namespace Resources {
         public static string TroubleLoginIn {
             get {
                 return ResourceManager.GetString("TroubleLoginIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Truck Tracking.
+        /// </summary>
+        public static string TruckTrancking {
+            get {
+                return ResourceManager.GetString("TruckTrancking", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type.
+        /// </summary>
+        public static string Type {
+            get {
+                return ResourceManager.GetString("Type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Url.
+        /// </summary>
+        public static string Url {
+            get {
+                return ResourceManager.GetString("Url", resourceCulture);
             }
         }
         
