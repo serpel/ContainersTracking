@@ -25,7 +25,7 @@ namespace ContainersWeb.Migrations
                 "dbo.ContainerTrackings",
                 c => new
                     {
-                        TrackingId = c.Int(nullable: false, identity: true),
+                        ContainerTrackingId = c.Int(nullable: false, identity: true),
                         Type = c.Int(nullable: false),
                         CompanyOriginId = c.Int(),
                         CompanyDestinationId = c.Int(),
@@ -37,12 +37,12 @@ namespace ContainersWeb.Migrations
                         DuaNumber = c.String(),
                         DriverId = c.Int(nullable: false),
                         SecuritySupervisorId = c.Int(nullable: false),
-                        InsertedAt = c.Int(nullable: false),
-                        UpdatedAt = c.Int(nullable: false),
+                        InsertedAt = c.DateTime(nullable: false),
+                        UpdatedAt = c.DateTime(nullable: false),
                         Company_CompanyId = c.Int(),
                         Company_CompanyId1 = c.Int(),
                     })
-                .PrimaryKey(t => t.TrackingId)
+                .PrimaryKey(t => t.ContainerTrackingId)
                 .ForeignKey("dbo.Companies", t => t.CompanyDestinationId)
                 .ForeignKey("dbo.Companies", t => t.CompanyOriginId)
                 .ForeignKey("dbo.Drivers", t => t.DriverId, cascadeDelete: true)
@@ -85,6 +85,25 @@ namespace ContainersWeb.Migrations
                         Name = c.String(nullable: false),
                     })
                 .PrimaryKey(t => t.RegionId);
+            
+            CreateTable(
+                "dbo.LogEntries",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Date = c.DateTime(nullable: false),
+                        Username = c.String(),
+                        Level = c.String(),
+                        Message = c.String(),
+                        Exception = c.String(),
+                        Logger = c.String(),
+                        CallSite = c.String(),
+                        ServerName = c.String(),
+                        Port = c.String(),
+                        Url = c.String(),
+                        RemoteAddress = c.String(),
+                    })
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.AspNetRoles",
@@ -187,6 +206,7 @@ namespace ContainersWeb.Migrations
             DropTable("dbo.AspNetUsers");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetRoles");
+            DropTable("dbo.LogEntries");
             DropTable("dbo.Regions");
             DropTable("dbo.SecuritySupervisors");
             DropTable("dbo.Drivers");

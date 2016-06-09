@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using ContainersWeb.Models;
+using ContainersWeb.BLL;
 
 namespace ContainersWeb.Controllers
 {
@@ -14,36 +15,28 @@ namespace ContainersWeb.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: ContainerTrackings
-        public ActionResult Index()
+        public ActionResult GetContainerTrackings()
         {
-            var containerTracking = db.ContainerTracking.Include(c => c.CompanyDestination).Include(c => c.CompanyOrigin).Include(c => c.Driver).Include(c => c.SecuritySupervisor);
-            return View(containerTracking.ToList());
+            var containers = db.ContainerTracking
+                .ToList()
+                .Select(s => new { s.ContainerTrackingId, Type = s.Type == 0 ? "Salida" : "Entrada",
+                    DocStatus = s.DocStatus == 0 ? "Pendiente" : "Listo",
+                    ContainerStatus = s.ContainerStatus == 0 ? "Vacio" : "Lleno",
+                    Date = s.InsertedAt.ToString("yyyy-MM-dd hh:mm"), s.ChasisNumber, s.ContainerNumber });
+
+            return Json(containers, JsonRequestBehavior.AllowGet);
         }
 
-        // GET: ContainerTrackings/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ContainerTracking containerTracking = db.ContainerTracking.Find(id);
-            if (containerTracking == null)
-            {
-                return HttpNotFound();
-            }
-            return View(containerTracking);
+        // GET: ContainerTrackings
+        public ActionResult Index()
+        {           
+            return View();
         }
 
         // GET: ContainerTrackings/Create
         public ActionResult Create()
         {
-            ViewBag.CompanyDestinationId = new SelectList(db.Companies, "CompanyId", "Name");
-            ViewBag.CompanyOriginId = new SelectList(db.Companies, "CompanyId", "Name");
-            ViewBag.DriverId = new SelectList(db.Drivers, "DriverId", "Name");
-            ViewBag.SecuritySupervisorId = new SelectList(db.SecuritySupervisors, "SecuritySupervisorId", "Name");
-            return View();
+            return PartialView("Create");
         }
 
         // POST: ContainerTrackings/Create
@@ -51,20 +44,32 @@ namespace ContainersWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "TrackingId,Type,CompanyOriginId,CompanyDestinationId,DocStatus,ContainerNumber,ContainerLicensePlate,ContainerLabel,ChasisNumber,DuaNumber,DriverId,SecuritySupervisorId,InsertedAt,UpdatedAt")] ContainerTracking containerTracking)
+        public ActionResult Create([Bind(Include = "ContainerTrackingId,Type,CompanyOriginId,CompanyDestinationId,DocStatus,ContainerNumber,ContainerStatus,ContainerLicensePlate,ContainerLabel,ChasisNumber,DocNumber,DriverId,SecuritySupervisorId,InsertedAt,UpdatedAt")] ContainerTracking containerTracking)
         {
+            containerTracking.InsertedAt = DateTime.Now;
+            containerTracking.UpdatedAt = DateTime.Now;
+            containerTracking.DocStatus = DocStatus.Pending;
+
+            ContainerTrackingHelper validator = new ContainerTrackingHelper(db);
+
             if (ModelState.IsValid)
             {
-                db.ContainerTracking.Add(containerTracking);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (validator.ValidateOnCreate(containerTracking))
+                {
+                    db.ContainerTracking.Add(containerTracking);
+                    db.SaveChanges();
+
+                    MyLogger.GetInstance.Info(Resources.Resources.CreatedText + " ContainerTrackingId: " + containerTracking.ContainerTrackingId + " ContainerNumber: " + containerTracking.ContainerNumber);
+
+                    return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    ModelState.AddModelError("ContainerNumber", validator.Message);
+                }
             }
 
-            ViewBag.CompanyDestinationId = new SelectList(db.Companies, "CompanyId", "Name", containerTracking.CompanyDestinationId);
-            ViewBag.CompanyOriginId = new SelectList(db.Companies, "CompanyId", "Name", containerTracking.CompanyOriginId);
-            ViewBag.DriverId = new SelectList(db.Drivers, "DriverId", "Name", containerTracking.DriverId);
-            ViewBag.SecuritySupervisorId = new SelectList(db.SecuritySupervisors, "SecuritySupervisorId", "Name", containerTracking.SecuritySupervisorId);
-            return View(containerTracking);
+            return PartialView("Create", containerTracking);
         }
 
         // GET: ContainerTrackings/Edit/5
@@ -83,7 +88,7 @@ namespace ContainersWeb.Controllers
             ViewBag.CompanyOriginId = new SelectList(db.Companies, "CompanyId", "Name", containerTracking.CompanyOriginId);
             ViewBag.DriverId = new SelectList(db.Drivers, "DriverId", "Name", containerTracking.DriverId);
             ViewBag.SecuritySupervisorId = new SelectList(db.SecuritySupervisors, "SecuritySupervisorId", "Name", containerTracking.SecuritySupervisorId);
-            return View(containerTracking);
+            return PartialView("Edit", containerTracking);
         }
 
         // POST: ContainerTrackings/Edit/5
@@ -91,19 +96,29 @@ namespace ContainersWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "TrackingId,Type,CompanyOriginId,CompanyDestinationId,DocStatus,ContainerNumber,ContainerLicensePlate,ContainerLabel,ChasisNumber,DuaNumber,DriverId,SecuritySupervisorId,InsertedAt,UpdatedAt")] ContainerTracking containerTracking)
+        public ActionResult Edit([Bind(Include = "ContainerTrackingId,Type,CompanyOriginId,CompanyDestinationId,DocStatus,ContainerNumber,ContainerStatus,ContainerLicensePlate,ContainerLabel,ChasisNumber,DocNumber,CorrelAduana,DriverId,SecuritySupervisorId,InsertedAt,UpdatedAt")] ContainerTracking containerTracking)
         {
+            containerTracking.UpdatedAt = DateTime.Now;
+
+            ContainerTrackingHelper validator = new ContainerTrackingHelper(db);
+
             if (ModelState.IsValid)
             {
-                db.Entry(containerTracking).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (validator.ValidateOnEdit(containerTracking))
+                {
+                    db.Entry(containerTracking).State = EntityState.Modified;
+                    db.SaveChanges();
+
+                    MyLogger.GetInstance.Info(Resources.Resources.EditText + " ContainerTrackingId: "+containerTracking.ContainerTrackingId+ " ContainerNumber: "+containerTracking.ContainerNumber);                    
+
+                    return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+                }
             }
             ViewBag.CompanyDestinationId = new SelectList(db.Companies, "CompanyId", "Name", containerTracking.CompanyDestinationId);
             ViewBag.CompanyOriginId = new SelectList(db.Companies, "CompanyId", "Name", containerTracking.CompanyOriginId);
             ViewBag.DriverId = new SelectList(db.Drivers, "DriverId", "Name", containerTracking.DriverId);
             ViewBag.SecuritySupervisorId = new SelectList(db.SecuritySupervisors, "SecuritySupervisorId", "Name", containerTracking.SecuritySupervisorId);
-            return View(containerTracking);
+            return PartialView("Edit", containerTracking);
         }
 
         // GET: ContainerTrackings/Delete/5
@@ -118,7 +133,7 @@ namespace ContainersWeb.Controllers
             {
                 return HttpNotFound();
             }
-            return View(containerTracking);
+            return PartialView("Delete", containerTracking);
         }
 
         // POST: ContainerTrackings/Delete/5
@@ -129,7 +144,10 @@ namespace ContainersWeb.Controllers
             ContainerTracking containerTracking = db.ContainerTracking.Find(id);
             db.ContainerTracking.Remove(containerTracking);
             db.SaveChanges();
-            return RedirectToAction("Index");
+
+            MyLogger.GetInstance.Info(Resources.Resources.DeletedText + " ContainerTrackingId: " + containerTracking.ContainerTrackingId + " ContainerNumber: " + containerTracking.ContainerNumber);
+
+            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
 
         protected override void Dispose(bool disposing)

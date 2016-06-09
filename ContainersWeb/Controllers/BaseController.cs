@@ -45,7 +45,6 @@ namespace ContainersWeb.Controllers
             return base.BeginExecuteCore(callback, state);
         }
 
-        //TODO: handle exceptions using a loger
         protected override void OnException(ExceptionContext filterContext)
         {
             MyLogger.GetInstance.Error(filterContext.Exception.Message, filterContext.Exception);

@@ -10,109 +10,24 @@ using ContainersWeb.Models;
 
 namespace ContainersWeb.Controllers
 {
-    public class LogEntriesController : Controller
+    public class LogEntriesController : BaseController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+
+        public ActionResult GetLogEntries()
+        {
+            var entries = db.LogEntries
+                .Where(w => w.Level == "Info")
+                .ToList()
+                .Select(s => new { Date = s.Date.ToString("yyyy-MM-dd hh:mm"), s.Message, s.Username, s.Url });
+
+            return Json(entries.ToList(), JsonRequestBehavior.AllowGet);
+        }
 
         // GET: LogEntries
         public ActionResult Index()
         {
-            return View(db.LogEntries.ToList());
-        }
-
-        // GET: LogEntries/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            LogEntry logEntry = db.LogEntries.Find(id);
-            if (logEntry == null)
-            {
-                return HttpNotFound();
-            }
-            return View(logEntry);
-        }
-
-        // GET: LogEntries/Create
-        public ActionResult Create()
-        {
             return View();
-        }
-
-        // POST: LogEntries/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Date,Username,Level,Message,Exception,Logger,CallSite,ServerName,Port,Url,RemoteAddress")] LogEntry logEntry)
-        {
-            if (ModelState.IsValid)
-            {
-                db.LogEntries.Add(logEntry);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            return View(logEntry);
-        }
-
-        // GET: LogEntries/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            LogEntry logEntry = db.LogEntries.Find(id);
-            if (logEntry == null)
-            {
-                return HttpNotFound();
-            }
-            return View(logEntry);
-        }
-
-        // POST: LogEntries/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Date,Username,Level,Message,Exception,Logger,CallSite,ServerName,Port,Url,RemoteAddress")] LogEntry logEntry)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(logEntry).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(logEntry);
-        }
-
-        // GET: LogEntries/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            LogEntry logEntry = db.LogEntries.Find(id);
-            if (logEntry == null)
-            {
-                return HttpNotFound();
-            }
-            return View(logEntry);
-        }
-
-        // POST: LogEntries/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            LogEntry logEntry = db.LogEntries.Find(id);
-            db.LogEntries.Remove(logEntry);
-            db.SaveChanges();
-            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)

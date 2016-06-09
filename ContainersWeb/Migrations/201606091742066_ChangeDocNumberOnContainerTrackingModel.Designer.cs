@@ -7,13 +7,13 @@ namespace ContainersWeb.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class CreateLogEntryModel : IMigrationMetadata
+    public sealed partial class ChangeDocNumberOnContainerTrackingModel : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(CreateLogEntryModel));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(ChangeDocNumberOnContainerTrackingModel));
         
         string IMigrationMetadata.Id
         {
-            get { return "201605312030438_CreateLogEntryModel"; }
+            get { return "201606091742066_ChangeDocNumberOnContainerTrackingModel"; }
         }
         
         string IMigrationMetadata.Source

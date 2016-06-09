@@ -192,6 +192,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="BLL\ContainerTrackingHelper.cs" />
     <Compile Include="BLL\CultureHelper.cs" />
     <Compile Include="BLL\HtmlHelper.cs" />
     <Compile Include="BLL\ILogger.cs" />
@@ -217,9 +218,21 @@
     <Compile Include="Migrations\201605312006025_Initial.Designer.cs">
       <DependentUpon>201605312006025_Initial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201605312030438_CreateLogEntryModel.cs" />
-    <Compile Include="Migrations\201605312030438_CreateLogEntryModel.Designer.cs">
-      <DependentUpon>201605312030438_CreateLogEntryModel.cs</DependentUpon>
+    <Compile Include="Migrations\201606060305333_UpdateDriverIdFieldOnContainerTracking.cs" />
+    <Compile Include="Migrations\201606060305333_UpdateDriverIdFieldOnContainerTracking.Designer.cs">
+      <DependentUpon>201606060305333_UpdateDriverIdFieldOnContainerTracking.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606061554155_DocStatus.cs" />
+    <Compile Include="Migrations\201606061554155_DocStatus.Designer.cs">
+      <DependentUpon>201606061554155_DocStatus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606062031478_CorrelativeAduanaOnContainerTrackingModel.cs" />
+    <Compile Include="Migrations\201606062031478_CorrelativeAduanaOnContainerTrackingModel.Designer.cs">
+      <DependentUpon>201606062031478_CorrelativeAduanaOnContainerTrackingModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606091742066_ChangeDocNumberOnContainerTrackingModel.cs" />
+    <Compile Include="Migrations\201606091742066_ChangeDocNumberOnContainerTrackingModel.Designer.cs">
+      <DependentUpon>201606091742066_ChangeDocNumberOnContainerTrackingModel.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -1637,6 +1650,10 @@
     <Content Include="Scripts\jquery-ui-1.11.4.js" />
     <Content Include="Scripts\jquery-ui-1.11.4.min.js" />
     <Content Include="Scripts\modal.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\select2.js" />
     <Content Include="Scripts\select2.min.js" />
     <Content Include="Web.config" />
@@ -1713,6 +1730,7 @@
     <Content Include="Views\LogEntries\Details.cshtml" />
     <Content Include="Views\LogEntries\Edit.cshtml" />
     <Content Include="Views\LogEntries\Index.cshtml" />
+    <Content Include="Views\ContainerTrackings\Create - Copy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1729,8 +1747,17 @@
     <EmbeddedResource Include="Migrations\201605312006025_Initial.resx">
       <DependentUpon>201605312006025_Initial.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201605312030438_CreateLogEntryModel.resx">
-      <DependentUpon>201605312030438_CreateLogEntryModel.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201606060305333_UpdateDriverIdFieldOnContainerTracking.resx">
+      <DependentUpon>201606060305333_UpdateDriverIdFieldOnContainerTracking.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606061554155_DocStatus.resx">
+      <DependentUpon>201606061554155_DocStatus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606062031478_CorrelativeAduanaOnContainerTrackingModel.resx">
+      <DependentUpon>201606062031478_CorrelativeAduanaOnContainerTrackingModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606091742066_ChangeDocNumberOnContainerTrackingModel.resx">
+      <DependentUpon>201606091742066_ChangeDocNumberOnContainerTrackingModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
