@@ -61,6 +61,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Access Denied.
+        /// </summary>
+        public static string AccessDenied {
+            get {
+                return ResourceManager.GetString("AccessDenied", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The page you are looking for is not here.
+        /// </summary>
+        public static string AccessDeniedText {
+            get {
+                return ResourceManager.GetString("AccessDeniedText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Audit.
         /// </summary>
         public static string Audit {
@@ -84,6 +102,15 @@ namespace Resources {
         public static string ChasisNumber {
             get {
                 return ResourceManager.GetString("ChasisNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose Your Language.
+        /// </summary>
+        public static string ChooseYourLanguage {
+            get {
+                return ResourceManager.GetString("ChooseYourLanguage", resourceCulture);
             }
         }
         
@@ -124,7 +151,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ConfirmPassword.
+        ///   Looks up a localized string similar to Confirm Password.
         /// </summary>
         public static string ConfirmPassword {
             get {
@@ -133,7 +160,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ContainerLabel.
+        ///   Looks up a localized string similar to Container Label.
         /// </summary>
         public static string ContainerLabel {
             get {
@@ -286,7 +313,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to DuaNumber.
+        ///   Looks up a localized string similar to Dua Number.
         /// </summary>
         public static string DuaNumber {
             get {
@@ -322,6 +349,42 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Empty.
+        /// </summary>
+        public static string Empty {
+            get {
+                return ResourceManager.GetString("Empty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Full.
+        /// </summary>
+        public static string Full {
+            get {
+                return ResourceManager.GetString("Full", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Go to Home.
+        /// </summary>
+        public static string GoToHome {
+            get {
+                return ResourceManager.GetString("GoToHome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Go to Login.
+        /// </summary>
+        public static string GoToLogin {
+            get {
+                return ResourceManager.GetString("GoToLogin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Id.
         /// </summary>
         public static string Id {
@@ -336,6 +399,15 @@ namespace Resources {
         public static string Identification {
             get {
                 return ResourceManager.GetString("Identification", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to In.
+        /// </summary>
+        public static string In {
+            get {
+                return ResourceManager.GetString("In", resourceCulture);
             }
         }
         
@@ -421,6 +493,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Out.
+        /// </summary>
+        public static string Out {
+            get {
+                return ResourceManager.GetString("Out", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The Container yet is outside. !.
         /// </summary>
         public static string OutsideText {
@@ -448,11 +529,29 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pending.
+        /// </summary>
+        public static string Pending {
+            get {
+                return ResourceManager.GetString("Pending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Profile.
         /// </summary>
         public static string Profile {
             get {
                 return ResourceManager.GetString("Profile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ready.
+        /// </summary>
+        public static string Ready {
+            get {
+                return ResourceManager.GetString("Ready", resourceCulture);
             }
         }
         

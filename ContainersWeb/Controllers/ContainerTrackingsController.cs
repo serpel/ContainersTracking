@@ -8,9 +8,11 @@ using System.Web;
 using System.Web.Mvc;
 using ContainersWeb.Models;
 using ContainersWeb.BLL;
+using ContainersWeb.DAL.Security;
 
 namespace ContainersWeb.Controllers
 {
+    [AccessAuthorizeAttribute(Roles = "Admin, Manager, User")]
     public class ContainerTrackingsController : BaseController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -19,9 +21,9 @@ namespace ContainersWeb.Controllers
         {
             var containers = db.ContainerTracking
                 .ToList()
-                .Select(s => new { s.ContainerTrackingId, Type = s.Type == 0 ? "Salida" : "Entrada",
-                    DocStatus = s.DocStatus == 0 ? "Pendiente" : "Listo",
-                    ContainerStatus = s.ContainerStatus == 0 ? "Vacio" : "Lleno",
+                .Select(s => new { s.ContainerTrackingId, Type = s.Type == 0 ? Resources.Resources.In: Resources.Resources.Out,
+                    DocStatus = s.DocStatus == 0 ? Resources.Resources.Pending : Resources.Resources.Ready,
+                    ContainerStatus = s.ContainerStatus == 0 ? Resources.Resources.Empty : Resources.Resources.Full,
                     Date = s.InsertedAt.ToString("yyyy-MM-dd hh:mm"), s.ChasisNumber, s.ContainerNumber });
 
             return Json(containers, JsonRequestBehavior.AllowGet);
@@ -84,10 +86,10 @@ namespace ContainersWeb.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CompanyDestinationId = new SelectList(db.Companies, "CompanyId", "Name", containerTracking.CompanyDestinationId);
-            ViewBag.CompanyOriginId = new SelectList(db.Companies, "CompanyId", "Name", containerTracking.CompanyOriginId);
+            ViewBag.CompanyDestinationId = new SelectList(db.Companies.Where(w => w.IsActive == true), "CompanyId", "Name", containerTracking.CompanyDestinationId);
+            ViewBag.CompanyOriginId = new SelectList(db.Companies.Where(w => w.IsActive == true), "CompanyId", "Name", containerTracking.CompanyOriginId);
             ViewBag.DriverId = new SelectList(db.Drivers, "DriverId", "Name", containerTracking.DriverId);
-            ViewBag.SecuritySupervisorId = new SelectList(db.SecuritySupervisors, "SecuritySupervisorId", "Name", containerTracking.SecuritySupervisorId);
+            ViewBag.SecuritySupervisorId = new SelectList(db.SecuritySupervisors.Where(w => w.IsActive == true), "SecuritySupervisorId", "Name", containerTracking.SecuritySupervisorId);
             return PartialView("Edit", containerTracking);
         }
 
@@ -114,13 +116,14 @@ namespace ContainersWeb.Controllers
                     return Json(new { success = true }, JsonRequestBehavior.AllowGet);
                 }
             }
-            ViewBag.CompanyDestinationId = new SelectList(db.Companies, "CompanyId", "Name", containerTracking.CompanyDestinationId);
-            ViewBag.CompanyOriginId = new SelectList(db.Companies, "CompanyId", "Name", containerTracking.CompanyOriginId);
+            ViewBag.CompanyDestinationId = new SelectList(db.Companies.Where(w => w.IsActive == true), "CompanyId", "Name", containerTracking.CompanyDestinationId);
+            ViewBag.CompanyOriginId = new SelectList(db.Companies.Where(w => w.IsActive == true), "CompanyId", "Name", containerTracking.CompanyOriginId);
             ViewBag.DriverId = new SelectList(db.Drivers, "DriverId", "Name", containerTracking.DriverId);
-            ViewBag.SecuritySupervisorId = new SelectList(db.SecuritySupervisors, "SecuritySupervisorId", "Name", containerTracking.SecuritySupervisorId);
+            ViewBag.SecuritySupervisorId = new SelectList(db.SecuritySupervisors.Where(w => w.IsActive == true), "SecuritySupervisorId", "Name", containerTracking.SecuritySupervisorId);
             return PartialView("Edit", containerTracking);
         }
 
+        [AccessAuthorizeAttribute(Roles = "Admin")]
         // GET: ContainerTrackings/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -139,6 +142,7 @@ namespace ContainersWeb.Controllers
         // POST: ContainerTrackings/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [AccessAuthorizeAttribute(Roles = "Admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             ContainerTracking containerTracking = db.ContainerTracking.Find(id);

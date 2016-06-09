@@ -1,4 +1,6 @@
-﻿@{
+﻿@using Resources
+
+@{
     Layout = "~/Views/Shared/_LayoutError.cshtml";
 }
 
@@ -7,12 +9,12 @@
         <div class="error-container">
             <div class="error-main">
                 <div class="error-number"> @ViewBag.ErrorCode </div>
-                <div class="error-description"> @ViewBag.Description </div>
-                <div class="error-description-mini"> The page your looking for is not here </div>
+                <div class="error-description"> @Resources.AccessDenied </div>
+                <div class="error-description-mini"> @Resources.AccessDeniedText </div>
                 <br>
-                @Html.ActionLink("Go to Login", "Login", "Account", null, htmlAttributes: new { @class = "btn btn-primary" })
+                @Html.ActionLink(Resources.GoToLogin, "Login", "Account", null, htmlAttributes: new { @class = "btn btn-primary" })
                 or
-                @Html.ActionLink("Go to Home", "Index", "Home", null, htmlAttributes: new { @class = "btn btn-danger" })
+                @Html.ActionLink(Resources.GoToHome, "Index", "Home", null, htmlAttributes: new { @class = "btn btn-danger" })
             </div>
         </div>
     </div>

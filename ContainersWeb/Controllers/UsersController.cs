@@ -197,6 +197,16 @@ namespace ContainersWeb.Controllers
             return PartialView("Create", model);
         }
 
+        public ActionResult UserProfile()
+        {
+            return View();
+        }
+
+        //public ActionResult UserProfile()
+        //{
+        //    return 
+        //}
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

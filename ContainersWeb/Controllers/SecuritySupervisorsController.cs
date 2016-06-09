@@ -11,7 +11,7 @@ using ContainersWeb.DAL.Security;
 
 namespace ContainersWeb.Controllers
 {
-    [AccessAuthorizeAttribute(Roles = "Admin, Manager")]
+    [AccessAuthorizeAttribute(Roles = "Admin, Manager, User")]
     public class SecuritySupervisorsController : BaseController
     {
         private ApplicationDbContext db = new ApplicationDbContext();

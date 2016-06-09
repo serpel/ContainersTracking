@@ -1731,6 +1731,7 @@
     <Content Include="Views\LogEntries\Edit.cshtml" />
     <Content Include="Views\LogEntries\Index.cshtml" />
     <Content Include="Views\ContainerTrackings\Create - Copy.cshtml" />
+    <Content Include="Views\Users\UserProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
