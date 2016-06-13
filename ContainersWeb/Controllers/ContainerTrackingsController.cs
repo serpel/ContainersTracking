@@ -21,7 +21,7 @@ namespace ContainersWeb.Controllers
         {
             var containers = db.ContainerTracking
                 .ToList()
-                .Select(s => new { s.ContainerTrackingId, Type = s.Type == 0 ? Resources.Resources.In: Resources.Resources.Out,
+                .Select(s => new { s.ContainerTrackingId, Type = s.Type == 0 ? Resources.Resources.Out: Resources.Resources.In,
                     DocStatus = s.DocStatus == 0 ? Resources.Resources.Pending : Resources.Resources.Ready,
                     ContainerStatus = s.ContainerStatus == 0 ? Resources.Resources.Empty : Resources.Resources.Full,
                     Date = s.InsertedAt.ToString("yyyy-MM-dd hh:mm"), s.ChasisNumber, s.ContainerNumber });
@@ -46,7 +46,7 @@ namespace ContainersWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ContainerTrackingId,Type,CompanyOriginId,CompanyDestinationId,DocStatus,ContainerNumber,ContainerStatus,ContainerLicensePlate,ContainerLabel,ChasisNumber,DocNumber,DriverId,SecuritySupervisorId,InsertedAt,UpdatedAt")] ContainerTracking containerTracking)
+        public ActionResult Create([Bind(Include = "ContainerTrackingId,Type,CompanyOriginId,CompanyDestinationId,DocStatus,ContainerNumber,ContainerStatus,ContainerLicensePlate,ContainerLabel,ChasisNumber,DocNumber,CorrelAduana,DriverId,SecuritySupervisorId,InsertedAt,UpdatedAt")] ContainerTracking containerTracking)
         {
             containerTracking.InsertedAt = DateTime.Now;
             containerTracking.UpdatedAt = DateTime.Now;
