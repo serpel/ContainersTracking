@@ -22,6 +22,7 @@ namespace ContainersWeb.Controllers
             var entries = db.LogEntries
                 .Where(w => w.Level == "Info")
                 .ToList()
+                //.OrderByDescending(o => o.Date)
                 .Select(s => new { Date = s.Date.ToString("yyyy-MM-dd hh:mm"), s.Message, s.Username, s.Url });
 
             return Json(entries.ToList(), JsonRequestBehavior.AllowGet);

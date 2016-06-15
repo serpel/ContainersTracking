@@ -8,8 +8,9 @@
         columns: columns,
         columnDefs: [{
             render: function (data, type, row) {
-                var editUrl = '/' + controller + '/edit/' + data;
-                var deleteUrl = '/' + controller + '/delete/' + data;
+                var url = window.location.href;
+                var editUrl = url + '/edit/' + data;
+                var deleteUrl = url + '/delete/' + data;
                 var txt = "<div class='pull-right'>" +
                     "<a class='btn btn-default' data-modal='' href='" + editUrl + "' title='Edit'><span class='glyphicon glyphicon-pencil'></span></a>&nbsp;" +
                     "<a class='btn btn-danger' data-modal='' href='" + deleteUrl + "' title='Delete'><span class='glyphicon glyphicon-trash'></span></a>" +
