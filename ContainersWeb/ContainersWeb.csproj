@@ -234,6 +234,10 @@
     <Compile Include="Migrations\201606091742066_ChangeDocNumberOnContainerTrackingModel.Designer.cs">
       <DependentUpon>201606091742066_ChangeDocNumberOnContainerTrackingModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201606152143537_InsertedByAndUpdatedByFieldsOnContainerTrackingModel.cs" />
+    <Compile Include="Migrations\201606152143537_InsertedByAndUpdatedByFieldsOnContainerTrackingModel.Designer.cs">
+      <DependentUpon>201606152143537_InsertedByAndUpdatedByFieldsOnContainerTrackingModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Company.cs" />
@@ -1759,6 +1763,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606091742066_ChangeDocNumberOnContainerTrackingModel.resx">
       <DependentUpon>201606091742066_ChangeDocNumberOnContainerTrackingModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606152143537_InsertedByAndUpdatedByFieldsOnContainerTrackingModel.resx">
+      <DependentUpon>201606152143537_InsertedByAndUpdatedByFieldsOnContainerTrackingModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

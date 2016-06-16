@@ -1,5 +1,4 @@
 ﻿@model ContainersWeb.Models.ContainerTracking
-
 @using Resources
 
 <div class="modal-header">
@@ -35,9 +34,15 @@
             </div>
         </div>
         <div class="row form-row">
-            <div class="col-md-12">
+            <div class="col-md-6">
                 <label class="form-label">@Resources.Date</label>
-                <input type="datetime" id="date" class="form-control" readonly />
+               @Html.EditorFor(model => model.InsertedAt, new { htmlAttributes = new { @class = "form-control", @readonly="readonly" } })
+               @Html.ValidationMessageFor(model => model.InsertedAt, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">@Resources.User</label>
+                @Html.EditorFor(model => model.InsertedBy, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.InsertedBy, "", new { @class = "text-danger" })
             </div>
         </div>
     </div>
@@ -50,5 +55,4 @@
 
 <script>
     $('.select-drop').select2();
-    $('#date').val(moment().format("YYYY/MM/DD HH:MM"));
 </script>

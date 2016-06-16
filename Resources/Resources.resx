@@ -333,4 +333,10 @@
   <data name="GoToLogin" xml:space="preserve">
     <value>Go to Login</value>
   </data>
+  <data name="CreateAccount" xml:space="preserve">
+    <value>Create an Account</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
 </root>

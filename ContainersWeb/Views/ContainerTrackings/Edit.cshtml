@@ -82,6 +82,18 @@
                 @Html.ValidationMessageFor(model => model.SecuritySupervisorId, "", new { @class = "text-danger" })
             </div>
         </div>
+        <div class="row form-row">
+            <div class="col-md-6">
+                <label class="form-label">@Resources.Date</label>
+                @Html.EditorFor(model => model.UpdatedAt, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.UpdatedAt, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">@Resources.User</label>
+                @Html.EditorFor(model => model.UpdatedBy, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.UpdatedBy, "", new { @class = "text-danger" })
+            </div>
+        </div>
     </div>
 
     <div class="modal-footer">

@@ -12,7 +12,7 @@
         <div class="p-t-30 p-l-40 p-b-20 xs-p-t-10 xs-p-l-10 xs-p-b-10">
             <h2 class="normal">@Resources.SignIn</h2>
             <p><br></p>
-            <button type="button" class="btn btn-primary btn-cons" id="login_toggle">Login</button> or&nbsp;&nbsp;<button type="button" class="btn btn-info btn-cons" id="register_toggle"> Create an account</button>
+            <button type="button" class="btn btn-primary btn-cons" id="login_toggle">@Resources.Login</button> or&nbsp;&nbsp;<button type="button" class="btn btn-info btn-cons" id="register_toggle"> @Resources.CreateAccount</button>
         </div>
         <div class="tiles grey p-t-20 p-b-20 text-black">
             @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "animated fadeIn", role = "form", id = "frm_login" }))
@@ -30,7 +30,7 @@
                         @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-md-2 col-sm-2">
-                        <input type="submit" value="Log In" class="btn btn-primary" />
+                        <input type="submit" value="@Resources.Login" class="btn btn-primary" />
                     </div>
                 </div>
                 <div class="row p-t-10 m-l-20 m-r-20 xs-m-l-10 xs-m-r-10">

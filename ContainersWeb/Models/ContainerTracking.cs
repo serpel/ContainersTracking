@@ -39,6 +39,9 @@ namespace ContainersWeb.Models
         public DateTime InsertedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
 
+        public string InsertedBy { get; set; }
+        public string UpdatedBy { get; set; }
+
         public virtual Driver Driver { get; set; }
         public virtual SecuritySupervisor SecuritySupervisor { get; set;}
         [ForeignKey("CompanyOriginId"), Column(Order = 0)]

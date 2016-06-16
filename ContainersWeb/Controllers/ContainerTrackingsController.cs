@@ -38,7 +38,11 @@ namespace ContainersWeb.Controllers
         // GET: ContainerTrackings/Create
         public ActionResult Create()
         {
-            return PartialView("Create");
+            var container = new ContainerTracking();
+            container.InsertedAt = DateTime.Now;
+            container.InsertedBy = User.Identity.Name;
+                    
+            return PartialView("Create", container);
         }
 
         // POST: ContainerTrackings/Create
@@ -46,9 +50,8 @@ namespace ContainersWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ContainerTrackingId,Type,CompanyOriginId,CompanyDestinationId,DocStatus,ContainerNumber,ContainerStatus,ContainerLicensePlate,ContainerLabel,ChasisNumber,DocNumber,CorrelAduana,DriverId,SecuritySupervisorId,InsertedAt,UpdatedAt")] ContainerTracking containerTracking)
+        public ActionResult Create([Bind(Include = "ContainerTrackingId,Type,CompanyOriginId,CompanyDestinationId,DocStatus,ContainerNumber,ContainerStatus,ContainerLicensePlate,ContainerLabel,ChasisNumber,DocNumber,CorrelAduana,DriverId,SecuritySupervisorId,InsertedAt,InsertedBy,UpdatedAt,UpdatedBy")] ContainerTracking containerTracking)
         {
-            containerTracking.InsertedAt = DateTime.Now;
             containerTracking.UpdatedAt = DateTime.Now;
             containerTracking.DocStatus = DocStatus.Pending;
 
@@ -86,6 +89,9 @@ namespace ContainersWeb.Controllers
             {
                 return HttpNotFound();
             }
+            containerTracking.UpdatedAt = DateTime.Now;
+            containerTracking.UpdatedBy = User.Identity.Name;
+
             ViewBag.CompanyDestinationId = new SelectList(db.Companies.Where(w => w.IsActive == true), "CompanyId", "Name", containerTracking.CompanyDestinationId);
             ViewBag.CompanyOriginId = new SelectList(db.Companies.Where(w => w.IsActive == true), "CompanyId", "Name", containerTracking.CompanyOriginId);
             ViewBag.DriverId = new SelectList(db.Drivers, "DriverId", "Name", containerTracking.DriverId);
@@ -98,7 +104,7 @@ namespace ContainersWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ContainerTrackingId,Type,CompanyOriginId,CompanyDestinationId,DocStatus,ContainerNumber,ContainerStatus,ContainerLicensePlate,ContainerLabel,ChasisNumber,DocNumber,CorrelAduana,DriverId,SecuritySupervisorId,InsertedAt,UpdatedAt")] ContainerTracking containerTracking)
+        public ActionResult Edit([Bind(Include = "ContainerTrackingId,Type,CompanyOriginId,CompanyDestinationId,DocStatus,ContainerNumber,ContainerStatus,ContainerLicensePlate,ContainerLabel,ChasisNumber,DocNumber,CorrelAduana,DriverId,SecuritySupervisorId,InsertedAt,InsertedBy,UpdatedAt,UpdatedBy")] ContainerTracking containerTracking)
         {
             containerTracking.UpdatedAt = DateTime.Now;
 
