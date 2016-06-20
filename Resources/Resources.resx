@@ -339,4 +339,7 @@
   <data name="Login" xml:space="preserve">
     <value>Login</value>
   </data>
+  <data name="Address" xml:space="preserve">
+    <value>Address</value>
+  </data>
 </root>

@@ -339,4 +339,7 @@
   <data name="Login" xml:space="preserve">
     <value>Ingresar</value>
   </data>
+  <data name="Address" xml:space="preserve">
+    <value>Dirección</value>
+  </data>
 </root>

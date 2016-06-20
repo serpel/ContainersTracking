@@ -16,6 +16,7 @@
                         <tr>
                             <th>@Resources.Company</th>
                             <th>@Resources.Region</th>
+                            <th>@Resources.Address</th>
                             <th>@Resources.IsActive</th>
                             <th>@Html.NoEncodeActionLink("<span class='glyphicon glyphicon-plus'></span>", Resources.CreateNew, "Create", "Companies", routeValues: null, htmlAttributes: new { data_modal = "", @class = "btn btn-primary pull-right" })</th>
                         </tr>
@@ -42,6 +43,7 @@
             [
                         { data: 'Name'},
                         { data: 'Region' },
+                        { data: 'Address' },
                         { data: 'IsActive' },
                         { data: 'CompanyId' }
             ];

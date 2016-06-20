@@ -18,7 +18,7 @@ namespace ContainersWeb.Controllers
 
         public ActionResult GetDrivers()
         {
-            var drivers = db.Drivers.Select(s => new { s.DriverId, s.Name, s.CardId });
+            var drivers = db.Drivers.Select(s => new { s.DriverId, s.Name, s.CardId, s.IsActive });
 
             return Json(drivers.ToList(), JsonRequestBehavior.AllowGet);
         }
@@ -40,7 +40,7 @@ namespace ContainersWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "DriverId,Name,CardId")] Driver driver)
+        public ActionResult Create([Bind(Include = "DriverId,Name,CardId,IsActive")] Driver driver)
         {
             if (ModelState.IsValid)
             {
@@ -73,7 +73,7 @@ namespace ContainersWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "DriverId,Name,CardId")] Driver driver)
+        public ActionResult Edit([Bind(Include = "DriverId,Name,CardId,IsActive")] Driver driver)
         {
             if (ModelState.IsValid)
             {

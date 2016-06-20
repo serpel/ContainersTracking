@@ -30,6 +30,18 @@
                 @Html.ValidationMessageFor(model => model.CardId, "", new { @class = "text-danger" })
             </div>
         </div>
+
+        <div class="row form-row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="checkbox-inline">
+                        <label>
+                            @Html.CheckBox("IsActive") @Resources.IsActive
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="modal-footer">
         <button class="btn" type="button" data-dismiss="modal">Cancel</button>

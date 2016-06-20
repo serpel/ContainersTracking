@@ -14,6 +14,7 @@ namespace ContainersWeb.Models
         public string Name { get; set; }
         public string Code { get; set; }
         public Int32 RegionId { get; set; }
+        public string Address { get; set; }
 
         public bool IsActive { get; set; }
 

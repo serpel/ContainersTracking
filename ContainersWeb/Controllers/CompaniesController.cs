@@ -21,7 +21,7 @@ namespace ContainersWeb.Controllers
         {
             var companies = db.Companies
                 .ToList()
-                .Select(s => new { s.Name, s.IsActive, s.CompanyId, Region = s.Region.Name });
+                .Select(s => new { s.Name, s.Address, s.IsActive, s.CompanyId, Region = s.Region.Name });
 
             return Json(companies, JsonRequestBehavior.AllowGet);
         }
@@ -44,7 +44,7 @@ namespace ContainersWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CompanyId,Name,Code,RegionId,IsActive")] Company company)
+        public ActionResult Create([Bind(Include = "CompanyId,Name,Code,Address,RegionId,IsActive")] Company company)
         {
             if (ModelState.IsValid)
             {
@@ -80,7 +80,7 @@ namespace ContainersWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CompanyId,Name,Code,RegionId,IsActive")] Company company)
+        public ActionResult Edit([Bind(Include = "CompanyId,Name,Code,Address,RegionId,IsActive")] Company company)
         {
             if (ModelState.IsValid)
             {

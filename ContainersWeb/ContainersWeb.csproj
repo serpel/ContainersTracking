@@ -238,6 +238,14 @@
     <Compile Include="Migrations\201606152143537_InsertedByAndUpdatedByFieldsOnContainerTrackingModel.Designer.cs">
       <DependentUpon>201606152143537_InsertedByAndUpdatedByFieldsOnContainerTrackingModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201606171955553_IsActiveFieldOnDriverModel.cs" />
+    <Compile Include="Migrations\201606171955553_IsActiveFieldOnDriverModel.Designer.cs">
+      <DependentUpon>201606171955553_IsActiveFieldOnDriverModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606201628522_AddAddressFieldOnCompanyModel.cs" />
+    <Compile Include="Migrations\201606201628522_AddAddressFieldOnCompanyModel.Designer.cs">
+      <DependentUpon>201606201628522_AddAddressFieldOnCompanyModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Company.cs" />
@@ -1766,6 +1774,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606152143537_InsertedByAndUpdatedByFieldsOnContainerTrackingModel.resx">
       <DependentUpon>201606152143537_InsertedByAndUpdatedByFieldsOnContainerTrackingModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606171955553_IsActiveFieldOnDriverModel.resx">
+      <DependentUpon>201606171955553_IsActiveFieldOnDriverModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606201628522_AddAddressFieldOnCompanyModel.resx">
+      <DependentUpon>201606201628522_AddAddressFieldOnCompanyModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

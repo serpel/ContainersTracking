@@ -15,6 +15,8 @@ namespace ContainersWeb.Models
         [Required]
         public string CardId { get; set; }
 
+        public bool IsActive { get; set; }
+
         public virtual ICollection<ContainerTracking> ContainerTracking { get; set; }
     }
 }
