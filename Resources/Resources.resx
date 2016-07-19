@@ -202,7 +202,7 @@
     <value>Security</value>
   </data>
   <data name="SercuritySupervisor" xml:space="preserve">
-    <value>Sercurity Supervisor</value>
+    <value>Security</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Settings</value>
@@ -341,5 +341,38 @@
   </data>
   <data name="Address" xml:space="preserve">
     <value>Address</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Notes" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="TrailerNumber" xml:space="preserve">
+    <value>Trailer Number</value>
+  </data>
+  <data name="TrailerTracking" xml:space="preserve">
+    <value>Trailer Tracking</value>
+  </data>
+  <data name="Move" xml:space="preserve">
+    <value>Move</value>
+  </data>
+  <data name="Number" xml:space="preserve">
+    <value>Number</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="Trackings" xml:space="preserve">
+    <value>Trackings</value>
+  </data>
+  <data name="Doc" xml:space="preserve">
+    <value>Doc</value>
+  </data>
+  <data name="Track" xml:space="preserve">
+    <value>Track</value>
   </data>
 </root>

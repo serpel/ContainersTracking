@@ -202,13 +202,13 @@
     <value>Seguridad</value>
   </data>
   <data name="SercuritySupervisor" xml:space="preserve">
-    <value>Supervisor</value>
+    <value>Seguridad</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Configuracion</value>
   </data>
   <data name="Tracking" xml:space="preserve">
-    <value>Movimientos</value>
+    <value>Movimiento</value>
   </data>
   <data name="User" xml:space="preserve">
     <value>Usuario</value>
@@ -229,7 +229,7 @@
     <value>Problemas con inicio de sesion ?</value>
   </data>
   <data name="TruckTrancking" xml:space="preserve">
-    <value>Movimiento Rastras</value>
+    <value>Camiones</value>
   </data>
   <data name="ChasisNumber" xml:space="preserve">
     <value>Chasis Number</value>
@@ -341,5 +341,38 @@
   </data>
   <data name="Address" xml:space="preserve">
     <value>Dirección</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Guardar</value>
+  </data>
+  <data name="Notes" xml:space="preserve">
+    <value>Notas</value>
+  </data>
+  <data name="TrailerNumber" xml:space="preserve">
+    <value>Numero Rastra</value>
+  </data>
+  <data name="TrailerTracking" xml:space="preserve">
+    <value>Rastras</value>
+  </data>
+  <data name="Move" xml:space="preserve">
+    <value>Mover</value>
+  </data>
+  <data name="Number" xml:space="preserve">
+    <value>Numero</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>Selecionar</value>
+  </data>
+  <data name="Trackings" xml:space="preserve">
+    <value>Movimientos</value>
+  </data>
+  <data name="Doc" xml:space="preserve">
+    <value>Doc</value>
+  </data>
+  <data name="Track" xml:space="preserve">
+    <value>Mov</value>
   </data>
 </root>

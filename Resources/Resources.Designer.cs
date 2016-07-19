@@ -106,6 +106,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Chasis Number.
         /// </summary>
         public static string ChasisNumber {
@@ -291,6 +300,15 @@ namespace Resources {
         public static string Destination {
             get {
                 return ResourceManager.GetString("Destination", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Doc.
+        /// </summary>
+        public static string Doc {
+            get {
+                return ResourceManager.GetString("Doc", resourceCulture);
             }
         }
         
@@ -502,11 +520,38 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Move.
+        /// </summary>
+        public static string Move {
+            get {
+                return ResourceManager.GetString("Move", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name.
         /// </summary>
         public static string Name {
             get {
                 return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notes.
+        /// </summary>
+        public static string Notes {
+            get {
+                return ResourceManager.GetString("Notes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number.
+        /// </summary>
+        public static string Number {
+            get {
+                return ResourceManager.GetString("Number", resourceCulture);
             }
         }
         
@@ -628,6 +673,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        public static string Save {
+            get {
+                return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Security.
         /// </summary>
         public static string Security {
@@ -637,7 +691,16 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sercurity Supervisor.
+        ///   Looks up a localized string similar to Select.
+        /// </summary>
+        public static string Select {
+            get {
+                return ResourceManager.GetString("Select", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Security.
         /// </summary>
         public static string SercuritySupervisor {
             get {
@@ -673,11 +736,47 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Track.
+        /// </summary>
+        public static string Track {
+            get {
+                return ResourceManager.GetString("Track", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tracking.
         /// </summary>
         public static string Tracking {
             get {
                 return ResourceManager.GetString("Tracking", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trackings.
+        /// </summary>
+        public static string Trackings {
+            get {
+                return ResourceManager.GetString("Trackings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trailer Number.
+        /// </summary>
+        public static string TrailerNumber {
+            get {
+                return ResourceManager.GetString("TrailerNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trailer Tracking.
+        /// </summary>
+        public static string TrailerTracking {
+            get {
+                return ResourceManager.GetString("TrailerTracking", resourceCulture);
             }
         }
         
