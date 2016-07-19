@@ -7,13 +7,13 @@ namespace ContainersWeb.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class AddAddressFieldOnCompanyModel : IMigrationMetadata
+    public sealed partial class TrackingTypeAndGateFieldOnContainerTracking : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddAddressFieldOnCompanyModel));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(TrackingTypeAndGateFieldOnContainerTracking));
         
         string IMigrationMetadata.Id
         {
-            get { return "201606201628522_AddAddressFieldOnCompanyModel"; }
+            get { return "201607191628214_TrackingTypeAndGateFieldOnContainerTracking"; }
         }
         
         string IMigrationMetadata.Source

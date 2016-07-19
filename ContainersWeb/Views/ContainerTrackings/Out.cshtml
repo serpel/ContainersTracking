@@ -3,7 +3,7 @@
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h4 class="modal-title" id="myModalLabel">@Resources.CreateNew</h4>
+    <h4 class="modal-title" id="myModalLabel">@Resources.Out</h4>
 </div>
 
 @using (Html.BeginForm())
@@ -16,22 +16,14 @@
 
         <div class="row form-row">
             <div class="col-md-6">
-                <label class="form-label">@Resources.Type</label>
-                @Html.EnumDropDownListFor(model => model.Type, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+                <label class="form-label">@Resources.ContainerNumber</label>
+                @Html.DropDownList("ContainerNumber", null, Resources.Select, htmlAttributes: new { @class = "select-drop" })
+                @Html.ValidationMessageFor(model => model.ContainerNumber, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-6">
                 <label class="form-label">@Resources.ContainerStatus</label>
                 @Html.EnumDropDownListFor(model => model.ContainerStatus, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.ContainerStatus, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="row form-row">
-            <div class="col-md-12">
-                <label class="form-label">@Resources.ContainerNumber</label>
-                <input id="ContainerNumber" name="ContainerNumber" type="text"  class="form-control"/>
-                @*@Html.EditorFor(model => model.ContainerNumber, new { htmlAttributes = new { @class = "form-control" } })*@
-                @Html.ValidationMessageFor(model => model.ContainerNumber, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="row form-row">
@@ -56,19 +48,7 @@
 
 <script>
 
-    function validate() {
-        var type = $('#Type').val();
-    };
-
     $(document).ready(function () {
-
         $('.select-drop').select2();
-
-        //validate();
-
-        //$('#ContainerStatus').change(function () {
-        //    validate()
-        //});
-
     });
 </script>

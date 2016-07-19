@@ -12,9 +12,10 @@ namespace ContainersWeb.Migrations
                 c => new
                     {
                         CompanyId = c.Int(nullable: false, identity: true),
-                        Name = c.String(nullable: false),
-                        Code = c.String(),
+                        Name = c.String(nullable: false, maxLength: 150),
+                        Code = c.Int(nullable: false),
                         RegionId = c.Int(nullable: false),
+                        Address = c.String(),
                         IsActive = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.CompanyId)
@@ -29,24 +30,28 @@ namespace ContainersWeb.Migrations
                         Type = c.Int(nullable: false),
                         CompanyOriginId = c.Int(),
                         CompanyDestinationId = c.Int(),
+                        ContainerStatus = c.Int(nullable: false),
                         DocStatus = c.Int(nullable: false),
                         ContainerNumber = c.String(nullable: false),
                         ContainerLicensePlate = c.String(),
                         ContainerLabel = c.String(),
                         ChasisNumber = c.String(),
-                        DuaNumber = c.String(),
-                        DriverId = c.Int(nullable: false),
-                        SecuritySupervisorId = c.Int(nullable: false),
+                        DocNumber = c.String(),
+                        CorrelAduana = c.String(),
+                        DriverId = c.Int(),
+                        SecuritySupervisorId = c.Int(),
                         InsertedAt = c.DateTime(nullable: false),
                         UpdatedAt = c.DateTime(nullable: false),
+                        InsertedBy = c.String(),
+                        UpdatedBy = c.String(),
                         Company_CompanyId = c.Int(),
                         Company_CompanyId1 = c.Int(),
                     })
                 .PrimaryKey(t => t.ContainerTrackingId)
                 .ForeignKey("dbo.Companies", t => t.CompanyDestinationId)
                 .ForeignKey("dbo.Companies", t => t.CompanyOriginId)
-                .ForeignKey("dbo.Drivers", t => t.DriverId, cascadeDelete: true)
-                .ForeignKey("dbo.SecuritySupervisors", t => t.SecuritySupervisorId, cascadeDelete: true)
+                .ForeignKey("dbo.Drivers", t => t.DriverId)
+                .ForeignKey("dbo.SecuritySupervisors", t => t.SecuritySupervisorId)
                 .ForeignKey("dbo.Companies", t => t.Company_CompanyId)
                 .ForeignKey("dbo.Companies", t => t.Company_CompanyId1)
                 .Index(t => t.CompanyOriginId)
@@ -61,10 +66,12 @@ namespace ContainersWeb.Migrations
                 c => new
                     {
                         DriverId = c.Int(nullable: false, identity: true),
-                        Name = c.String(nullable: false),
-                        CardId = c.String(nullable: false),
+                        Name = c.String(nullable: false, maxLength: 150),
+                        CardId = c.String(nullable: false, maxLength: 100),
+                        IsActive = c.Boolean(nullable: false),
                     })
-                .PrimaryKey(t => t.DriverId);
+                .PrimaryKey(t => t.DriverId)
+                .Index(t => t.CardId, unique: true, name: "DriverCardIdIndex");
             
             CreateTable(
                 "dbo.SecuritySupervisors",
@@ -72,10 +79,11 @@ namespace ContainersWeb.Migrations
                     {
                         SecuritySupervisorId = c.Int(nullable: false, identity: true),
                         Name = c.String(nullable: false),
-                        CardId = c.String(),
+                        CardId = c.String(maxLength: 100),
                         IsActive = c.Boolean(nullable: false),
                     })
-                .PrimaryKey(t => t.SecuritySupervisorId);
+                .PrimaryKey(t => t.SecuritySupervisorId)
+                .Index(t => t.CardId, unique: true, name: "CardIdIndex");
             
             CreateTable(
                 "dbo.Regions",
@@ -129,6 +137,70 @@ namespace ContainersWeb.Migrations
                 .Index(t => t.RoleId);
             
             CreateTable(
+                "dbo.TrailerTrackings",
+                c => new
+                    {
+                        TrailerTrackingId = c.Int(nullable: false, identity: true),
+                        Type = c.Int(nullable: false),
+                        CompanyOriginId = c.Int(),
+                        CompanyDestinationId = c.Int(),
+                        ContainerStatus = c.Int(nullable: false),
+                        DocStatus = c.Int(nullable: false),
+                        TrailerNumber = c.String(nullable: false),
+                        ContainerLicensePlate = c.String(),
+                        ContainerLabel = c.String(),
+                        DocNumber = c.String(),
+                        Notes = c.String(),
+                        DriverId = c.Int(),
+                        SecuritySupervisorId = c.Int(),
+                        InsertedAt = c.DateTime(nullable: false),
+                        UpdatedAt = c.DateTime(nullable: false),
+                        InsertedBy = c.String(),
+                        UpdatedBy = c.String(),
+                    })
+                .PrimaryKey(t => t.TrailerTrackingId)
+                .ForeignKey("dbo.Companies", t => t.CompanyDestinationId)
+                .ForeignKey("dbo.Companies", t => t.CompanyOriginId)
+                .ForeignKey("dbo.Drivers", t => t.DriverId)
+                .ForeignKey("dbo.SecuritySupervisors", t => t.SecuritySupervisorId)
+                .Index(t => t.CompanyOriginId)
+                .Index(t => t.CompanyDestinationId)
+                .Index(t => t.DriverId)
+                .Index(t => t.SecuritySupervisorId);
+            
+            CreateTable(
+                "dbo.TruckTrackings",
+                c => new
+                    {
+                        TruckTrackingTrackingId = c.Int(nullable: false, identity: true),
+                        Type = c.Int(nullable: false),
+                        CompanyOriginId = c.Int(),
+                        CompanyDestinationId = c.Int(),
+                        ContainerStatus = c.Int(nullable: false),
+                        DocStatus = c.Int(nullable: false),
+                        ContainerNumber = c.String(nullable: false),
+                        ContainerLicensePlate = c.String(),
+                        ContainerLabel = c.String(),
+                        DocNumber = c.String(),
+                        CorrelAduana = c.String(),
+                        DriverId = c.Int(),
+                        SecuritySupervisorId = c.Int(),
+                        InsertedAt = c.DateTime(nullable: false),
+                        UpdatedAt = c.DateTime(nullable: false),
+                        InsertedBy = c.String(),
+                        UpdatedBy = c.String(),
+                    })
+                .PrimaryKey(t => t.TruckTrackingTrackingId)
+                .ForeignKey("dbo.Companies", t => t.CompanyDestinationId)
+                .ForeignKey("dbo.Companies", t => t.CompanyOriginId)
+                .ForeignKey("dbo.Drivers", t => t.DriverId)
+                .ForeignKey("dbo.SecuritySupervisors", t => t.SecuritySupervisorId)
+                .Index(t => t.CompanyOriginId)
+                .Index(t => t.CompanyDestinationId)
+                .Index(t => t.DriverId)
+                .Index(t => t.SecuritySupervisorId);
+            
+            CreateTable(
                 "dbo.AspNetUsers",
                 c => new
                     {
@@ -180,6 +252,14 @@ namespace ContainersWeb.Migrations
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.TruckTrackings", "SecuritySupervisorId", "dbo.SecuritySupervisors");
+            DropForeignKey("dbo.TruckTrackings", "DriverId", "dbo.Drivers");
+            DropForeignKey("dbo.TruckTrackings", "CompanyOriginId", "dbo.Companies");
+            DropForeignKey("dbo.TruckTrackings", "CompanyDestinationId", "dbo.Companies");
+            DropForeignKey("dbo.TrailerTrackings", "SecuritySupervisorId", "dbo.SecuritySupervisors");
+            DropForeignKey("dbo.TrailerTrackings", "DriverId", "dbo.Drivers");
+            DropForeignKey("dbo.TrailerTrackings", "CompanyOriginId", "dbo.Companies");
+            DropForeignKey("dbo.TrailerTrackings", "CompanyDestinationId", "dbo.Companies");
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
             DropForeignKey("dbo.Companies", "RegionId", "dbo.Regions");
             DropForeignKey("dbo.ContainerTrackings", "Company_CompanyId1", "dbo.Companies");
@@ -191,9 +271,19 @@ namespace ContainersWeb.Migrations
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
+            DropIndex("dbo.TruckTrackings", new[] { "SecuritySupervisorId" });
+            DropIndex("dbo.TruckTrackings", new[] { "DriverId" });
+            DropIndex("dbo.TruckTrackings", new[] { "CompanyDestinationId" });
+            DropIndex("dbo.TruckTrackings", new[] { "CompanyOriginId" });
+            DropIndex("dbo.TrailerTrackings", new[] { "SecuritySupervisorId" });
+            DropIndex("dbo.TrailerTrackings", new[] { "DriverId" });
+            DropIndex("dbo.TrailerTrackings", new[] { "CompanyDestinationId" });
+            DropIndex("dbo.TrailerTrackings", new[] { "CompanyOriginId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
+            DropIndex("dbo.SecuritySupervisors", "CardIdIndex");
+            DropIndex("dbo.Drivers", "DriverCardIdIndex");
             DropIndex("dbo.ContainerTrackings", new[] { "Company_CompanyId1" });
             DropIndex("dbo.ContainerTrackings", new[] { "Company_CompanyId" });
             DropIndex("dbo.ContainerTrackings", new[] { "SecuritySupervisorId" });
@@ -204,6 +294,8 @@ namespace ContainersWeb.Migrations
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");
+            DropTable("dbo.TruckTrackings");
+            DropTable("dbo.TrailerTrackings");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetRoles");
             DropTable("dbo.LogEntries");

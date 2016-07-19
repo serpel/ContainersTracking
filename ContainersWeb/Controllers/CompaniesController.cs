@@ -21,7 +21,7 @@ namespace ContainersWeb.Controllers
         {
             var companies = db.Companies
                 .ToList()
-                .Select(s => new { s.Name, s.Address, s.IsActive, s.CompanyId, Region = s.Region.Name });
+                .Select(s => new { s.Name, s.Code, s.Address, s.IsActive, s.CompanyId, Region = s.Region.Name });
 
             return Json(companies, JsonRequestBehavior.AllowGet);
         }
@@ -35,8 +35,19 @@ namespace ContainersWeb.Controllers
         // GET: Companies/Create
         public ActionResult Create()
         {
+            var company = new Company();
+
+            if(db.Companies.Count() > 0)
+            {
+               company.Code = db.Companies.Max(m => m.Code) + 1;
+            }
+            else
+            {
+                company.Code = 1;
+            }
+
             ViewBag.RegionId = new SelectList(db.Regions, "RegionId", "Name");
-            return PartialView("Create", new Company());
+            return PartialView("Create", company);
         }
 
         // POST: Companies/Create

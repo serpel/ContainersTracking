@@ -1,4 +1,4 @@
-﻿@model ContainersWeb.Models.ContainerTracking
+﻿@model ContainersWeb.Models.TrailerTracking
 @using Resources
 
 <div class="modal-header">
@@ -28,10 +28,9 @@
         </div>
         <div class="row form-row">
             <div class="col-md-12">
-                <label class="form-label">@Resources.ContainerNumber</label>
-                <input id="ContainerNumber" name="ContainerNumber" type="text"  class="form-control"/>
-                @*@Html.EditorFor(model => model.ContainerNumber, new { htmlAttributes = new { @class = "form-control" } })*@
-                @Html.ValidationMessageFor(model => model.ContainerNumber, "", new { @class = "text-danger" })
+                <label class="form-label">@Resources.TrailerNumber</label>
+                @Html.EditorFor(model => model.TrailerNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TrailerNumber, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="row form-row">
@@ -55,20 +54,5 @@
 }
 
 <script>
-
-    function validate() {
-        var type = $('#Type').val();
-    };
-
-    $(document).ready(function () {
-
-        $('.select-drop').select2();
-
-        //validate();
-
-        //$('#ContainerStatus').change(function () {
-        //    validate()
-        //});
-
-    });
+    $('.select-drop').select2();
 </script>

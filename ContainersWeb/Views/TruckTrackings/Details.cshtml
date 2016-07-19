@@ -1,0 +1,146 @@
+﻿@model ContainersWeb.Models.TruckTracking
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>TruckTracking</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CompanyDestination.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CompanyDestination.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CompanyOrigin.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CompanyOrigin.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Driver.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Driver.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SecuritySupervisor.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SecuritySupervisor.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContainerStatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContainerStatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DocStatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DocStatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContainerNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContainerNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContainerLicensePlate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContainerLicensePlate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContainerLabel)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContainerLabel)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DocNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DocNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CorrelAduana)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CorrelAduana)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InsertedAt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InsertedAt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdatedAt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UpdatedAt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InsertedBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InsertedBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdatedBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UpdatedBy)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.TruckTrackingTrackingId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

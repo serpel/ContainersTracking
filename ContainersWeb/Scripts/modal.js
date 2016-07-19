@@ -11,7 +11,7 @@
                 var url = window.location.href;
                 var editUrl = url + '/edit/' + data;
                 var deleteUrl = url + '/delete/' + data;
-                var txt = "<div class='pull-right'>" +
+                var txt = "<div class=''>" +
                     "<a class='btn btn-default' data-modal='' href='" + editUrl + "' title='Edit'><span class='glyphicon glyphicon-pencil'></span></a>&nbsp;" +
                     "<a class='btn btn-danger' data-modal='' href='" + deleteUrl + "' title='Delete'><span class='glyphicon glyphicon-trash'></span></a>" +
                     "</div>";

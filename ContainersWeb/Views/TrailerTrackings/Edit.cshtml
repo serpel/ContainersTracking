@@ -1,4 +1,4 @@
-﻿@model ContainersWeb.Models.ContainerTracking
+﻿@model ContainersWeb.Models.TrailerTracking
 
 @using Resources
 
@@ -14,7 +14,7 @@
     <div class="modal-body">
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.ContainerTrackingId)
+        @Html.HiddenFor(model => model.TrailerTrackingId)
         @Html.HiddenFor(model => model.InsertedAt)
 
         <div class="row form-row">
@@ -36,9 +36,9 @@
                 @Html.ValidationMessageFor(model => model.ContainerLicensePlate, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-6">
-                <label class="form-label">@Resources.ContainerNumber</label>
-                @Html.EditorFor(model => model.ContainerNumber, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ContainerNumber, "", new { @class = "text-danger" })
+                <label class="form-label">@Resources.TrailerNumber</label>
+                @Html.EditorFor(model => model.TrailerNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TrailerNumber, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="row form-row">
@@ -54,20 +54,15 @@
             </div>
         </div>
         <div class="row form-row" id="pv">            
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <label class="form-label">@Resources.ContainerLabel</label>
                 @Html.EditorFor(model => model.ContainerLabel, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ContainerLabel, "", new { @class = "text-danger" })
             </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <label class="form-label">@Resources.DocNumber</label>
                 @Html.EditorFor(model => model.DocNumber, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.DocNumber, "", new { @class = "text-danger" })
-            </div>
-            <div class="col-md-4">
-                <label class="form-label">@Resources.CorrelAduana</label>
-                @Html.EditorFor(model => model.CorrelAduana, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CorrelAduana, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="row form-row">
@@ -94,7 +89,14 @@
                 @Html.ValidationMessageFor(model => model.UpdatedBy, "", new { @class = "text-danger" })
             </div>
         </div>
-    </div>
+        <div class="row form-row">
+            <div class="col-md-12">
+                <label class="form-label">@Resources.Notes</label>
+                @Html.EditorFor(model => model.Notes, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "text-danger" })
+            </div>
+         </div>
+      </div>
 
     <div class="modal-footer">
         <button class="btn" type="button" data-dismiss="modal">@Resources.Cancel</button>

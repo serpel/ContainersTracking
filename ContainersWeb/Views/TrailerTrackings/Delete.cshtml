@@ -1,4 +1,4 @@
-﻿@model ContainersWeb.Models.ContainerTracking
+﻿@model ContainersWeb.Models.TrailerTracking
 @using Resources
 
 
@@ -14,9 +14,9 @@
 
         <div class="row form-row">
             <div class="col-md-12">
-                <label class="form-label">@Resources.ContainerNumber</label>
-                @Html.EditorFor(model => model.ContainerNumber, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                @Html.ValidationMessageFor(model => model.ContainerNumber, "", new { @class = "text-danger" })
+                <label class="form-label">@Resources.TrailerNumber</label>
+                @Html.EditorFor(model => model.TrailerNumber, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.TrailerNumber, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="row form-row">

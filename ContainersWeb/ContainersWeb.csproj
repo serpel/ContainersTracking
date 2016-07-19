@@ -197,6 +197,7 @@
     <Compile Include="BLL\HtmlHelper.cs" />
     <Compile Include="BLL\ILogger.cs" />
     <Compile Include="BLL\Loger.cs" />
+    <Compile Include="BLL\TrailerTrackingHelper.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CompaniesController.cs" />
@@ -209,6 +210,8 @@
     <Compile Include="Controllers\RegionsController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\SecuritySupervisorsController.cs" />
+    <Compile Include="Controllers\TrailerTrackingsController.cs" />
+    <Compile Include="Controllers\TruckTrackingsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="DAL\Security\AccessAuthorizeAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -218,33 +221,9 @@
     <Compile Include="Migrations\201605312006025_Initial.Designer.cs">
       <DependentUpon>201605312006025_Initial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201606060305333_UpdateDriverIdFieldOnContainerTracking.cs" />
-    <Compile Include="Migrations\201606060305333_UpdateDriverIdFieldOnContainerTracking.Designer.cs">
-      <DependentUpon>201606060305333_UpdateDriverIdFieldOnContainerTracking.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201606061554155_DocStatus.cs" />
-    <Compile Include="Migrations\201606061554155_DocStatus.Designer.cs">
-      <DependentUpon>201606061554155_DocStatus.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201606062031478_CorrelativeAduanaOnContainerTrackingModel.cs" />
-    <Compile Include="Migrations\201606062031478_CorrelativeAduanaOnContainerTrackingModel.Designer.cs">
-      <DependentUpon>201606062031478_CorrelativeAduanaOnContainerTrackingModel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201606091742066_ChangeDocNumberOnContainerTrackingModel.cs" />
-    <Compile Include="Migrations\201606091742066_ChangeDocNumberOnContainerTrackingModel.Designer.cs">
-      <DependentUpon>201606091742066_ChangeDocNumberOnContainerTrackingModel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201606152143537_InsertedByAndUpdatedByFieldsOnContainerTrackingModel.cs" />
-    <Compile Include="Migrations\201606152143537_InsertedByAndUpdatedByFieldsOnContainerTrackingModel.Designer.cs">
-      <DependentUpon>201606152143537_InsertedByAndUpdatedByFieldsOnContainerTrackingModel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201606171955553_IsActiveFieldOnDriverModel.cs" />
-    <Compile Include="Migrations\201606171955553_IsActiveFieldOnDriverModel.Designer.cs">
-      <DependentUpon>201606171955553_IsActiveFieldOnDriverModel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201606201628522_AddAddressFieldOnCompanyModel.cs" />
-    <Compile Include="Migrations\201606201628522_AddAddressFieldOnCompanyModel.Designer.cs">
-      <DependentUpon>201606201628522_AddAddressFieldOnCompanyModel.cs</DependentUpon>
+    <Compile Include="Migrations\201607191628214_TrackingTypeAndGateFieldOnContainerTracking.cs" />
+    <Compile Include="Migrations\201607191628214_TrackingTypeAndGateFieldOnContainerTracking.Designer.cs">
+      <DependentUpon>201607191628214_TrackingTypeAndGateFieldOnContainerTracking.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -254,9 +233,12 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\LogEntry.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\MoveViewModel.cs" />
     <Compile Include="Models\Region.cs" />
     <Compile Include="Models\SecuritySupervisor.cs" />
     <Compile Include="Models\ContainerTracking.cs" />
+    <Compile Include="Models\TrailerTracking.cs" />
+    <Compile Include="Models\TruckTracking.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -340,9 +322,12 @@
     <Content Include="Content\assets\img\profiles\a.jpg" />
     <Content Include="Content\assets\img\profiles\a2x.jpg" />
     <Content Include="Content\assets\img\profiles\avatar.jpg" />
+    <Content Include="Content\assets\img\profiles\avatar.png" />
     <Content Include="Content\assets\img\profiles\avatar2x.jpg" />
     <Content Include="Content\assets\img\profiles\avatar_small.jpg" />
+    <Content Include="Content\assets\img\profiles\avatar_small.png" />
     <Content Include="Content\assets\img\profiles\avatar_small2x.jpg" />
+    <Content Include="Content\assets\img\profiles\avatar_small2x.png" />
     <Content Include="Content\assets\img\profiles\b.jpg" />
     <Content Include="Content\assets\img\profiles\b2x.jpg" />
     <Content Include="Content\assets\img\profiles\ba.jpg" />
@@ -1742,8 +1727,19 @@
     <Content Include="Views\LogEntries\Details.cshtml" />
     <Content Include="Views\LogEntries\Edit.cshtml" />
     <Content Include="Views\LogEntries\Index.cshtml" />
-    <Content Include="Views\ContainerTrackings\Create - Copy.cshtml" />
     <Content Include="Views\Users\UserProfile.cshtml" />
+    <Content Include="Views\TrailerTrackings\Create.cshtml" />
+    <Content Include="Views\TrailerTrackings\Delete.cshtml" />
+    <Content Include="Views\TrailerTrackings\Edit.cshtml" />
+    <Content Include="Views\TrailerTrackings\Index.cshtml" />
+    <Content Include="Views\TruckTrackings\Create.cshtml" />
+    <Content Include="Views\TruckTrackings\Delete.cshtml" />
+    <Content Include="Views\TruckTrackings\Details.cshtml" />
+    <Content Include="Views\TruckTrackings\Edit.cshtml" />
+    <Content Include="Views\TruckTrackings\Index.cshtml" />
+    <Content Include="Views\ContainerTrackings\Move.cshtml" />
+    <Content Include="Views\ContainerTrackings\In.cshtml" />
+    <Content Include="Views\ContainerTrackings\Out.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1760,26 +1756,8 @@
     <EmbeddedResource Include="Migrations\201605312006025_Initial.resx">
       <DependentUpon>201605312006025_Initial.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606060305333_UpdateDriverIdFieldOnContainerTracking.resx">
-      <DependentUpon>201606060305333_UpdateDriverIdFieldOnContainerTracking.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606061554155_DocStatus.resx">
-      <DependentUpon>201606061554155_DocStatus.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606062031478_CorrelativeAduanaOnContainerTrackingModel.resx">
-      <DependentUpon>201606062031478_CorrelativeAduanaOnContainerTrackingModel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606091742066_ChangeDocNumberOnContainerTrackingModel.resx">
-      <DependentUpon>201606091742066_ChangeDocNumberOnContainerTrackingModel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606152143537_InsertedByAndUpdatedByFieldsOnContainerTrackingModel.resx">
-      <DependentUpon>201606152143537_InsertedByAndUpdatedByFieldsOnContainerTrackingModel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606171955553_IsActiveFieldOnDriverModel.resx">
-      <DependentUpon>201606171955553_IsActiveFieldOnDriverModel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606201628522_AddAddressFieldOnCompanyModel.resx">
-      <DependentUpon>201606201628522_AddAddressFieldOnCompanyModel.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201607191628214_TrackingTypeAndGateFieldOnContainerTracking.resx">
+      <DependentUpon>201607191628214_TrackingTypeAndGateFieldOnContainerTracking.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -1806,7 +1784,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>49913</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:49913/</IISUrl>
+          <IISUrl>http://localhost:49914/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

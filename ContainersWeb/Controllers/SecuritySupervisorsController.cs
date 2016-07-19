@@ -45,8 +45,14 @@ namespace ContainersWeb.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.SecuritySupervisors.Add(securitySupervisor);
-                db.SaveChanges();
+                try {
+                    db.SecuritySupervisors.Add(securitySupervisor);
+                    db.SaveChanges();
+                }catch(Exception e)
+                {
+                    ModelState.AddModelError("CardId", e);
+                    return PartialView("Create", securitySupervisor);
+                }
 
                 return Json(new { success = true }, JsonRequestBehavior.AllowGet);
             }
@@ -78,8 +84,14 @@ namespace ContainersWeb.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(securitySupervisor).State = EntityState.Modified;
-                db.SaveChanges();
+                try {
+                    db.Entry(securitySupervisor).State = EntityState.Modified;
+                    db.SaveChanges();
+                }catch(Exception e)
+                {
+                    ModelState.AddModelError("CardId", e);
+                    return PartialView("Edit", securitySupervisor);
+                }
 
                 return Json(new { success = true }, JsonRequestBehavior.AllowGet);
             }

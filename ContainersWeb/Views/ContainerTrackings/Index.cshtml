@@ -7,11 +7,6 @@
     @*<link href="~/Content/select2-bootstrap.css" rel="stylesheet" />*@
 }
 
-<div class="page-title">
-    <i class="icon-custom-left"></i>
-    <h3>@Resources.ContainerTracking</h3>
-</div>
-
 <div class="row-fluid">
     <ul class="breadcrumb">
         <li><a href="@Url.Action("Index","Companies")" class="active">@Resources.Companies</a> </li>
@@ -24,7 +19,7 @@
     <div class="span12">
         <div class="grid simple ">
             <div class="grid-title">
-                <h4>@Resources.ContainerTracking</h4>
+                <h4>@Resources.Trackings</h4>
                 <div class="tools"> <a href="javascript:;" class="collapse"></a> <a href="#grid-config" data-toggle="modal" class="config"></a> <a href="javascript:;" class="reload"></a> <a href="javascript:;" class="remove"></a> </div>
             </div>
             <div class="grid-body ">
@@ -33,13 +28,15 @@
                     <thead>
                         <tr>
                             <th>@Resources.Id</th>
-                            <th>@Resources.ContainerNumber</th>
+                            <th>@Resources.Number</th>
                             <th>@Resources.Type</th>
                             <th>@Resources.Status</th>
-                            <th>@Resources.DocStatus</th>
+                            <th>@Resources.Doc</th>
                             <th>@Resources.Date</th>
                             @*<th>@Resources.TotalTime</th>*@
-                            <th>@Html.NoEncodeActionLink("<span class='glyphicon glyphicon-plus'></span>", Resources.CreateNew, "Create", "ContainerTrackings", routeValues: null, htmlAttributes: new { data_modal = "", @class = "btn btn-primary pull-right" })</th>
+                            <th>@Html.NoEncodeActionLink("<span class='glyphicon glyphicon-plus'></span>", Resources.In, "In", "ContainerTrackings", routeValues: null, htmlAttributes: new { data_modal = "", @class = "btn btn-primary" })
+                                @Html.NoEncodeActionLink("<span class='glyphicon glyphicon-minus'></span>", Resources.Out, "Out", "ContainerTrackings", routeValues: null, htmlAttributes: new { data_modal = "", @class = "btn btn-danger" })
+                                @Html.NoEncodeActionLink("<span class='glyphicon glyphicon-chevron-right'></span>", Resources.Move, "Move", "ContainerTrackings", routeValues: null, htmlAttributes: new { data_modal = "", @class = "btn btn-warning" })</th>
                         </tr>
                     </thead>
                     <tbody></tbody>

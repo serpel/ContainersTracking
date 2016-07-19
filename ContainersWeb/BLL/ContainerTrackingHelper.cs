@@ -28,17 +28,17 @@ namespace ContainersWeb.BLL
 
             var container = _context.ContainerTracking
                       .Where(w => w.ContainerNumber.Trim() == containerTracking.ContainerNumber.Trim())
-                      .OrderByDescending(o => o.InsertedAt)
+                      .OrderByDescending(o => o.ContainerTrackingId)
                       .FirstOrDefault();
 
             if (container != null)
             {
-                if (containerTracking.Type == container.Type && container.Type == Models.Type.In)
+                if (containerTracking.Type == container.Type && container.Type == Models.Type.Entrada)
                 {
                     Message = Resources.Resources.InsideText;
                     result = false;
                 }
-                else if (containerTracking.Type == container.Type && container.Type == Models.Type.Out)
+                else if (containerTracking.Type == container.Type && container.Type == Models.Type.Salida)
                 {
                     Message = Resources.Resources.OutsideText;
                     result = false;
@@ -46,7 +46,7 @@ namespace ContainersWeb.BLL
             }
             else
             {
-                if(containerTracking.Type == Models.Type.Out)
+                if(containerTracking.Type == Models.Type.Salida)
                 {
                     Message = Resources.Resources.OutText;
                     result = false;
@@ -62,9 +62,9 @@ namespace ContainersWeb.BLL
 
             switch (containerTracking.Type)
             {
-                case Models.Type.In:
-                case Models.Type.Out:
-                    if(containerTracking.ContainerStatus == ContaninerStatus.Empty)
+                case Models.Type.Entrada:
+                case Models.Type.Salida:
+                    if(containerTracking.ContainerStatus == ContaninerStatus.Vacio)
                     {
                         //verifico que esten llenos todos los campos antes de cuardar edicion para cambiar el status
                         if(containerTracking.ContainerLicensePlate != null &&
@@ -74,10 +74,10 @@ namespace ContainersWeb.BLL
                             containerTracking.DriverId > 0 && 
                             containerTracking.SecuritySupervisorId > 0)
                         {
-                            containerTracking.DocStatus = DocStatus.Ready;
+                            containerTracking.DocStatus = DocStatus.Listo;
                         }else
                         {
-                            containerTracking.DocStatus = DocStatus.Pending;
+                            containerTracking.DocStatus = DocStatus.Pendiente;
                         }
 
                     }
@@ -93,11 +93,11 @@ namespace ContainersWeb.BLL
                            containerTracking.DriverId > 0 &&
                            containerTracking.SecuritySupervisorId > 0)
                         {
-                            containerTracking.DocStatus = DocStatus.Ready;
+                            containerTracking.DocStatus = DocStatus.Listo;
                         }
                         else
                         {
-                            containerTracking.DocStatus = DocStatus.Pending;
+                            containerTracking.DocStatus = DocStatus.Pendiente;
                         }
                     }
                     break;

@@ -44,8 +44,16 @@ namespace ContainersWeb.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Drivers.Add(driver);
-                db.SaveChanges();
+                try
+                {
+                    db.Drivers.Add(driver);
+                    db.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    ModelState.AddModelError("CardId", e);
+                    return PartialView("Create", driver);
+                }
 
                 return Json(new { success = true }, JsonRequestBehavior.AllowGet);
             }
@@ -77,8 +85,16 @@ namespace ContainersWeb.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(driver).State = EntityState.Modified;
-                db.SaveChanges();
+                try
+                {
+                    db.Entry(driver).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    ModelState.AddModelError("CardId", e);
+                    return PartialView("Edit", driver);
+                }
 
                 return Json(new { success = true }, JsonRequestBehavior.AllowGet);
             }

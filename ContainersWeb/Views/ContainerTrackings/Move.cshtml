@@ -1,0 +1,85 @@
+﻿@model ContainersWeb.Models.MoveViewModel
+@using Resources
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title" id="myModalLabel">@Resources.Move</h4>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="modal-body">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="row form-row">
+            <div class="col-md-12">
+                <label class="form-label">@Resources.Number</label>
+                @Html.DropDownList("Number", null,Resources.Select, htmlAttributes: new { @class = "select-drop" })
+                @Html.ValidationMessageFor(model => model.Number, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row form-row">
+            <div class="col-md-6">
+                <label class="form-label">@Resources.Origin</label>
+                <input id="CompanyOriginId" name="CompanyOriginId" type="text" class="form-control" readonly="readonly" />
+                @Html.ValidationMessageFor(model => model.CompanyOriginId, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">@Resources.Destination</label>
+                @Html.DropDownList("CompanyDestinationId", null, htmlAttributes: new { @class = "select-drop" })
+                @Html.ValidationMessageFor(model => model.CompanyDestinationId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row form-row">
+            <div class="col-md-6">
+                <label class="form-label">@Resources.Date</label>
+                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">@Resources.User</label>
+                @Html.EditorFor(model => model.User, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.User, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn" type="button" data-dismiss="modal">@Resources.Cancel</button>
+        <input class="btn btn-primary" type="submit" value="@Resources.Save" />
+    </div>
+}
+
+<script>
+
+    function validate() {
+        var type = $('#Type').val();
+    };
+
+    $(document).ready(function () {
+
+        $('.select-drop').select2({  });
+
+
+        $('#Number').change(function () {
+
+            $.ajax({
+                url: '@Url.Action("GetCompanyByNumber")',
+                type: 'POST',
+                data: { number: this.value },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    $('#CompanyOriginId').val(data.Name);                 
+                },
+                error: function (xhr) {
+                    alert(xhr.responseText);
+                }
+            });
+        });
+
+    });
+</script>
