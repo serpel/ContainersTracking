@@ -349,6 +349,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to DUA.
+        /// </summary>
+        public static string DUA {
+            get {
+                return ResourceManager.GetString("DUA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dua Number.
         /// </summary>
         public static string DuaNumber {
@@ -394,11 +403,47 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Container Out.
+        /// </summary>
+        public static string ExitText {
+            get {
+                return ResourceManager.GetString("ExitText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Full.
         /// </summary>
         public static string Full {
             get {
                 return ResourceManager.GetString("Full", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gate.
+        /// </summary>
+        public static string Gate {
+            get {
+                return ResourceManager.GetString("Gate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gate In.
+        /// </summary>
+        public static string GateIn {
+            get {
+                return ResourceManager.GetString("GateIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gate Out.
+        /// </summary>
+        public static string GateOut {
+            get {
+                return ResourceManager.GetString("GateOut", resourceCulture);
             }
         }
         

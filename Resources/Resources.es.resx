@@ -277,7 +277,7 @@
     <value>Url</value>
   </data>
   <data name="CorrelAduana" xml:space="preserve">
-    <value>Correl. Aduana</value>
+    <value>BL</value>
   </data>
   <data name="InsideText" xml:space="preserve">
     <value>El contenedor se encuentra adentro del parque.</value>
@@ -289,7 +289,7 @@
     <value>No puede sacar el contenedor porque nunca ingreso.</value>
   </data>
   <data name="DocNumber" xml:space="preserve">
-    <value>Numero de Documento</value>
+    <value>Pase</value>
   </data>
   <data name="ChooseYourLanguage" xml:space="preserve">
     <value>Escoge tu lenguaje</value>
@@ -374,5 +374,20 @@
   </data>
   <data name="Track" xml:space="preserve">
     <value>Mov</value>
+  </data>
+  <data name="ExitText" xml:space="preserve">
+    <value>Contenedor Salio</value>
+  </data>
+  <data name="Gate" xml:space="preserve">
+    <value>Porton</value>
+  </data>
+  <data name="GateIn" xml:space="preserve">
+    <value>Porton de Entrada</value>
+  </data>
+  <data name="GateOut" xml:space="preserve">
+    <value>Porton de Salida</value>
+  </data>
+  <data name="DUA" xml:space="preserve">
+    <value>DUA</value>
   </data>
 </root>

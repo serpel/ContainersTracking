@@ -375,4 +375,19 @@
   <data name="Track" xml:space="preserve">
     <value>Track</value>
   </data>
+  <data name="ExitText" xml:space="preserve">
+    <value>Container Out</value>
+  </data>
+  <data name="Gate" xml:space="preserve">
+    <value>Gate</value>
+  </data>
+  <data name="GateIn" xml:space="preserve">
+    <value>Gate In</value>
+  </data>
+  <data name="GateOut" xml:space="preserve">
+    <value>Gate Out</value>
+  </data>
+  <data name="DUA" xml:space="preserve">
+    <value>DUA</value>
+  </data>
 </root>
