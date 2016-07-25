@@ -35,6 +35,18 @@
         </div>
         <div class="row form-row">
             <div class="col-md-6">
+                <label class="form-label">@Resources.GateOut</label>
+                @Html.DropDownList("GateOut", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.GateOut, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">@Resources.GateIn</label>
+                @Html.DropDownList("GateIn", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.GateIn, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row form-row">
+            <div class="col-md-6">
                 <label class="form-label">@Resources.Date</label>
                 @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                 @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })

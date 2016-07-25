@@ -34,6 +34,7 @@ namespace ContainersWeb.Models
         public string ContainerLabel { get; set; }
         public string ChasisNumber { get; set; }
         //es el numero de DUA
+        public string DUA { get; set; }
         public string DocNumber { get; set; }
         public string CorrelAduana { get; set; }
 

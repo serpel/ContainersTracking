@@ -225,6 +225,14 @@
     <Compile Include="Migrations\201607191628214_TrackingTypeAndGateFieldOnContainerTracking.Designer.cs">
       <DependentUpon>201607191628214_TrackingTypeAndGateFieldOnContainerTracking.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201607191943403_UpdateSecurityModel.cs" />
+    <Compile Include="Migrations\201607191943403_UpdateSecurityModel.Designer.cs">
+      <DependentUpon>201607191943403_UpdateSecurityModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607251904138_AddFieldOnContainerModel.cs" />
+    <Compile Include="Migrations\201607251904138_AddFieldOnContainerModel.Designer.cs">
+      <DependentUpon>201607251904138_AddFieldOnContainerModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Company.cs" />
@@ -1758,6 +1766,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201607191628214_TrackingTypeAndGateFieldOnContainerTracking.resx">
       <DependentUpon>201607191628214_TrackingTypeAndGateFieldOnContainerTracking.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607191943403_UpdateSecurityModel.resx">
+      <DependentUpon>201607191943403_UpdateSecurityModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607251904138_AddFieldOnContainerModel.resx">
+      <DependentUpon>201607251904138_AddFieldOnContainerModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

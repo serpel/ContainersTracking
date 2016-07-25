@@ -20,6 +20,13 @@
                 @Html.DropDownList("ContainerNumber", null, Resources.Select, htmlAttributes: new { @class = "select-drop" })
                 @Html.ValidationMessageFor(model => model.ContainerNumber, "", new { @class = "text-danger" })
             </div>
+        </div>
+        <div class="row form-row">
+            <div class="col-md-6">
+                <label class="form-label">@Resources.Gate</label>
+                @Html.DropDownList("GateId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.GateId, "", new { @class = "text-danger" })
+            </div>
             <div class="col-md-6">
                 <label class="form-label">@Resources.ContainerStatus</label>
                 @Html.EnumDropDownListFor(model => model.ContainerStatus, htmlAttributes: new { @class = "form-control" })
@@ -29,8 +36,8 @@
         <div class="row form-row">
             <div class="col-md-6">
                 <label class="form-label">@Resources.Date</label>
-               @Html.EditorFor(model => model.InsertedAt, new { htmlAttributes = new { @class = "form-control", @readonly="readonly" } })
-               @Html.ValidationMessageFor(model => model.InsertedAt, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.InsertedAt, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.InsertedAt, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-6">
                 <label class="form-label">@Resources.User</label>

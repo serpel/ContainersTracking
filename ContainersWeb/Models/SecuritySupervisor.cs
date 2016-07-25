@@ -13,7 +13,7 @@ namespace ContainersWeb.Models
         public string Name { get; set; }
 
         [StringLength(100, MinimumLength = 0)]
-        [Index("CardIdIndex", IsUnique = true)]
+        //[Index("CardIdIndex", IsUnique = true)]
         public string CardId { get; set; }
 
         public bool IsActive { get; set; }

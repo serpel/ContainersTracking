@@ -12,6 +12,8 @@ namespace ContainersWeb.Models
         public string Number { get; set; }
         public Int32? CompanyOriginId { get; set; }
         public Int32? CompanyDestinationId { get; set; }
+        public Int32? GateIn { get; set; }
+        public Int32? GateOut { get; set; }
         [Required]
         public DateTime Date { get; set; }
         public string User { get; set; }

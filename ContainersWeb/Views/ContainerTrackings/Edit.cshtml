@@ -18,12 +18,17 @@
         @Html.HiddenFor(model => model.InsertedAt)
 
         <div class="row form-row">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <label class="form-label">@Resources.Type</label>
                 @Html.EditorFor(model => model.Type, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                 @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
+                <label class="form-label">@Resources.Gate</label>
+                @Html.DropDownList("GateId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.GateId, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-4">
                 <label class="form-label">@Resources.ContainerStatus</label>
                 @Html.EnumDropDownListFor(model => model.ContainerStatus, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.ContainerStatus, "", new { @class = "text-danger" })
@@ -54,20 +59,27 @@
             </div>
         </div>
         <div class="row form-row" id="pv">            
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <label class="form-label">@Resources.ContainerLabel</label>
                 @Html.EditorFor(model => model.ContainerLabel, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ContainerLabel, "", new { @class = "text-danger" })
             </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <label class="form-label">@Resources.DocNumber</label>
                 @Html.EditorFor(model => model.DocNumber, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.DocNumber, "", new { @class = "text-danger" })
             </div>
-            <div class="col-md-4">
+        </div>
+        <div class="row form-row" id="pv">
+            <div class="col-md-6">
                 <label class="form-label">@Resources.CorrelAduana</label>
                 @Html.EditorFor(model => model.CorrelAduana, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.CorrelAduana, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">@Resources.DUA</label>
+                @Html.EditorFor(model => model.DUA, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DUA, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="row form-row">
