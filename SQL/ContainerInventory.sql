@@ -1,11 +1,11 @@
 use Containers
 go
-
-create view dbo.ContainersInventoryView 
+--select * from dbo.ContainersInventoryView 
+alter view dbo.ContainersInventoryView 
 AS
 select row_number() over ( partition by co.Name order by c.InsertedAt asc) Numero,
-       r.Name as Zona,
-       co.Name as Compania,
+       cast(r.Name as varchar) as Zona,
+       cast(co.Name as varchar) as Compania,
        c.ContainerNumber as NoContenedor,
        (case when c.ContainerStatus = 1 then 'Lleno' else 'Vacio' end ) as EstadoContenedor,
        c.ContainerLicensePlate as Placa,

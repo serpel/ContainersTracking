@@ -33,7 +33,8 @@ namespace ContainersWeb.Controllers
         // GET: SecuritySupervisors/Create
         public ActionResult Create()
         {
-            return PartialView("Create");
+            var security = new SecuritySupervisor() { IsActive = true };
+            return PartialView("Create", security);
         }
 
         // POST: SecuritySupervisors/Create

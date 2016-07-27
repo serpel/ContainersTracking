@@ -35,7 +35,7 @@ namespace ContainersWeb.Controllers
         // GET: Companies/Create
         public ActionResult Create()
         {
-            var company = new Company();
+            var company = new Company() { IsActive = true };
 
             if(db.Companies.Count() > 0)
             {

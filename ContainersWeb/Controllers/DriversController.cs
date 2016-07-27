@@ -32,7 +32,9 @@ namespace ContainersWeb.Controllers
         // GET: Drivers/Create
         public ActionResult Create()
         {
-            return PartialView("Create");
+            var driver = new Driver() { IsActive = true };
+
+            return PartialView("Create", driver);
         }
 
         // POST: Drivers/Create

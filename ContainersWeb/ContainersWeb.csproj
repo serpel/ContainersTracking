@@ -1747,6 +1747,7 @@
     <Content Include="Views\TruckTrackings\Index.cshtml" />
     <Content Include="Views\ContainerTrackings\Move.cshtml" />
     <Content Include="Views\ContainerTrackings\In.cshtml" />
+    <Content Include="Views\ContainerTrackings\Out2.cshtml" />
     <Content Include="Views\ContainerTrackings\Out.cshtml" />
   </ItemGroup>
   <ItemGroup>

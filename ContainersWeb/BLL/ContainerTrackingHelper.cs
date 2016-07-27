@@ -56,6 +56,11 @@ namespace ContainersWeb.BLL
             return result;
         }
 
+        public bool ValidateOnOut(ContainerTracking containerTracking)
+        {
+            return ValidateOnCreate(containerTracking) && ValidateOnEdit(containerTracking);
+        }
+
         public bool ValidateOnEdit(ContainerTracking containerTracking)
         {
             bool result = true;
@@ -63,6 +68,44 @@ namespace ContainersWeb.BLL
             switch (containerTracking.Type)
             {
                 case Models.Type.Entrada:
+                    if (containerTracking.ContainerStatus == ContaninerStatus.Vacio)
+                    {
+                        //verifico que esten llenos todos los campos antes de cuardar edicion para cambiar el status
+                        if (containerTracking.ContainerLicensePlate != null &&
+                            containerTracking.ContainerNumber != null &&
+                            containerTracking.CompanyOriginId > 0 &&
+                            containerTracking.CompanyDestinationId > 0 &&
+                            containerTracking.DriverId > 0 &&
+                            containerTracking.SecuritySupervisorId > 0)
+                        {
+                            containerTracking.DocStatus = DocStatus.Listo;
+                        }
+                        else
+                        {
+                            containerTracking.DocStatus = DocStatus.Pendiente;
+                        }
+
+                    }
+                    else
+                    {
+                        if (containerTracking.ContainerLicensePlate != null &&
+                           containerTracking.ContainerNumber != null &&
+                           containerTracking.ContainerLabel != null &&
+                           containerTracking.DUA != null &&
+                           containerTracking.CorrelAduana != null &&
+                           containerTracking.CompanyOriginId > 0 &&
+                           containerTracking.CompanyDestinationId > 0 &&
+                           containerTracking.DriverId > 0 &&
+                           containerTracking.SecuritySupervisorId > 0)
+                        {
+                            containerTracking.DocStatus = DocStatus.Listo;
+                        }
+                        else
+                        {
+                            containerTracking.DocStatus = DocStatus.Pendiente;
+                        }
+                    }
+                    break;
                 case Models.Type.Salida:
                     if(containerTracking.ContainerStatus == ContaninerStatus.Vacio)
                     {
@@ -87,6 +130,7 @@ namespace ContainersWeb.BLL
                            containerTracking.ContainerNumber != null &&
                            containerTracking.ContainerLabel != null &&
                            containerTracking.DocNumber != null &&
+                           containerTracking.DUA != null &&
                            containerTracking.CorrelAduana != null &&
                            containerTracking.CompanyOriginId > 0 &&
                            containerTracking.CompanyDestinationId > 0 &&
