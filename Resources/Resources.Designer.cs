@@ -178,6 +178,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Container.
+        /// </summary>
+        public static string Container {
+            get {
+                return ResourceManager.GetString("Container", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Container Label.
         /// </summary>
         public static string ContainerLabel {
@@ -336,6 +345,15 @@ namespace Resources {
         public static string Driver {
             get {
                 return ResourceManager.GetString("Driver", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t be added because record already exist.
+        /// </summary>
+        public static string DriverCardError {
+            get {
+                return ResourceManager.GetString("DriverCardError", resourceCulture);
             }
         }
         
@@ -664,6 +682,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Rastra.
+        /// </summary>
+        public static string Rastra {
+            get {
+                return ResourceManager.GetString("Rastra", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ready.
         /// </summary>
         public static string Ready {
@@ -696,6 +723,15 @@ namespace Resources {
         public static string Register {
             get {
                 return ResourceManager.GetString("Register", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Required.
+        /// </summary>
+        public static string Required {
+            get {
+                return ResourceManager.GetString("Required", resourceCulture);
             }
         }
         
@@ -781,6 +817,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to String long is exceeded.
+        /// </summary>
+        public static string StringExceeded {
+            get {
+                return ResourceManager.GetString("StringExceeded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Track.
         /// </summary>
         public static string Track {
@@ -831,6 +876,15 @@ namespace Resources {
         public static string TroubleLoginIn {
             get {
                 return ResourceManager.GetString("TroubleLoginIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Truck.
+        /// </summary>
+        public static string Truck {
+            get {
+                return ResourceManager.GetString("Truck", resourceCulture);
             }
         }
         

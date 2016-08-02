@@ -390,4 +390,22 @@
   <data name="DUA" xml:space="preserve">
     <value>DUA</value>
   </data>
+  <data name="DriverCardError" xml:space="preserve">
+    <value>Ya existe un registro con esta identificacion</value>
+  </data>
+  <data name="Required" xml:space="preserve">
+    <value>Campo requerido</value>
+  </data>
+  <data name="StringExceeded" xml:space="preserve">
+    <value>Se exede el tamaño maximo permitido</value>
+  </data>
+  <data name="Container" xml:space="preserve">
+    <value>Contenedor</value>
+  </data>
+  <data name="Rastra" xml:space="preserve">
+    <value>Rastra</value>
+  </data>
+  <data name="Truck" xml:space="preserve">
+    <value>Camion</value>
+  </data>
 </root>

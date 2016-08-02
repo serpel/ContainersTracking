@@ -390,4 +390,22 @@
   <data name="DUA" xml:space="preserve">
     <value>DUA</value>
   </data>
+  <data name="DriverCardError" xml:space="preserve">
+    <value>Can't be added because record already exist</value>
+  </data>
+  <data name="Required" xml:space="preserve">
+    <value>Required</value>
+  </data>
+  <data name="StringExceeded" xml:space="preserve">
+    <value>String long is exceeded</value>
+  </data>
+  <data name="Container" xml:space="preserve">
+    <value>Container</value>
+  </data>
+  <data name="Rastra" xml:space="preserve">
+    <value>Rastra</value>
+  </data>
+  <data name="Truck" xml:space="preserve">
+    <value>Truck</value>
+  </data>
 </root>
