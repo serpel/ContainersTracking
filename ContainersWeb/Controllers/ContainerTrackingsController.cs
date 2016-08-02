@@ -65,11 +65,57 @@ namespace ContainersWeb.Controllers
                 .Select(s => new { s.ContainerTrackingId, Type = s.Type == 0 ? Resources.Resources.Out: Resources.Resources.In,
                     DocStatus = s.DocStatus == 0 ? Resources.Resources.Pending : Resources.Resources.Ready,
                     ContainerStatus = s.ContainerStatus == 0 ? Resources.Resources.Empty : Resources.Resources.Full,
-                    Date = s.InsertedAt.ToString("yyyy-MM-dd hh:mm"),
+                    Date = s.InsertedAt.ToString("dd-MM-yyyy HH:mm"),
                     s.ContainerNumber,
-                    s.ContainerLicensePlate });
+                    s.ContainerLicensePlate,
+                    Tracking = s.TrackingType == TrackingType.Contenedor ? Resources.Resources.Container :
+                                   s.TrackingType == TrackingType.Camion ? Resources.Resources.Truck :
+                                   s.TrackingType == TrackingType.Rastra ? Resources.Resources.Rastra : "" 
+                });
 
             return Json(containers, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetContainerTrackingFilter(DTParameters param)
+        {
+            try
+            {
+                List<ContainerTrackingSearchViewModel> dtsource = db.ContainerTracking.ToList().Select(s => new ContainerTrackingSearchViewModel() {
+                    ContainerTrackingId = s.ContainerTrackingId,
+                    ContainerNumber = s.ContainerNumber,
+                    ContainerLicensePlate = s.ContainerLicensePlate,
+                    ContainerStatus = s.ContainerStatus == 0 ? Resources.Resources.Empty : Resources.Resources.Full,
+                    TrackingType = s.TrackingType == TrackingType.Contenedor ? Resources.Resources.Container :
+                                   s.TrackingType == TrackingType.Camion ? Resources.Resources.Truck :
+                                   s.TrackingType == TrackingType.Rastra ? Resources.Resources.Rastra : "",
+                    DocStatus = s.DocStatus == 0 ? Resources.Resources.Pending : Resources.Resources.Ready,
+                    Type = s.Type == 0 ? Resources.Resources.Out : Resources.Resources.In,
+                    InsertedAt = s.InsertedAt.ToString("dd-MM-yyyy HH:mm"),
+                    UpdatedAt = s.UpdatedAt.ToString("dd-MM-yyyy HH:mm")
+                }).ToList();       
+
+                List<String> columnSearch = new List<string>();
+
+                foreach (var col in param.Columns)
+                {
+                    columnSearch.Add(col.Search.Value);
+                }
+
+                List<ContainerTrackingSearchViewModel> data = new ResultSet().GetResult(param.Search.Value, param.SortOrder, param.Start, param.Length, dtsource, columnSearch);
+                int count = new ResultSet().Count(param.Search.Value, dtsource, columnSearch);
+                DTResult<ContainerTrackingSearchViewModel> result = new DTResult<ContainerTrackingSearchViewModel>
+                {
+                    draw = param.Draw,
+                    data = data,
+                    recordsFiltered = count,
+                    recordsTotal = count
+                };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { error = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
         }
 
         // GET: ContainerTrackings
@@ -446,6 +492,74 @@ namespace ContainersWeb.Controllers
                     db.SaveChanges();
 
                     MyLogger.GetInstance.Info(Resources.Resources.EditText + " ContainerTrackingId: "+containerTracking.ContainerTrackingId+ " ContainerNumber: "+containerTracking.ContainerNumber);                    
+
+                    return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            ViewBag.CompanyDestinationId = new SelectList(db.Companies.Where(w => w.IsActive == true), "CompanyId", "Name", containerTracking.CompanyDestinationId);
+            ViewBag.CompanyOriginId = new SelectList(db.Companies.Where(w => w.IsActive == true), "CompanyId", "Name", containerTracking.CompanyOriginId);
+            ViewBag.DriverId = new SelectList(db.Drivers.Where(w => w.IsActive == true), "DriverId", "Name", containerTracking.DriverId);
+            ViewBag.SecuritySupervisorId = new SelectList(db.SecuritySupervisors.Where(w => w.IsActive == true), "SecuritySupervisorId", "Name", containerTracking.SecuritySupervisorId);
+            return PartialView("Edit", containerTracking);
+        }
+
+        // GET: ContainerTrackings/Edit/5
+        [AccessAuthorizeAttribute(Roles = "Admin")]
+        public ActionResult EditDocument(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ContainerTracking containerTracking = db.ContainerTracking.Find(id);
+            if (containerTracking == null)
+            {
+                return HttpNotFound();
+            }
+            containerTracking.UpdatedAt = DateTime.Now;
+            containerTracking.UpdatedBy = User.Identity.Name;
+
+            var companiesDestination = db.Companies.Where(w => w.IsActive == true);
+            var companiesOrigin = companiesDestination;
+            var region = db.Regions.Where(w => w.Name.Contains("Zona Externa")).FirstOrDefault();
+
+            if (containerTracking.Type == Models.Type.Entrada)
+            {
+                companiesDestination = companiesDestination.Where(w => w.RegionId != region.RegionId);
+            }
+            else
+            {
+                companiesOrigin = companiesOrigin.Where(w => w.RegionId != region.RegionId);
+            }
+
+            ViewBag.GateId = new SelectList(db.Regions.Where(w => !w.Name.Contains("Zona Externa")), "RegionId", "Name", containerTracking.GateId);
+            ViewBag.CompanyDestinationId = new SelectList(companiesDestination, "CompanyId", "Name", containerTracking.CompanyDestinationId);
+            ViewBag.CompanyOriginId = new SelectList(companiesOrigin, "CompanyId", "Name", containerTracking.CompanyOriginId);
+            ViewBag.DriverId = new SelectList(db.Drivers.Where(w => w.IsActive == true), "DriverId", "Name", containerTracking.DriverId);
+            ViewBag.SecuritySupervisorId = new SelectList(db.SecuritySupervisors.Where(w => w.IsActive == true), "SecuritySupervisorId", "Name", containerTracking.SecuritySupervisorId);
+            return PartialView("Edit", containerTracking);
+        }
+
+        // POST: ContainerTrackings/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AccessAuthorizeAttribute(Roles = "Admin")]
+        public ActionResult EditDocument([Bind(Include = "ContainerTrackingId,Type,CompanyOriginId,CompanyDestinationId,DocStatus,ContainerNumber,ContainerStatus,ContainerLicensePlate,ContainerLabel,ChasisNumber,DocNumber,CorrelAduana,DriverId,SecuritySupervisorId,InsertedAt,InsertedBy,UpdatedAt,UpdatedBy,GateId,DUA,TrackingType")] ContainerTracking containerTracking)
+        {
+            containerTracking.UpdatedAt = DateTime.Now;
+
+            ContainerTrackingHelper validator = new ContainerTrackingHelper(db);
+
+            if (ModelState.IsValid)
+            {
+                if (validator.ValidateOnEdit(containerTracking))
+                {
+                    db.Entry(containerTracking).State = EntityState.Modified;
+                    db.SaveChanges();
+
+                    MyLogger.GetInstance.Info(Resources.Resources.EditText + " ContainerTrackingId: " + containerTracking.ContainerTrackingId + " ContainerNumber: " + containerTracking.ContainerNumber);
 
                     return Json(new { success = true }, JsonRequestBehavior.AllowGet);
                 }

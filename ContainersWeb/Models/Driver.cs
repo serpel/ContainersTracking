@@ -11,12 +11,12 @@ namespace ContainersWeb.Models
     {
         [Key]
         public Int32 DriverId { get; set; }
-        [Required]
-        [StringLength(150, MinimumLength = 1)]
+        [Required(ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "Required")]
+        [StringLength(150, MinimumLength = 1, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "StringExceeded")]
         public string Name { get; set; }
 
-        [Required]
-        [StringLength(100, MinimumLength = 5)]
+        [Required(ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "Required")]
+        [StringLength(100, MinimumLength = 5, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "StringExceeded")]
         [Index("DriverCardIdIndex", IsUnique = true)]
         public string CardId { get; set; }
 

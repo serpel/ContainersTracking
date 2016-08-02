@@ -1,5 +1,6 @@
 ﻿using NLog.Common;
 using NLog.LayoutRenderers;
+using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
@@ -10,6 +11,8 @@ namespace ContainersWeb
     {
         protected void Application_Start()
         {
+            GlobalConfiguration.Configure(WebApiConfig.Register);
+
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
@@ -19,7 +22,7 @@ namespace ContainersWeb
 
             string nlogPath = Server.MapPath("nlog-web.log");
             InternalLogger.LogFile = nlogPath;
-            InternalLogger.LogLevel = NLog.LogLevel.Trace;
+            InternalLogger.LogLevel = NLog.LogLevel.Trace;         
         }
     }
 }

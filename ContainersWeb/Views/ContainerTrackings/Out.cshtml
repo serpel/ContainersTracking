@@ -3,44 +3,47 @@
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h4 class="modal-title" id="myModalLabel">@Resources.Out</h4>
+    <h4 class="modal-title semi-bold" id="myModalLabel">@Resources.Out</h4>
 </div>
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
     <div class="modal-body">
 
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
         <div class="row form-row">
-            <div class="col-md-6">
-                <label class="form-label">@Resources.ContainerNumber</label>
+            <div class="col-md-6" id="parentDiv">
+                <label class="form-label bold">@Resources.ContainerNumber</label>
                 @Html.DropDownList("ContainerNumber", null, Resources.Select, htmlAttributes: new { @class = "select-drop" })
                 @Html.ValidationMessageFor(model => model.ContainerNumber, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-6">
+                <label class="form-label bold">@Resources.DocNumber</label>
+                @Html.EditorFor(model => model.DocNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DocNumber, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="row form-row">
             <div class="col-md-6">
-                <label class="form-label">@Resources.Gate</label>
+                <label class="form-label bold">@Resources.Gate</label>
                 @Html.DropDownList("GateId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.GateId, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-6">
-                <label class="form-label">@Resources.ContainerStatus</label>
+                <label class="form-label bold">@Resources.ContainerStatus</label>
                 @Html.EnumDropDownListFor(model => model.ContainerStatus, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.ContainerStatus, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="row form-row">
             <div class="col-md-6">
-                <label class="form-label">@Resources.Date</label>
+                <label class="form-label bold">@Resources.Date</label>
                 @Html.EditorFor(model => model.InsertedAt, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                 @Html.ValidationMessageFor(model => model.InsertedAt, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-6">
-                <label class="form-label">@Resources.User</label>
+                <label class="form-label bold">@Resources.User</label>
                 @Html.EditorFor(model => model.InsertedBy, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                 @Html.ValidationMessageFor(model => model.InsertedBy, "", new { @class = "text-danger" })
             </div>
@@ -53,7 +56,12 @@
     </div>
 }
 
-<script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var parentElement = $("#parentDiv");
         $('.select-drop').select2({
+            dropdownParent: parentElement
         });
+    });
 </script>

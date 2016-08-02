@@ -3,8 +3,14 @@
 @using Resources
 
 @section styles{
+    <link href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.1/semantic.min.css" rel="stylesheet"/>
+    <link href="https://cdn.datatables.net/1.10.12/css/dataTables.semanticui.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.semanticui.min.css" rel="stylesheet" />
     <link href="~/Content/css/select2.min.css" rel="stylesheet" />
-    <link href="~/Content/select2-bootstrap.css" rel="stylesheet" />
+   
+    @*<link href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/css/select2.min.css" rel="stylesheet" />*@
 }
 
 <div class="row-fluid">
@@ -20,40 +26,96 @@
         <div class="grid simple ">
             <div class="grid-title">
                 <h4>@Resources.Trackings</h4>
-                <div class="tools"> <a href="javascript:;" class="collapse"></a> <a href="#grid-config" data-toggle="modal" class="config"></a> <a href="javascript:;" class="reload"></a> <a href="javascript:;" class="remove"></a> </div>
             </div>
             <div class="grid-body ">
-
-                <table class="table table-hover table-condensed" id="datatable">
-                    <thead>
+                <div class="row">
+                    <table id="datatable" class="ui red celled table" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>@Resources.Id</th>
+                                <th>@Resources.Tracking</th>
+                                <th>@Resources.Number</th>
+                                <th>@Resources.LicensePlate</th>
+                                <th>@Resources.Type</th>
+                                <th>@Resources.Status</th>
+                                <th>@Resources.Doc</th>
+                                <th>@Resources.Date</th>
+                                @*<th>@Resources.TotalTime</th>*@
+                                <th>@Html.NoEncodeActionLink("<span class='glyphicon glyphicon-plus'></span>", Resources.In, "In", "ContainerTrackings", routeValues: null, htmlAttributes: new { data_modal = "", @class = "btn btn-primary" })
+                                @Html.NoEncodeActionLink("<span class='glyphicon glyphicon-minus'></span>", Resources.Out, "Out", "ContainerTrackings", routeValues: null, htmlAttributes: new { data_modal = "", @class = "btn btn-danger" })
+                                @Html.NoEncodeActionLink("<span class='glyphicon glyphicon-chevron-right'></span>", Resources.Move, "Move", "ContainerTrackings", routeValues: null, htmlAttributes: new { data_modal = "", @class = "btn btn-warning" })</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
                         <tr>
                             <th>@Resources.Id</th>
+                            <th>@Resources.Tracking</th>
                             <th>@Resources.Number</th>
                             <th>@Resources.LicensePlate</th>
                             <th>@Resources.Type</th>
                             <th>@Resources.Status</th>
                             <th>@Resources.Doc</th>
                             <th>@Resources.Date</th>
-                            @*<th>@Resources.TotalTime</th>*@
-                            <th>@Html.NoEncodeActionLink("<span class='glyphicon glyphicon-plus'></span>", Resources.In, "In", "ContainerTrackings", routeValues: null, htmlAttributes: new { data_modal = "", @class = "btn btn-primary" })
-                                @Html.NoEncodeActionLink("<span class='glyphicon glyphicon-minus'></span>", Resources.Out, "Out", "ContainerTrackings", routeValues: null, htmlAttributes: new { data_modal = "", @class = "btn btn-danger" })
-                                @Html.NoEncodeActionLink("<span class='glyphicon glyphicon-chevron-right'></span>", Resources.Move, "Move", "ContainerTrackings", routeValues: null, htmlAttributes: new { data_modal = "", @class = "btn btn-warning" })</th>
+                            <th></th>
                         </tr>
-                    </thead>
+                    </tfoot>
                     <tbody></tbody>
                 </table>
+            </div>
             </div>
         </div>
     </div>
 </div>
 
 @section scripts {
+    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.12/js/dataTables.semanticui.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.semanticui.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+    <script src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.2.2/js/buttons.colVis.min.js"></script>
+ 
     <script src="~/Scripts/select2.min.js"></script>
-    <script src="~/Scripts/DataTables-1.10.12/media/js/jquery.dataTables.min.js"></script>
-    <script src="~/Scripts/DataTables-1.10.12/media/js/dataTables.bootstrap.min.js"></script>
     <script src="~/Scripts/moment.min.js"></script>
-    <script src="~/Scripts/modal.js"></script>
     <script type="text/javascript">
+
+        function LoadModal(id, columns, source, controller) {
+            $("a[data-modal]").on("click", function (e) {
+                $('#myModalContent').load(this.href, function () {
+                    $('#myModal').modal({
+                        keyboard: true
+                    }, 'show');
+                    bindForm(this, id, columns, source, controller);
+                });
+                return false;
+            });
+        };
+
+        function bindForm(dialog, id, columns, source, controller) {
+            $('form', dialog).submit(function () {
+                $.ajax({
+                    url: this.action,
+                    type: this.method,
+                    data: $(this).serialize(),
+                    success: function (result) {
+                        if (result.success) {
+                            $('#myModal').modal('hide');
+                        }
+                            //ReloadTable(id, columns, source, controller);
+                        else {
+                            $('#myModalContent').html(result);
+                            bindForm(dialog, id, columns, source, controller);
+                        }
+                    }
+                });
+                return false;
+            });
+        };
+
         $(document).ready(function () {
 
             var id = '#datatable';
@@ -63,23 +125,69 @@
             var columns =
             [
                         { data: 'ContainerTrackingId' },
+                        { data: 'TrackingType' },
                         { data: 'ContainerNumber' },
                         { data: 'ContainerLicensePlate' },
                         { data: 'Type' },
                         { data: 'ContainerStatus' },
                         { data: 'DocStatus' },
-                        { data: 'Date'},
+                        { data: 'InsertedAt' },
                         { data: 'ContainerTrackingId' }
             ];
 
-            var url = '@Url.Action("GetContainerTrackings")';
+            var url = '@Url.Action("GetContainerTrackingFilter", "ContainerTrackings")';
+           
+            var table = $('#datatable').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'print', 'excel', 'pdf', 'colvis'
+                ],
+                serverSide: true,
+                processing: true,
+                //responsive: false,
+                info: true,
+                print: true,
+                autoWidth: true,
+                stateSave: true,
+                ajax: {
+                    type: "POST",
+                    url: url,
+                    contentType: 'application/json; charset=utf-8',
+                    data: function (data) { return data = JSON.stringify(data); }
+                },
+                columns: columns,
+                columnDefs: [{
+                    render: function (data, type, row) {
+                        var url = window.location.href;
+                        var editUrl = url + '/edit/' + data;
+                        var deleteUrl = url + '/delete/' + data;
+                        var txt = "<div class=''>" +
+                            "<a class='btn btn-default' data-modal='' href='" + editUrl + "' title='Edit'><span class='glyphicon glyphicon-pencil'></span></a>&nbsp;" +
+                            "<a class='btn btn-danger' data-modal='' href='" + deleteUrl + "' title='Delete'><span class='glyphicon glyphicon-trash'></span></a>" +
+                            "</div>";
 
-            var datatable = CreateTable(id, columns, url, controller);
+                        return txt;
+                    },
+                    targets: -1,
+                    orderable: false,
+                    searchable: false
+                }],
+                createdRow: function( row, data, dataIndex ) {
+                    if (data.DocStatus == "Pendiente" || data.DocStatus == "Pending") {
+                        $(row).find("td").eq(6).addClass('warning');
+                    } else {
+                        $(row).find("td").eq(6).addClass('success');
+                    }
+                },
+                order: [0, "desc"]
+            });
 
             $(id).on('draw.dt', function () {
                 LoadModal(id, columns, url, controller);
             });
 
+            //table.buttons().container()
+            //    .appendTo($('div.eight.column:eq(0)', table.table().container()));
         });
     </script>
 }

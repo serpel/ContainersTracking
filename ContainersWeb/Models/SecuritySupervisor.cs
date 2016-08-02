@@ -12,7 +12,7 @@ namespace ContainersWeb.Models
         [Required]
         public string Name { get; set; }
 
-        [StringLength(100, MinimumLength = 0)]
+        [StringLength(100, MinimumLength = 0,ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "StringExceeded")]
         //[Index("CardIdIndex", IsUnique = true)]
         public string CardId { get; set; }
 

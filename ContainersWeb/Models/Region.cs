@@ -10,7 +10,7 @@ namespace ContainersWeb.Models
     {
         [Key]
         public Int32 RegionId { get; set; }
-        [Required]
+        [Required(ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "Required")]
         public string Name { get; set; }  
 
         public virtual ICollection<Company> Companies { get; set; }

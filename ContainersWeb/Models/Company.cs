@@ -10,7 +10,7 @@ namespace ContainersWeb.Models
     {
         [Key]
         public Int32 CompanyId { get; set; }
-        [Required]
+        [Required(ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "StringExceeded")]
         [StringLength(150, MinimumLength = 1)]
         public string Name { get; set; }
         public int Code { get; set; }
