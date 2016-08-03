@@ -408,4 +408,16 @@
   <data name="Truck" xml:space="preserve">
     <value>Truck</value>
   </data>
+  <data name="InsertedBy" xml:space="preserve">
+    <value>Inserted By</value>
+  </data>
+  <data name="InsertedDate" xml:space="preserve">
+    <value>Inserted Date</value>
+  </data>
+  <data name="UpdatedBy" xml:space="preserve">
+    <value>Updated By</value>
+  </data>
+  <data name="UpdatedDate" xml:space="preserve">
+    <value>Updated Date</value>
+  </data>
 </root>

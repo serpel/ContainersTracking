@@ -408,4 +408,16 @@
   <data name="Truck" xml:space="preserve">
     <value>Camion</value>
   </data>
+  <data name="InsertedBy" xml:space="preserve">
+    <value>Creado Por</value>
+  </data>
+  <data name="InsertedDate" xml:space="preserve">
+    <value>Fecha Creación</value>
+  </data>
+  <data name="UpdatedBy" xml:space="preserve">
+    <value>Actualizado Por</value>
+  </data>
+  <data name="UpdatedDate" xml:space="preserve">
+    <value>Fecha Actualización</value>
+  </data>
 </root>

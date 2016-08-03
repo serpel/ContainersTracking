@@ -496,6 +496,7 @@ namespace ContainersWeb.Controllers
                     return Json(new { success = true }, JsonRequestBehavior.AllowGet);
                 }
             }
+            ViewBag.GateId = new SelectList(db.Regions.Where(w => !w.Name.Contains("Zona Externa")), "RegionId", "Name", containerTracking.GateId);
             ViewBag.CompanyDestinationId = new SelectList(db.Companies.Where(w => w.IsActive == true), "CompanyId", "Name", containerTracking.CompanyDestinationId);
             ViewBag.CompanyOriginId = new SelectList(db.Companies.Where(w => w.IsActive == true), "CompanyId", "Name", containerTracking.CompanyOriginId);
             ViewBag.DriverId = new SelectList(db.Drivers.Where(w => w.IsActive == true), "DriverId", "Name", containerTracking.DriverId);
@@ -537,7 +538,7 @@ namespace ContainersWeb.Controllers
             ViewBag.CompanyOriginId = new SelectList(companiesOrigin, "CompanyId", "Name", containerTracking.CompanyOriginId);
             ViewBag.DriverId = new SelectList(db.Drivers.Where(w => w.IsActive == true), "DriverId", "Name", containerTracking.DriverId);
             ViewBag.SecuritySupervisorId = new SelectList(db.SecuritySupervisors.Where(w => w.IsActive == true), "SecuritySupervisorId", "Name", containerTracking.SecuritySupervisorId);
-            return PartialView("Edit", containerTracking);
+            return PartialView("EditDocument", containerTracking);
         }
 
         // POST: ContainerTrackings/Edit/5
@@ -556,19 +557,26 @@ namespace ContainersWeb.Controllers
             {
                 if (validator.ValidateOnEdit(containerTracking))
                 {
-                    db.Entry(containerTracking).State = EntityState.Modified;
-                    db.SaveChanges();
+                    try {
+                        db.Entry(containerTracking).State = EntityState.Modified;
+                        db.SaveChanges();
 
-                    MyLogger.GetInstance.Info(Resources.Resources.EditText + " ContainerTrackingId: " + containerTracking.ContainerTrackingId + " ContainerNumber: " + containerTracking.ContainerNumber);
+                        MyLogger.GetInstance.Info(Resources.Resources.EditText + " ContainerTrackingId: " + containerTracking.ContainerTrackingId + " ContainerNumber: " + containerTracking.ContainerNumber);
 
-                    return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+                        return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+                    }
+                    catch(Exception e)
+                    {
+                        ViewBag.Message = e.Message;
+                    }
                 }
             }
+            ViewBag.GateId = new SelectList(db.Regions.Where(w => !w.Name.Contains("Zona Externa")), "RegionId", "Name", containerTracking.GateId);
             ViewBag.CompanyDestinationId = new SelectList(db.Companies.Where(w => w.IsActive == true), "CompanyId", "Name", containerTracking.CompanyDestinationId);
             ViewBag.CompanyOriginId = new SelectList(db.Companies.Where(w => w.IsActive == true), "CompanyId", "Name", containerTracking.CompanyOriginId);
             ViewBag.DriverId = new SelectList(db.Drivers.Where(w => w.IsActive == true), "DriverId", "Name", containerTracking.DriverId);
             ViewBag.SecuritySupervisorId = new SelectList(db.SecuritySupervisors.Where(w => w.IsActive == true), "SecuritySupervisorId", "Name", containerTracking.SecuritySupervisorId);
-            return PartialView("Edit", containerTracking);
+            return PartialView("EditDocument", containerTracking);
         }
 
         [AccessAuthorizeAttribute(Roles = "Admin")]
