@@ -104,6 +104,7 @@
                     success: function (result) {
                         if (result.success) {
                             $('#myModal').modal('hide');
+                            $(id).DataTable().ajax.reload();
                         }
                             //ReloadTable(id, columns, source, controller);
                         else {

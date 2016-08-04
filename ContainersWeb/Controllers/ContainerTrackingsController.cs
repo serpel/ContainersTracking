@@ -491,7 +491,7 @@ namespace ContainersWeb.Controllers
                     db.Entry(containerTracking).State = EntityState.Modified;
                     db.SaveChanges();
 
-                    MyLogger.GetInstance.Info(Resources.Resources.EditText + " ContainerTrackingId: "+containerTracking.ContainerTrackingId+ " ContainerNumber: "+containerTracking.ContainerNumber);                    
+                    MyLogger.GetInstance.Info(Resources.Resources.EditText + " Id: "+containerTracking.ContainerTrackingId+ " ContainerNumber: "+containerTracking.ContainerNumber);                    
 
                     return Json(new { success = true }, JsonRequestBehavior.AllowGet);
                 }
@@ -561,7 +561,7 @@ namespace ContainersWeb.Controllers
                         db.Entry(containerTracking).State = EntityState.Modified;
                         db.SaveChanges();
 
-                        MyLogger.GetInstance.Info(Resources.Resources.EditText + " ContainerTrackingId: " + containerTracking.ContainerTrackingId + " ContainerNumber: " + containerTracking.ContainerNumber);
+                        MyLogger.GetInstance.Info(Resources.Resources.EditText + " Id: " + containerTracking.ContainerTrackingId + " ContainerNumber: " + containerTracking.ContainerNumber);
 
                         return Json(new { success = true }, JsonRequestBehavior.AllowGet);
                     }
@@ -605,7 +605,7 @@ namespace ContainersWeb.Controllers
             db.ContainerTracking.Remove(containerTracking);
             db.SaveChanges();
 
-            MyLogger.GetInstance.Info(Resources.Resources.DeletedText + " ContainerTrackingId: " + containerTracking.ContainerTrackingId + " ContainerNumber: " + containerTracking.ContainerNumber);
+            MyLogger.GetInstance.Info(Resources.Resources.DeletedText + " Id: " + containerTracking.ContainerTrackingId + " ContainerNumber: " + containerTracking.ContainerNumber);
 
             return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }

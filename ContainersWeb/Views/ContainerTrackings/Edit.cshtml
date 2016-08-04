@@ -41,7 +41,7 @@
                 @Html.DropDownList("GateId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.GateId, "", new { @class = "text-danger" })
             </div>
-            <div class="col-md-4 dn">
+            <div class="col-md-4 pv">
                 <label class="form-label">@Resources.DocNumber</label>
                 @Html.EditorFor(model => model.DocNumber, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.DocNumber, "", new { @class = "text-danger" })
@@ -135,7 +135,7 @@
 <script type="text/javascript">
 
     function validate() {
-        var type = $('#Type').val();
+        //var type = $('#Type').val();
 
         var containerStatus = $('#ContainerStatus').val();
 
@@ -148,11 +148,11 @@
             $('.pv').show();
         }
 
-        if (type == 1) {
-            $('.dn').hide();
-        } else {
-            $('.dn').show();
-        }
+        //if (type == 1) {
+        //    $('.dn').hide();
+        //} else {
+        //    $('.dn').show();
+        //}
 
         if (trackingType == 1) {
             $('.contenedor').hide();
