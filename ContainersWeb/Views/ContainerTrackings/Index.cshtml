@@ -106,7 +106,6 @@
                             $('#myModal').modal('hide');
                             $(id).DataTable().ajax.reload();
                         }
-                            //ReloadTable(id, columns, source, controller);
                         else {
                             $('#myModalContent').html(result);
                             bindForm(dialog, id, columns, source, controller);
@@ -137,7 +136,7 @@
             ];
 
             var url = '@Url.Action("GetContainerTrackingFilter", "ContainerTrackings")';
-           
+
             var table = $('#datatable').DataTable({
                 dom: 'Bfrtip',
                 buttons: [
@@ -160,9 +159,14 @@
                 columnDefs: [{
                     render: function (data, type, row) {
                         var isAdmin = '@User.IsInRole("Admin")';
-                        var url = window.location.href;
-                        var editUrl = isAdmin == 'False' ? (url + '/edit/' + data) : (url + '/editDocument/' + data);
-                        var deleteUrl = url + '/delete/' + data;
+                        //var url = window.location.href;
+
+                        var editUrl = '@Url.Action("Edit", "ContainerTrackings")';
+                        var editDocumentUrl = '@Url.Action("EditDocument", "ContainerTrackings")';
+                        var deleteUrl = '@Url.Action("Delete", "ContainerTrackings")';
+
+                        var editUrl = isAdmin == 'False' ? (editUrl + '/' + data) : (editDocumentUrl + '/' + data);
+                        var deleteUrl = deleteUrl + '/' + data;
 
                         var editButton = "<a class='btn btn-default' data-modal='' href='" + editUrl + "' title='Edit'><span class='glyphicon glyphicon-pencil'></span></a>&nbsp;";
                         var deleteButton = "<a class='btn btn-danger' data-modal='' href='" + deleteUrl + "' title='Delete'><span class='glyphicon glyphicon-trash'></span></a>";
