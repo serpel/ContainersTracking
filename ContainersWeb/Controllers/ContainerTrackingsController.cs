@@ -17,6 +17,13 @@ namespace ContainersWeb.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        public ActionResult GetDriverById(int id)
+        {
+            var query = db.Drivers.Where(w => w.DriverId == id).FirstOrDefault().CardId;
+
+            return Json(query, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult GetCompanyByNumber(string number)
         {
             var result = db.ContainerTracking.Where(w => w.ContainerNumber == number).ToList().OrderByDescending(o => o.InsertedAt).Take(1).Select(s => new { s.CompanyOriginId, Name = s.CompanyDestination.Name }).FirstOrDefault();
@@ -87,7 +94,10 @@ namespace ContainersWeb.Controllers
                     ContainerStatus = s.ContainerStatus == 0 ? Resources.Resources.Empty : Resources.Resources.Full,
                     TrackingType = s.TrackingType == TrackingType.Contenedor ? Resources.Resources.Container :
                                    s.TrackingType == TrackingType.Camion ? Resources.Resources.Truck :
-                                   s.TrackingType == TrackingType.Rastra ? Resources.Resources.Rastra : "",
+                                   s.TrackingType == TrackingType.Rastra ? Resources.Resources.Rastra :
+                                   s.TrackingType == TrackingType.Vehiculo ? Resources.Resources.Vehicle :
+                                   s.TrackingType == TrackingType.Moto ? Resources.Resources.Moto :
+                                   s.TrackingType == TrackingType.Courier ? Resources.Resources.Courier : "",
                     DocStatus = s.DocStatus == 0 ? Resources.Resources.Pending : Resources.Resources.Ready,
                     Type = s.Type == 0 ? Resources.Resources.Out : Resources.Resources.In,
                     InsertedAt = s.InsertedAt.ToString("dd-MM-yyyy HH:mm"),
@@ -298,9 +308,17 @@ namespace ContainersWeb.Controllers
             return PartialView("In", containerTracking);
         }
 
+        public ActionResult GetContainersAndTrucks()
+        {
+            var query = GetContainersIn().Select(s => new { s.ContainerNumber });
+
+            return Json(query, JsonRequestBehavior.AllowGet);
+        }
+
         public List<ContainerTracking> GetContainersIn()
         {
             var list = from d in db.ContainerTracking
+                       where d.TrackingType == TrackingType.Contenedor || d.TrackingType == TrackingType.Rastra
                        group d by d.ContainerNumber into g
                        select new { ContainerNumber = g.Key, Id = g.Max(m => m.ContainerTrackingId) };
 
@@ -318,7 +336,7 @@ namespace ContainersWeb.Controllers
             container.InsertedAt = DateTime.Now;
             container.InsertedBy = User.Identity.Name;
 
-            ViewBag.ContainerNumber = new SelectList(GetContainersIn(), "ContainerNumber", "ContainerNumber");
+            //ViewBag.ContainerNumber = new SelectList(GetContainersIn(), "ContainerNumber", "ContainerNumber");
             ViewBag.GateId = new SelectList(db.Regions.Where(w => !w.Name.Contains("Zona Externa")), "RegionId", "Name");
 
             return PartialView("Out", container);
@@ -434,7 +452,7 @@ namespace ContainersWeb.Controllers
                 }
             }
             ViewBag.GateId = new SelectList(db.Regions.Where(w => !w.Name.Contains("Zona Externa")), "RegionId", "Name");
-            ViewBag.ContainerNumber = new SelectList(GetContainersIn(), "ContainerNumber", "ContainerNumber");
+            //ViewBag.ContainerNumber = new SelectList(GetContainersIn(), "ContainerNumber", "ContainerNumber");
             return PartialView("Out", containerTracking);
         }
 
@@ -450,8 +468,8 @@ namespace ContainersWeb.Controllers
             {
                 return HttpNotFound();
             }
-            containerTracking.UpdatedAt = DateTime.Now;
-            containerTracking.UpdatedBy = User.Identity.Name;
+            //containerTracking.UpdatedAt = DateTime.Now;
+            //containerTracking.UpdatedBy = User.Identity.Name;
 
             var companiesDestination = db.Companies.Where(w => w.IsActive == true);
             var companiesOrigin = companiesDestination;
@@ -478,9 +496,10 @@ namespace ContainersWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ContainerTrackingId,Type,CompanyOriginId,CompanyDestinationId,DocStatus,ContainerNumber,ContainerStatus,ContainerLicensePlate,ContainerLabel,ChasisNumber,DocNumber,CorrelAduana,DriverId,SecuritySupervisorId,InsertedAt,InsertedBy,UpdatedAt,UpdatedBy,GateId,DUA,TrackingType")] ContainerTracking containerTracking)
+        public ActionResult Edit([Bind(Include = "ContainerTrackingId,Type,CompanyOriginId,CompanyDestinationId,DocStatus,ContainerNumber,ContainerStatus,ContainerLicensePlate,ContainerLabel,ChasisNumber,DocNumber,CorrelAduana,DriverId,SecuritySupervisorId,InsertedAt,InsertedBy,UpdatedAt,UpdatedBy,GateId,DUA,TrackingType,Observations")] ContainerTracking containerTracking)
         {
             containerTracking.UpdatedAt = DateTime.Now;
+            containerTracking.UpdatedBy = User.Identity.Name;
 
             ContainerTrackingHelper validator = new ContainerTrackingHelper(db);
 
@@ -518,7 +537,7 @@ namespace ContainersWeb.Controllers
                 return HttpNotFound();
             }
             containerTracking.UpdatedAt = DateTime.Now;
-            containerTracking.UpdatedBy = User.Identity.Name;
+            //containerTracking.UpdatedBy = User.Identity.Name;
 
             var companiesDestination = db.Companies.Where(w => w.IsActive == true);
             var companiesOrigin = companiesDestination;
@@ -547,9 +566,10 @@ namespace ContainersWeb.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AccessAuthorizeAttribute(Roles = "Admin")]
-        public ActionResult EditDocument([Bind(Include = "ContainerTrackingId,Type,CompanyOriginId,CompanyDestinationId,DocStatus,ContainerNumber,ContainerStatus,ContainerLicensePlate,ContainerLabel,ChasisNumber,DocNumber,CorrelAduana,DriverId,SecuritySupervisorId,InsertedAt,InsertedBy,UpdatedAt,UpdatedBy,GateId,DUA,TrackingType")] ContainerTracking containerTracking)
+        public ActionResult EditDocument([Bind(Include = "ContainerTrackingId,Type,CompanyOriginId,CompanyDestinationId,DocStatus,ContainerNumber,ContainerStatus,ContainerLicensePlate,ContainerLabel,ChasisNumber,DocNumber,CorrelAduana,DriverId,SecuritySupervisorId,InsertedAt,InsertedBy,UpdatedAt,UpdatedBy,GateId,DUA,TrackingType,Observations")] ContainerTracking containerTracking)
         {
             containerTracking.UpdatedAt = DateTime.Now;
+            containerTracking.UpdatedBy = User.Identity.Name;
 
             ContainerTrackingHelper validator = new ContainerTrackingHelper(db);
 

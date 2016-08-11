@@ -19,7 +19,6 @@
         <div class="error">
             <p>@ViewBag.Message</p>        
         </div>
-
         <div class="row form-row">
             <div class="col-md-6">
                 <label class="form-label">@Resources.Tracking</label>
@@ -43,7 +42,7 @@
                 @Html.DropDownList("GateId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.GateId, "", new { @class = "text-danger" })
             </div>
-            <div class="col-md-4 dn">
+            <div class="col-md-4">
                 <label class="form-label">@Resources.DocNumber</label>
                 @Html.EditorFor(model => model.DocNumber, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.DocNumber, "", new { @class = "text-danger" })
@@ -55,9 +54,9 @@
                 @Html.EditorFor(model => model.ContainerLicensePlate, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ContainerLicensePlate, "", new { @class = "text-danger" })
             </div>
-            <div class="col-md-6 contenedor">
+            <div class="col-md-6">
                 <label class="form-label">@Resources.Number</label>
-                @Html.EditorFor(model => model.ContainerNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.ContainerNumber, new { htmlAttributes = new { @class = "form-control contenedor" } })
                 @Html.ValidationMessageFor(model => model.ContainerNumber, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -73,28 +72,23 @@
                 @Html.ValidationMessageFor(model => model.CompanyDestinationId, "", new { @class = "text-danger" })
             </div>
         </div>
-        <div class="row form-row pv">
-            <div class="col-md-4">
+        <div class="row form-row">
+            <div class="col-md-6">
                 <label class="form-label">@Resources.ContainerLabel</label>
-                @Html.EditorFor(model => model.ContainerLabel, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.ContainerLabel, new { htmlAttributes = new { @class = "form-control pv" } })
                 @Html.ValidationMessageFor(model => model.ContainerLabel, "", new { @class = "text-danger" })
             </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <label class="form-label">@Resources.CorrelAduana</label>
-                @Html.EditorFor(model => model.CorrelAduana, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.CorrelAduana, new { htmlAttributes = new { @class = "form-control pv" } })
                 @Html.ValidationMessageFor(model => model.CorrelAduana, "", new { @class = "text-danger" })
-            </div>
-            <div class="col-md-4">
-                <label class="form-label">@Resources.DUA</label>
-                @Html.EditorFor(model => model.DUA, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.DUA, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="row form-row">
             <div class="col-md-6">
-                <label class="form-label">@Resources.Driver</label>
-                @Html.DropDownList("DriverId", null, "Seleccionar", htmlAttributes: new { @class = "select-drop" })
-                @Html.ValidationMessageFor(model => model.DriverId, "", new { @class = "text-danger" })
+                <label class="form-label">@Resources.DUA</label>
+                @Html.EditorFor(model => model.DUA, new { htmlAttributes = new { @class = "form-control pv" } })
+                @Html.ValidationMessageFor(model => model.DUA, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-6">
                 <label class="form-label">@Resources.SercuritySupervisor</label>
@@ -104,17 +98,35 @@
         </div>
         <div class="row form-row">
             <div class="col-md-6">
+                <label class="form-label">@Resources.Driver</label>
+                @Html.DropDownList("DriverId", null, "Seleccionar", htmlAttributes: new { @class = "select-drop" })
+                @Html.ValidationMessageFor(model => model.DriverId, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">@Resources.Identification</label>
+                <input id="Identification" name="Identification" class="form-control" readonly="readonly" />
+            </div>
+        </div>
+        <div class="row form-row observations">
+            <div class="col-md-12">
+                <label class="form-label">@Resources.Observations</label>
+                @Html.TextAreaFor(model => model.Observations, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Observations, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row form-row">
+            <div class="col-md-6">
                 <label class="form-label">@Resources.InsertedDate</label>
-                @Html.EditorFor(model => model.InsertedAt, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.InsertedAt, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                 @Html.ValidationMessageFor(model => model.UpdatedAt, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-6">
                 <label class="form-label">@Resources.InsertedBy</label>
                 @Html.EditorFor(model => model.InsertedBy, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                 @Html.ValidationMessageFor(model => model.InsertedBy, "", new { @class = "text-danger" })
-            </div> 
-        </div> 
-        <div class="row form-row">                    
+            </div>
+        </div>
+        <div class="row form-row">
             <div class="col-md-6">
                 <label class="form-label">@Resources.UpdatedDate</label>
                 @Html.EditorFor(model => model.UpdatedAt, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
@@ -137,39 +149,83 @@
 <script type="text/javascript">
 
     function validate() {
-        var type = $('#Type').val();
+        var containerStatus = $('#ContainerStatus').val(); //{ Lleno = 1, Vacio = 0 }
+        var trackingType = $('#TrackingType').val(); //{ Contenedor = 0, Camion = 1, Rastra = 3, Vehiculo = 4, Moto = 5, Courier = 2 }
+        var DocStatus = $('#DocStatus').val();
+        var type = $('#Type').val(); //{ Entrada = 1, Salida = 0 }
 
-        var containerStatus = $('#ContainerStatus').val();
 
-        var trackingType = $('#TrackingType').val();
-
-        //type IN or Out they needs the same fields, only when its empty or full
-        if (containerStatus == 0) {
-            $('.pv').hide();
-        } else if (containerStatus == 1) {
-            $('.pv').show();
+        //si el contenedor esta lleno entonces muestra unos campos extra
+        if (containerStatus == 0 || containerStatus == 'Vacio') {
+            $('.pv').prop('readonly', true);
+        } else {
+            $('.pv').prop('readonly', false);
         }
 
-        if (type == 1) {
-            $('.dn').hide();
+        if (type == 1 || type == 'Entrada') {
+            $('#ContainerNumber').prop('readonly', false);
+            $('#DocNumber').val('');
+            $('#DocNumber').prop('readonly', true);
         } else {
-            $('.dn').show();
+            $('#ContainerNumber').prop('readonly', true);
+            $('#DocNumber').prop('readonly', false);
         }
 
-        if (trackingType == 1) {
-            $('.contenedor').hide();
+        if (trackingType == 1 || trackingType == 'Camion') {
+            $('.contenedor').prop('readonly', true);
         } else {
-            $('.contenedor').show();
+            $('.contenedor').prop('readonly', false);
+        }
+
+        if (trackingType == 0 || trackingType == 'Contenedor') {
+            $('.observations').hide();
+        } else {
+            $('.observations').show();
         }
 
     };
+
+
+    function GetDriverId(id) {
+        $.ajax({
+            url: '@Url.Action("GetDriverById", "ContainerTrackings")',
+            type: "GET",
+            data: { id: id },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                $('#Identification').val(data);
+            },
+            error: function (xhr) {
+                alert(xhr.responseText);
+            }
+        });
+    };
+
 
     $(document).ready(function () {
 
         validate();
 
+        var driver = $('#DriverId').val();
+        if (driver > 0) {
+            GetDriverId(driver);
+        }
+        //debugger;
+        $('#DriverId').change(function () {
+            GetDriverId(this.value);
+        });
+
+        $('#TrackingType').change(function () {
+            validate();
+        });
+
+        $('#Type').change(function () {
+            validate();
+        });
+
         $('#ContainerStatus').change(function () {
-            validate()
+            validate();
         });
 
         $('.select-drop').select2();

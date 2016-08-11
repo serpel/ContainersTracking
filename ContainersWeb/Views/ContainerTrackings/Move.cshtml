@@ -3,10 +3,10 @@
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h4 class="modal-title" id="myModalLabel">@Resources.Move</h4>
+    <h4 class="modal-title" id="myModalLabel">@Resources.Move @Resources.Container o @Resources.Rastra</h4>
 </div>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "MoveForm" }))
 {
     @Html.AntiForgeryToken()
 
@@ -72,6 +72,11 @@
     };
 
     $(document).ready(function () {
+
+        //evitar el duplicado de registros al darle click varias veces
+        $('#MoveForm').submit(function () {
+            $('input[type=submit]', this).attr('disabled', 'disabled');
+        });
 
         $('.select-drop').select2({  });
 

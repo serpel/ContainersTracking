@@ -26,32 +26,47 @@ namespace ContainersWeb.BLL
         {
             bool result = true;
 
-            var container = _context.ContainerTracking
-                      .Where(w => w.ContainerNumber.Trim() == containerTracking.ContainerNumber.Trim())
-                      .OrderByDescending(o => o.ContainerTrackingId)
-                      .FirstOrDefault();
+            if (containerTracking.TrackingType == TrackingType.Contenedor ||
+                containerTracking.TrackingType == TrackingType.Rastra)
+            {
+                var container = _context.ContainerTracking
+                    .Where(w => w.ContainerNumber.Trim() == containerTracking.ContainerNumber.Trim())
+                    .OrderByDescending(o => o.ContainerTrackingId)
+                    .FirstOrDefault();
 
-            if (container != null)
-            {
-                if (containerTracking.Type == container.Type && container.Type == Models.Type.Entrada)
-                {
-                    Message = Resources.Resources.InsideText;
-                    result = false;
+                if(container != null)
+                { 
+                    if (containerTracking.Type == container.Type && container.Type == Models.Type.Entrada)
+                    {
+                        Message = Resources.Resources.InsideText;
+                        result = false;
+                    }
+                    else if (containerTracking.Type == container.Type && container.Type == Models.Type.Salida)
+                    {
+                        Message = Resources.Resources.OutsideText;
+                        result = false;
+                    }
                 }
-                else if (containerTracking.Type == container.Type && container.Type == Models.Type.Salida)
-                {
-                    Message = Resources.Resources.OutsideText;
-                    result = false;
+                else { 
+                    if (containerTracking.Type == Models.Type.Salida)
+                    {
+                        Message = Resources.Resources.OutText;
+                        result = false;
+                    }
                 }
             }
-            else
-            {
-                if(containerTracking.Type == Models.Type.Salida)
-                {
-                    Message = Resources.Resources.OutText;
-                    result = false;
-                }
-            }
+            //else
+            //{
+            //    var container = _context.ContainerTracking
+            //       .Where(w => w.ContainerNumber.Trim() == containerTracking.ContainerNumber.Trim())
+            //       .OrderByDescending(o => o.ContainerTrackingId)
+            //       .FirstOrDefault();
+
+            //    if (container != null)
+            //    {
+            //        if(container.TrackingType == TrackingType.
+            //    }
+            //}
 
             return result;
         }
@@ -107,18 +122,19 @@ namespace ContainersWeb.BLL
                     }
                     break;
                 case Models.Type.Salida:
-                    if(containerTracking.ContainerStatus == ContaninerStatus.Vacio)
+                    if (containerTracking.ContainerStatus == ContaninerStatus.Vacio)
                     {
                         //verifico que esten llenos todos los campos antes de cuardar edicion para cambiar el status
-                        if(containerTracking.ContainerLicensePlate != null &&
+                        if (containerTracking.ContainerLicensePlate != null &&
                             containerTracking.ContainerNumber != null &&
                             containerTracking.CompanyOriginId > 0 &&
                             containerTracking.CompanyDestinationId > 0 &&
-                            containerTracking.DriverId > 0 && 
+                            containerTracking.DriverId > 0 &&
                             containerTracking.SecuritySupervisorId > 0)
                         {
                             containerTracking.DocStatus = DocStatus.Listo;
-                        }else
+                        }
+                        else
                         {
                             containerTracking.DocStatus = DocStatus.Pendiente;
                         }

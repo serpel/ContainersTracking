@@ -245,9 +245,14 @@
     <Compile Include="Migrations\201607251904138_AddFieldOnContainerModel.Designer.cs">
       <DependentUpon>201607251904138_AddFieldOnContainerModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201608092016196_ObservationsFieldOnContainerTrackingsModel.cs" />
+    <Compile Include="Migrations\201608092016196_ObservationsFieldOnContainerTrackingsModel.Designer.cs">
+      <DependentUpon>201608092016196_ObservationsFieldOnContainerTrackingsModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Company.cs" />
+    <Compile Include="Models\ContainerInViewModel.cs" />
     <Compile Include="Models\ContainerTrackingSearchViewModel.cs" />
     <Compile Include="Models\ContainerTrackingViewModel.cs" />
     <Compile Include="Models\DatatablesViewModel.cs" />
@@ -1788,6 +1793,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201607251904138_AddFieldOnContainerModel.resx">
       <DependentUpon>201607251904138_AddFieldOnContainerModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608092016196_ObservationsFieldOnContainerTrackingsModel.resx">
+      <DependentUpon>201608092016196_ObservationsFieldOnContainerTrackingsModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -5,18 +5,30 @@
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h4 class="modal-title semi-bold" id="myModalLabel">@Resources.Out</h4>
 </div>
-@using (Html.BeginForm())
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "OutForm" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
     <div class="modal-body">
-
         <div class="row form-row">
-            <div class="col-md-6" id="parentDiv">
-                <label class="form-label bold">@Resources.ContainerNumber</label>
-                @Html.DropDownList("ContainerNumber", null, Resources.Select, htmlAttributes: new { @class = "select-drop" })
-                @Html.ValidationMessageFor(model => model.ContainerNumber, "", new { @class = "text-danger" })
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <label class="form-label bold">@Resources.Tracking</label>
+                @Html.EnumDropDownListFor(model => model.TrackingType, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TrackingType, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+        <div class="row form-row">
+            <div class="col-md-6" id="parentDiv">          
+                <label class="form-label bold">@Resources.NumberOrLicensePlate</label>
+                <div class="form-group">
+                    @*@Html.DropDownList("ContainerNumber", null, Resources.Select, htmlAttributes: new { @class = "select-drop" })*@
+                    @Html.EditorFor(model => model.ContainerNumber, new { htmlAttributes = new { @class = "form-control" } })
+                    @*<input id="ContainerNumber" name="ContainerNumber" type="text" class="form-control" />*@
+                    @Html.ValidationMessageFor(model => model.ContainerNumber, "", new { @class = "text-danger" })
+                </div>
             </div>
             <div class="col-md-6">
                 <label class="form-label bold">@Resources.DocNumber</label>
@@ -58,10 +70,73 @@
 
 
 <script type="text/javascript">
+    function getContainersAndTrucks() {
+        $.ajax({
+            url: '@Url.Action("GetContainersAndTrucks")',
+            type: 'POST',
+            data: {},
+            dataType: "json",
+            async: false,
+            success: function (data) {
+
+                if (data.length > 0) {
+                    var items = "";
+                    items += "<option value='-1' selected='selected'>" + '@Resources.Select ' + "</option>";
+                    $.each(data, function (i, val) {
+                        items += "<option value='" + val.ContainerNumber + "'>" + val.ContainerNumber + "</option>";
+                    });                    
+                    $('#ContainerNumber').html(items);
+                } else {
+                    $('#ContainerNumber').html(0);
+                }
+            },
+            error: function (xhr) {
+                alert(xhr.responseText);
+            }
+        });
+    };
+
+    function validate() {
+        var trackingType = $('#TrackingType').val();
+        //Contenedor = 0, Camion = 1, Courier = 2, Rastra = 3, Vehiculo = 4, Moto = 5
+
+        if (trackingType == 0 || trackingType == 3) {
+
+            //quitar o poner la lista de seleccion en el numero de contenedor
+            var isSelect2 = $('#ContainerNumber').data('select2');
+
+            if (isSelect2 == null) {
+
+                $('#ContainerNumber').replaceWith("<select id='ContainerNumber' name='ContainerNumber' class='form-control'></select>");
+
+                getContainersAndTrucks();
+
+                $('#ContainerNumber').select2({
+                    dropdownParent: $("#parentDiv")
+                });
+            }
+          
+        } else {
+            var isSelect2 = $('#ContainerNumber').data('select2');
+
+            if (isSelect2 != null) {
+                $('#ContainerNumber').select2('destroy');
+                $('#ContainerNumber').replaceWith("<input id='ContainerNumber' name='ContainerNumber' type='text' class='form-control' />");
+            }       
+        }
+    };
+
     $(document).ready(function () {
-        var parentElement = $("#parentDiv");
-        $('.select-drop').select2({
-            dropdownParent: parentElement
+
+        //evitar el duplicado de registros al darle click varias veces
+        $('#OutForm').submit(function () {
+            $('input[type=submit]', this).attr('disabled', 'disabled');
+        });
+
+        validate();
+
+        $('#TrackingType').change(function () {
+            validate();
         });
     });
 </script>

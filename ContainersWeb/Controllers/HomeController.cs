@@ -32,10 +32,25 @@ namespace ContainersWeb.Controllers
                                             && w.TrackingType == TrackingType.Rastra).Count();
             ViewBag.RastraReady = list.Where(w => w.DocStatus == DocStatus.Listo
                                           && w.TrackingType == TrackingType.Rastra).Count();
+            ViewBag.VehiclePending = list.Where(w => w.DocStatus == DocStatus.Pendiente
+                                           && w.TrackingType == TrackingType.Vehiculo).Count();
+            ViewBag.VehicleReady = list.Where(w => w.DocStatus == DocStatus.Listo
+                                          && w.TrackingType == TrackingType.Vehiculo).Count();
+            ViewBag.MotoPending = list.Where(w => w.DocStatus == DocStatus.Pendiente
+                                           && w.TrackingType == TrackingType.Moto).Count();
+            ViewBag.MotoReady = list.Where(w => w.DocStatus == DocStatus.Listo
+                                          && w.TrackingType == TrackingType.Moto).Count();
+            ViewBag.CourierPending = list.Where(w => w.DocStatus == DocStatus.Pendiente
+                                          && w.TrackingType == TrackingType.Courier).Count();
+            ViewBag.CourierReady = list.Where(w => w.DocStatus == DocStatus.Listo
+                                          && w.TrackingType == TrackingType.Courier).Count();
 
             ViewBag.Trucks = list.Where(w => w.TrackingType == TrackingType.Camion).Count();
             ViewBag.Containers = list.Where(w => w.TrackingType == TrackingType.Contenedor).Count();
             ViewBag.Rastras = list.Where(w => w.TrackingType == TrackingType.Rastra).Count();
+            ViewBag.Motos = list.Where(w => w.TrackingType == TrackingType.Moto).Count();
+            ViewBag.Couriers = list.Where(w => w.TrackingType == TrackingType.Courier).Count();
+            ViewBag.Vehicles = list.Where(w => w.TrackingType == TrackingType.Vehiculo).Count();
 
             return View();
         }

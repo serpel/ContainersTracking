@@ -11,7 +11,7 @@ namespace ContainersWeb.Models
     public enum Type { Entrada = 1, Salida = 0 }
     public enum ContaninerStatus { Lleno = 1, Vacio = 0 }
     public enum DocStatus { Listo = 1, Pendiente = 0 }
-    public enum TrackingType { Contenedor = 0, Camion = 1, Rastra = 3 }
+    public enum TrackingType { Contenedor = 0, Camion = 1, Rastra = 3, Vehiculo = 4, Moto = 5, Courier = 2 }
 
     public class ContainerTracking
     {
@@ -41,6 +41,7 @@ namespace ContainersWeb.Models
         //public string NoCabezal { get; set; }
         public Int32? DriverId { get; set; }
         public Int32? SecuritySupervisorId { get; set; }
+        public string Observations { get; set; }
 
         public DateTime InsertedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
