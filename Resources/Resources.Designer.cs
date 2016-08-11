@@ -232,6 +232,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Courier.
+        /// </summary>
+        public static string Courier {
+            get {
+                return ResourceManager.GetString("Courier", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create an Account.
         /// </summary>
         public static string CreateAccount {
@@ -601,6 +610,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Moto.
+        /// </summary>
+        public static string Moto {
+            get {
+                return ResourceManager.GetString("Moto", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Move.
         /// </summary>
         public static string Move {
@@ -633,6 +651,24 @@ namespace Resources {
         public static string Number {
             get {
                 return ResourceManager.GetString("Number", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number or License plate.
+        /// </summary>
+        public static string NumberOrLicensePlate {
+            get {
+                return ResourceManager.GetString("NumberOrLicensePlate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Observations.
+        /// </summary>
+        public static string Observations {
+            get {
+                return ResourceManager.GetString("Observations", resourceCulture);
             }
         }
         
@@ -966,6 +1002,15 @@ namespace Resources {
         public static string Users {
             get {
                 return ResourceManager.GetString("Users", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vehicle.
+        /// </summary>
+        public static string Vehicle {
+            get {
+                return ResourceManager.GetString("Vehicle", resourceCulture);
             }
         }
     }
