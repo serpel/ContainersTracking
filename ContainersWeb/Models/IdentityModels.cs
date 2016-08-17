@@ -31,6 +31,8 @@ namespace ContainersWeb.Models
         }
 
         public DbSet<ContainerTracking> ContainerTracking { get; set; }
+        public DbSet<Origin> Origins { get; set; }
+        public DbSet<Destination> Destinations { get; set; }
         public DbSet<TrailerTracking> TrailerTracking { get; set; }
         public DbSet<TruckTracking> TruckTracking { get; set; }
         public DbSet<Driver> Drivers { get; set; }

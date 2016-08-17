@@ -14,6 +14,7 @@ namespace ContainersWeb.Models
         public Int32? CompanyDestinationId { get; set; }
         public Int32? GateIn { get; set; }
         public Int32? GateOut { get; set; }
+        public bool IsInternalMove { get; set; }
         [Required]
         public DateTime Date { get; set; }
         public string User { get; set; }

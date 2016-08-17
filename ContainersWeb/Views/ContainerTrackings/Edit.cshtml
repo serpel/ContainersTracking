@@ -1,13 +1,27 @@
-﻿@model ContainersWeb.Models.ContainerTracking
+﻿@model ContainersWeb.Models.TrackingViewModel
 
 @using Resources
 
 <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h4 class="modal-title" id="myModalLabel">@Resources.Edit</h4>
+    <div class="row">
+        <div class="col-md-5">
+            @if (Model.IsInternalMove)
+            {
+                <div class="pull-left">
+                    <p class="semi-bold">@Resources.InternalMove</p>
+                </div>
+            }
+        </div>
+        <div class="col-md-7">
+            <div class="pull-left">             
+                <h4 class="modal-title" id="myModalLabel">@Resources.Edit</h4>
+            </div>
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        </div>
+    </div>
 </div>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "EditForm" }))
 {
     @Html.AntiForgeryToken()
 
@@ -15,20 +29,24 @@
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.ContainerTrackingId)
-        @Html.HiddenFor(model => model.InsertedAt)
         @Html.HiddenFor(model => model.InsertedBy)
         @Html.HiddenFor(model => model.DocStatus)
+        @Html.HiddenFor(model => model.IsInternalMove)
 
         <div class="row form-row">
-            <div class="col-md-6">
+            <div class="col-md-5">
                 <label class="form-label">@Resources.Tracking</label>
                 @Html.EnumDropDownListFor(model => model.TrackingType, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.TrackingType, "", new { @class = "text-danger" })
             </div>
-            <div class="col-md-6">
+            <div class="col-md-5">
                 <label class="form-label">@Resources.Type</label>
-                @Html.EditorFor(model => model.Type, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.EnumDropDownListFor(model => model.Type, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-2 consolidate">
+                <label class="form-label bold">@Resources.Consolidate</label>
+                @Html.CheckBoxFor(model => model.IsConsolidate, htmlAttributes: new { @class = "form-control" })
             </div>
         </div>
         <div class="row form-row">
@@ -56,19 +74,19 @@
             </div>
             <div class="col-md-6">
                 <label class="form-label">@Resources.Number</label>
-                @Html.EditorFor(model => model.ContainerNumber, new { htmlAttributes = new { @class = "form-control contenedor" } })
+                @Html.EditorFor(model => model.ContainerNumber, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ContainerNumber, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="row form-row">
             <div class="col-md-6">
                 <label class="form-label">@Resources.Origin</label>
-                @Html.DropDownList("CompanyOriginId", null, "Seleccionar", htmlAttributes: new { @class = "select-drop" })
+                @Html.ListBoxFor(model => model.CompanyOriginId, Model.Origins, new { @class = "select-drop", @style = "width:100%" })
                 @Html.ValidationMessageFor(model => model.CompanyOriginId, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-6">
                 <label class="form-label">@Resources.Destination</label>
-                @Html.DropDownList("CompanyDestinationId", null, "Seleccionar", htmlAttributes: new { @class = "select-drop" })
+                @Html.ListBoxFor(model => model.CompanyDestinationId, Model.Destinations, new { @class = "select-drop", @style = "width:100%" })
                 @Html.ValidationMessageFor(model => model.CompanyDestinationId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -92,14 +110,14 @@
             </div>
             <div class="col-md-6">
                 <label class="form-label">@Resources.SercuritySupervisor</label>
-                @Html.DropDownList("SecuritySupervisorId", null, "Seleccionar", htmlAttributes: new { @class = "select-drop" })
+                @Html.DropDownList("SecuritySupervisorId", null, "Seleccionar", htmlAttributes: new { @class = "select-drop", @style = "width:100%" })
                 @Html.ValidationMessageFor(model => model.SecuritySupervisorId, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="row form-row">
             <div class="col-md-6">
                 <label class="form-label">@Resources.Driver</label>
-                @Html.DropDownList("DriverId", null, "Seleccionar", htmlAttributes: new { @class = "select-drop" })
+                @Html.DropDownList("DriverId", null, "Seleccionar", htmlAttributes: new { @class = "select-drop", @style = "width:100%" })
                 @Html.ValidationMessageFor(model => model.DriverId, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-6">
@@ -117,7 +135,7 @@
         <div class="row form-row">
             <div class="col-md-6">
                 <label class="form-label">@Resources.InsertedDate</label>
-                @Html.EditorFor(model => model.InsertedAt, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.EditorFor(model => model.InsertedAt, new { htmlAttributes = new { @class = "form-control date", @readonly = "readonly" } })
                 @Html.ValidationMessageFor(model => model.UpdatedAt, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-6">
@@ -141,6 +159,12 @@
     </div>
 
     <div class="modal-footer">
+        @if (Model.IsInternalMove)
+        {
+            <div class="pull-left">
+                <p class="semi-bold"><span>@Resources.InternalMove</span></p>
+            </div>
+        }    
         <button class="btn" type="button" data-dismiss="modal">@Resources.Cancel</button>
         <input id="btnSave" class="btn btn-primary" type="submit" value="@Resources.Save" />
     </div>
@@ -167,15 +191,17 @@
             $('#DocNumber').val('');
             $('#DocNumber').prop('readonly', true);
         } else {
-            $('#ContainerNumber').prop('readonly', true);
+            if (trackingType == 0 || trackingType == 'Contenedor') {
+                $('#ContainerNumber').prop('readonly', true);
+            }
             $('#DocNumber').prop('readonly', false);
         }
 
 
         if (trackingType == 1 || trackingType == 'Camion') {
-            $('.contenedor').prop('readonly', true);
+            $('.consolidate').show();
         } else {
-            $('.contenedor').prop('readonly', false);
+            $('.consolidate').hide();
         }
 
         if (trackingType == 0 || trackingType == 'Contenedor') {
@@ -187,6 +213,11 @@
         //si es admin entonces puede editar un documento listo
         if ((DocStatus == 'Listo' || DocStatus == 'Ready') && isAdmin == 'False') {
             $('#btnSave').hide();
+        }
+
+        if (isAdmin == 'True') {
+            $('.date').prop('readonly', false);
+            $('#ContainerNumber').prop('readonly', false);
         }
     };
 
@@ -231,5 +262,9 @@
         });
 
         $('.select-drop').select2();
+
+        $('#EditForm').submit(function () {
+            $('input[type=submit]', this).attr('disabled', 'disabled');
+        });
     });
 </script>

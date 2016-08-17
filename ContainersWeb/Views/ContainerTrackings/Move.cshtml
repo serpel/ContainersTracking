@@ -9,6 +9,7 @@
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "MoveForm" }))
 {
     @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.IsInternalMove)
 
     <div class="modal-body">
 
@@ -17,7 +18,7 @@
         <div class="row form-row">
             <div class="col-md-12">
                 <label class="form-label">@Resources.Number</label>
-                @Html.DropDownList("Number", null,Resources.Select, htmlAttributes: new { @class = "select-drop" })
+                @Html.DropDownList("Number", null,Resources.Select, htmlAttributes: new { @class = "select-drop", @style = "width:100%"})
                 @Html.ValidationMessageFor(model => model.Number, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -29,7 +30,7 @@
             </div>
             <div class="col-md-6">
                 <label class="form-label">@Resources.Destination</label>
-                @Html.DropDownList("CompanyDestinationId", null, htmlAttributes: new { @class = "select-drop" })
+                @Html.DropDownList("CompanyDestinationId", null, htmlAttributes: new { @class = "select-drop", @style = "width:100%" })
                 @Html.ValidationMessageFor(model => model.CompanyDestinationId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -65,7 +66,7 @@
     </div>
 }
 
-<script>
+<script type="text/javascript">
 
     function validate() {
         var type = $('#Type').val();
@@ -84,13 +85,15 @@
         $('#Number').change(function () {
 
             $.ajax({
-                url: '@Url.Action("GetCompanyByNumber")',
+                url: '@Url.Action("GetOriginsFromTrackingRecord")',
                 type: 'POST',
                 data: { number: this.value },
                 dataType: "json",
                 async: false,
-                success: function (data) {
-                    $('#CompanyOriginId').val(data.Name);                 
+                success: function (result) {
+                    if(result.success){
+                        $('#CompanyOriginId').val(result.data);
+                    }
                 },
                 error: function (xhr) {
                     alert(xhr.responseText);

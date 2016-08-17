@@ -12,15 +12,13 @@
 
     <div class="modal-body">
         <div class="row form-row">
+            <div class="col-md-3"></div>
             <div class="col-md-6">
                 <label class="form-label bold">@Resources.Tracking</label>
                 @Html.EnumDropDownListFor(model => model.TrackingType, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.TrackingType, "", new { @class = "text-danger" })
             </div>
-            <div class="col-md-2 consolidate">
-                <label class="form-label bold">@Resources.Consolidate</label>
-                @Html.CheckBoxFor(model => model.IsConsolidate, htmlAttributes: new { @class = "form-control" })
-            </div>
+            <div class="col-md-3"></div>
         </div>
         <div class="row form-row">
             <div class="col-md-6" id="parentDiv">          
@@ -86,12 +84,11 @@
                     items += "<option value='-1' selected='selected'>" + '@Resources.Select ' + "</option>";
                     $.each(data, function (i, val) {
                         items += "<option value='" + val.ContainerNumber + "'>" + val.ContainerNumber + "</option>";
-                    });
+                    });                    
                     $('#ContainerNumber').html(items);
+                } else {
+                    $('#ContainerNumber').html(0);
                 }
-                //} else {
-                //    $('#ContainerNumber').html(0);
-                //}
             },
             error: function (xhr) {
                 alert(xhr.responseText);
@@ -103,12 +100,6 @@
         var trackingType = $('#TrackingType').val();
         //Contenedor = 0, Camion = 1, Courier = 2, Rastra = 3, Vehiculo = 4, Moto = 5
 
-        if (trackingType == 1) {
-            $('.consolidate').show();
-        } else {
-            $('.consolidate').hide();
-        }
-
         if (trackingType == 0 || trackingType == 3) {
 
             //quitar o poner la lista de seleccion en el numero de contenedor
@@ -116,7 +107,7 @@
 
             if (isSelect2 == null) {
 
-                $('#ContainerNumber').replaceWith("<select id='ContainerNumber' name='ContainerNumber' style='width:100%'></select>");
+                $('#ContainerNumber').replaceWith("<select id='ContainerNumber' name='ContainerNumber' class='form-control'></select>");
 
                 getContainersAndTrucks();
 
@@ -125,8 +116,7 @@
                 });
             }
           
-        }
-        else {
+        } else {
             var isSelect2 = $('#ContainerNumber').data('select2');
 
             if (isSelect2 != null) {

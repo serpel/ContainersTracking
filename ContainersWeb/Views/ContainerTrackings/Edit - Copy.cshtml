@@ -3,25 +3,11 @@
 @using Resources
 
 <div class="modal-header">
-    <div class="row">
-        <div class="col-md-5">
-            @if (Model.IsInternalMove)
-            {
-                <div class="pull-left">
-                    <p class="semi-bold">@Resources.InternalMove</p>
-                </div>
-            }
-        </div>
-        <div class="col-md-7">
-            <div class="pull-left">
-                <h4 class="modal-title" id="myModalLabel">@Resources.Details</h4>
-            </div>
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        </div>
-    </div>
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title" id="myModalLabel">@Resources.Edit</h4>
 </div>
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "DetailsForm" }))
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
@@ -29,72 +15,92 @@
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.ContainerTrackingId)
+        @Html.HiddenFor(model => model.InsertedAt)
+        @Html.HiddenFor(model => model.InsertedBy)
+        @Html.HiddenFor(model => model.DocStatus)
 
         <div class="row form-row">
             <div class="col-md-6">
                 <label class="form-label">@Resources.Tracking</label>
-                @Html.TextBoxFor(model => model.TrackingType, htmlAttributes: new { @class = "form-control", @readonly="readonly" })
+                @Html.EnumDropDownListFor(model => model.TrackingType, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TrackingType, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-6">
                 <label class="form-label">@Resources.Type</label>
-                @Html.TextBoxFor(model => model.Type, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                @Html.EditorFor(model => model.Type, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="row form-row">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <label class="form-label">@Resources.ContainerStatus</label>
-                @Html.EnumDropDownListFor(model => model.ContainerStatus, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                @Html.EnumDropDownListFor(model => model.ContainerStatus, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.ContainerStatus, "", new { @class = "text-danger" })
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
+                <label class="form-label">@Resources.Gate</label>
+                @Html.DropDownList("GateId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.GateId, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-4">
                 <label class="form-label">@Resources.DocNumber</label>
-                @Html.EditorFor(model => model.DocNumber, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.EditorFor(model => model.DocNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DocNumber, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="row form-row">
             <div class="col-md-6">
                 <label class="form-label">@Resources.LicensePlate</label>
-                @Html.EditorFor(model => model.ContainerLicensePlate, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.EditorFor(model => model.ContainerLicensePlate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ContainerLicensePlate, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-6">
                 <label class="form-label">@Resources.Number</label>
-                @Html.EditorFor(model => model.ContainerNumber, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.EditorFor(model => model.ContainerNumber, new { htmlAttributes = new { @class = "form-control contenedor" } })
+                @Html.ValidationMessageFor(model => model.ContainerNumber, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="row form-row">
             <div class="col-md-6">
                 <label class="form-label">@Resources.Origin</label>
-                @Html.ListBoxFor(model => model.CompanyOriginId, Model.Origins, new { @class = "select-drop", @style = "width:100%", @disabled = "true" })
+                @Html.ListBoxFor(model => model.Com , htmlAttributes: new { @class = "select-drop" })
+                @Html.ValidationMessageFor(model => model.CompanyOriginId, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-6">
                 <label class="form-label">@Resources.Destination</label>
-                @Html.ListBoxFor(model => model.CompanyDestinationId, Model.Destinations, new { @class = "select-drop", @style = "width:100%", @disabled = "true" })
+                @Html.DropDownList("CompanyDestinationId", null, "Seleccionar", htmlAttributes: new { @class = "select-drop" })
+                @Html.ValidationMessageFor(model => model.CompanyDestinationId, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="row form-row">
             <div class="col-md-6">
                 <label class="form-label">@Resources.ContainerLabel</label>
-                @Html.EditorFor(model => model.ContainerLabel, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.EditorFor(model => model.ContainerLabel, new { htmlAttributes = new { @class = "form-control pv" } })
+                @Html.ValidationMessageFor(model => model.ContainerLabel, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-6">
                 <label class="form-label">@Resources.CorrelAduana</label>
-                @Html.EditorFor(model => model.CorrelAduana, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.EditorFor(model => model.CorrelAduana, new { htmlAttributes = new { @class = "form-control pv" } })
+                @Html.ValidationMessageFor(model => model.CorrelAduana, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="row form-row">
             <div class="col-md-6">
                 <label class="form-label">@Resources.DUA</label>
-                @Html.EditorFor(model => model.DUA, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.EditorFor(model => model.DUA, new { htmlAttributes = new { @class = "form-control pv" } })
+                @Html.ValidationMessageFor(model => model.DUA, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-6">
                 <label class="form-label">@Resources.SercuritySupervisor</label>
-                @Html.DropDownList("SecuritySupervisorId", null, "Seleccionar", htmlAttributes: new { @class = "select-drop", @style = "width:100%", @disabled = "true" })
+                @Html.DropDownList("SecuritySupervisorId", null, "Seleccionar", htmlAttributes: new { @class = "select-drop" })
+                @Html.ValidationMessageFor(model => model.SecuritySupervisorId, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="row form-row">
             <div class="col-md-6">
                 <label class="form-label">@Resources.Driver</label>
-                @Html.DropDownList("DriverId", null, "Seleccionar", htmlAttributes: new { @class = "select-drop", @style = "width:100%", @disabled="true" })
+                @Html.DropDownList("DriverId", null, "Seleccionar", htmlAttributes: new { @class = "select-drop" })
+                @Html.ValidationMessageFor(model => model.DriverId, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-6">
                 <label class="form-label">@Resources.Identification</label>
@@ -104,39 +110,39 @@
         <div class="row form-row observations">
             <div class="col-md-12">
                 <label class="form-label">@Resources.Observations</label>
-                @Html.TextAreaFor(model => model.Observations, new { @class = "form-control", @readonly = "readonly" })
+                @Html.TextAreaFor(model => model.Observations, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Observations, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="row form-row">
             <div class="col-md-6">
                 <label class="form-label">@Resources.InsertedDate</label>
                 @Html.EditorFor(model => model.InsertedAt, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.UpdatedAt, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-6">
                 <label class="form-label">@Resources.InsertedBy</label>
                 @Html.EditorFor(model => model.InsertedBy, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.InsertedBy, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="row form-row">
             <div class="col-md-6">
                 <label class="form-label">@Resources.UpdatedDate</label>
                 @Html.EditorFor(model => model.UpdatedAt, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.UpdatedAt, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-6">
                 <label class="form-label">@Resources.UpdatedBy</label>
                 @Html.EditorFor(model => model.UpdatedBy, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.UpdatedBy, "", new { @class = "text-danger" })
             </div>
         </div>
     </div>
 
     <div class="modal-footer">
-        @if (Model.IsInternalMove)
-        {
-            <div class="pull-left">
-                <p class="semi-bold"><span>@Resources.InternalMove</span></p>
-            </div>
-        }
         <button class="btn" type="button" data-dismiss="modal">@Resources.Cancel</button>
+        <input id="btnSave" class="btn btn-primary" type="submit" value="@Resources.Save" />
     </div>
 }
 
@@ -148,6 +154,30 @@
         var DocStatus = $('#DocStatus').val();
         var type = $('#Type').val(); //{ Entrada = 1, Salida = 0 }
 
+
+        //si el contenedor esta lleno entonces muestra unos campos extra
+        if (containerStatus == 0 || containerStatus == 'Vacio') {
+            $('.pv').prop('readonly', true);
+        } else {
+            $('.pv').prop('readonly', false);
+        }
+
+        if (type == 1 || type == 'Entrada') {
+            $('#ContainerNumber').prop('readonly', false);
+            $('#DocNumber').val('');
+            $('#DocNumber').prop('readonly', true);
+        } else {
+            $('#ContainerNumber').prop('readonly', true);
+            $('#DocNumber').prop('readonly', false);
+        }
+
+
+        if (trackingType == 1 || trackingType == 'Camion') {
+            $('.contenedor').prop('readonly', true);
+        } else {
+            $('.contenedor').prop('readonly', false);
+        }
+
         if (trackingType == 0 || trackingType == 'Contenedor') {
             $('.observations').hide();
         } else {
@@ -157,10 +187,6 @@
         //si es admin entonces puede editar un documento listo
         if ((DocStatus == 'Listo' || DocStatus == 'Ready') && isAdmin == 'False') {
             $('#btnSave').hide();
-        }
-
-        if (isAdmin == 'True') {
-            $('.date').prop('readonly', false);
         }
     };
 

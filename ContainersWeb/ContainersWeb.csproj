@@ -208,6 +208,7 @@
     <Compile Include="BLL\ILogger.cs" />
     <Compile Include="BLL\Loger.cs" />
     <Compile Include="BLL\ResultSet.cs" />
+    <Compile Include="BLL\TrackingHelper.cs" />
     <Compile Include="BLL\TrailerTrackingHelper.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\MyApiController.cs" />
@@ -249,10 +250,28 @@
     <Compile Include="Migrations\201608092016196_ObservationsFieldOnContainerTrackingsModel.Designer.cs">
       <DependentUpon>201608092016196_ObservationsFieldOnContainerTrackingsModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201608112056361_RemovedFieldOnContainerTrackingModel.cs" />
+    <Compile Include="Migrations\201608112056361_RemovedFieldOnContainerTrackingModel.Designer.cs">
+      <DependentUpon>201608112056361_RemovedFieldOnContainerTrackingModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608112112553_AddOriginAndDestionationModel.cs" />
+    <Compile Include="Migrations\201608112112553_AddOriginAndDestionationModel.Designer.cs">
+      <DependentUpon>201608112112553_AddOriginAndDestionationModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608121539416_IsIntervalMove.cs" />
+    <Compile Include="Migrations\201608121539416_IsIntervalMove.Designer.cs">
+      <DependentUpon>201608121539416_IsIntervalMove.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608122116046_IsConsolidateOnContainerTracking.cs" />
+    <Compile Include="Migrations\201608122116046_IsConsolidateOnContainerTracking.Designer.cs">
+      <DependentUpon>201608122116046_IsConsolidateOnContainerTracking.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Company.cs" />
-    <Compile Include="Models\ContainerInViewModel.cs" />
+    <Compile Include="Models\Destination.cs" />
+    <Compile Include="Models\Origin.cs" />
+    <Compile Include="Models\TrackingViewModel.cs" />
     <Compile Include="Models\ContainerTrackingSearchViewModel.cs" />
     <Compile Include="Models\ContainerTrackingViewModel.cs" />
     <Compile Include="Models\DatatablesViewModel.cs" />
@@ -1769,6 +1788,9 @@
     <Content Include="Views\ContainerTrackings\Out2.cshtml" />
     <Content Include="Views\ContainerTrackings\Out.cshtml" />
     <Content Include="Views\ContainerTrackings\EditDocument.cshtml" />
+    <Content Include="Views\ContainerTrackings\In - Copy.cshtml" />
+    <Content Include="Views\ContainerTrackings\Edit - Copy.cshtml" />
+    <Content Include="Views\ContainerTrackings\Out - Copy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1796,6 +1818,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201608092016196_ObservationsFieldOnContainerTrackingsModel.resx">
       <DependentUpon>201608092016196_ObservationsFieldOnContainerTrackingsModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608112056361_RemovedFieldOnContainerTrackingModel.resx">
+      <DependentUpon>201608112056361_RemovedFieldOnContainerTrackingModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608112112553_AddOriginAndDestionationModel.resx">
+      <DependentUpon>201608112112553_AddOriginAndDestionationModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608121539416_IsIntervalMove.resx">
+      <DependentUpon>201608121539416_IsIntervalMove.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608122116046_IsConsolidateOnContainerTracking.resx">
+      <DependentUpon>201608122116046_IsConsolidateOnContainerTracking.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

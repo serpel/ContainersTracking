@@ -1,11 +1,10 @@
-﻿@model ContainersWeb.Models.TrackingViewModel
+﻿@model ContainersWeb.Models.ContainerTracking
 @using Resources
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h4 class="modal-title semi-bold" id="myModalLabel">@Resources.In</h4>
 </div>
-
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "InForm" }))
 {
@@ -14,20 +13,16 @@
 
     <div class="modal-body">
         <div class="row form-row">
-            <div class="col-md-5">
+            <div class="col-md-6">
                 <label class="form-label bold">@Resources.Tracking</label>
                 @Html.EnumDropDownListFor(model => model.TrackingType, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.TrackingType, "", new { @class = "text-danger" })
             </div>
-            <div class="col-md-5">
-                <label class="form-label bold">@Resources.Status</label>
-                @Html.EnumDropDownListFor(model => model.ContainerStatus, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.ContainerStatus, "", new { @class = "text-danger" })
-            </div>
-            <div class="col-md-2 consolidate">
-                <label class="form-label bold">@Resources.Consolidate</label>
-                @Html.CheckBoxFor(model => model.IsConsolidate, htmlAttributes: new { @class = "form-control" })
-            </div>
+            @*<div class="col-md-6">
+                <label class="form-label bold">@Resources.Destination</label>
+                @Html.ListBoxFor("CompanyDestinationId", null, "Seleccionar", new { @class = "select-drop" })
+                @Html.ValidationMessageFor(model => model.CompanyDestinationId, "", new { @class = "text-danger" })
+            </div>*@
         </div>
 
         <div class="row form-row">
@@ -45,9 +40,9 @@
                 @Html.ValidationMessageFor(model => model.GateId, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-6">
-                <label class="form-label bold">@Resources.Destination</label>
-                @Html.ListBoxFor(model => model.CompanyDestinationId, Model.Destinations, new { @class = "select-drop", @style = "width:100%" })
-                @Html.ValidationMessageFor(model => model.CompanyDestinationId, "", new { @class = "text-danger" })
+                <label class="form-label bold">@Resources.Status</label>
+                @Html.EnumDropDownListFor(model => model.ContainerStatus, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ContainerStatus, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="row form-row">
@@ -72,30 +67,24 @@
 
 <script>
 
-    function Update() {
-        var trackingType = $('#TrackingType').val(); //{ Contenedor = 0, Camion = 1, Rastra = 3, Vehiculo = 4, Moto = 5, Courier = 2 }
-
-        if (trackingType == 1) {
-            $('.consolidate').show();
-        } else {
-            $('.consolidate').hide();
-        }
-    }
+    function validate() {
+        var type = $('#Type').val();
+    };
 
     $(document).ready(function () {
-
-        Update();
 
         //evitar el duplicado de registros al darle click varias veces
         $('#InForm').submit(function () {
             $('input[type=submit]', this).attr('disabled', 'disabled');
         });
 
-        $('#TrackingType').change(function () {
-            Update();
-        });
-
         $('.select-drop').select2();
+
+        //validate();
+
+        //$('#ContainerStatus').change(function () {
+        //    validate()
+        //});
 
     });
 </script>

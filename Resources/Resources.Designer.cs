@@ -178,6 +178,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Consolidate.
+        /// </summary>
+        public static string Consolidate {
+            get {
+                return ResourceManager.GetString("Consolidate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Container.
         /// </summary>
         public static string Container {
@@ -318,6 +327,15 @@ namespace Resources {
         public static string Destination {
             get {
                 return ResourceManager.GetString("Destination", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Details.
+        /// </summary>
+        public static string Details {
+            get {
+                return ResourceManager.GetString("Details", resourceCulture);
             }
         }
         
@@ -543,6 +561,15 @@ namespace Resources {
         public static string InsideText {
             get {
                 return ResourceManager.GetString("InsideText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Internal Move.
+        /// </summary>
+        public static string InternalMove {
+            get {
+                return ResourceManager.GetString("InternalMove", resourceCulture);
             }
         }
         

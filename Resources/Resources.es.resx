@@ -435,4 +435,13 @@
   <data name="Observations" xml:space="preserve">
     <value>Observaciones</value>
   </data>
+  <data name="InternalMove" xml:space="preserve">
+    <value>Movimiento Interno</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="Consolidate" xml:space="preserve">
+    <value>Consolidado</value>
+  </data>
 </root>

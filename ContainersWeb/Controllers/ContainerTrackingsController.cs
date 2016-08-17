@@ -24,13 +24,17 @@ namespace ContainersWeb.Controllers
             return Json(query, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult GetCompanyByNumber(string number)
+        public ActionResult GetOriginsFromTrackingRecord(string number)
         {
-            var result = db.ContainerTracking.Where(w => w.ContainerNumber == number).ToList().OrderByDescending(o => o.InsertedAt).Take(1).Select(s => new { s.CompanyOriginId, Name = s.CompanyDestination.Name }).FirstOrDefault();
+            var record = db.ContainerTracking.Where(w => w.ContainerNumber.Trim() == number.Trim()).ToList().OrderByDescending(o => o.InsertedAt).Take(1).FirstOrDefault();
 
-            if( result != null)
+            if (record != null)
             {
-                return Json(result, JsonRequestBehavior.AllowGet);
+                if(record.Origins.Count > 0)
+                {
+                    string name = record.Origins.FirstOrDefault().CompanyOrigin.Name;
+                    return Json(new { data = name, success = true }, JsonRequestBehavior.AllowGet);
+                }            
             }
 
             return Json(new { success = false }, JsonRequestBehavior.AllowGet);
@@ -69,7 +73,10 @@ namespace ContainersWeb.Controllers
             var containers = db.ContainerTracking
                 .ToList()
                 //.Where(w => w.InsertedAt > DateTime.Now.AddDays(-20))
-                .Select(s => new { s.ContainerTrackingId, Type = s.Type == 0 ? Resources.Resources.Out: Resources.Resources.In,
+                .Select(s => new
+                {
+                    s.ContainerTrackingId,
+                    Type = s.Type == 0 ? Resources.Resources.Out : Resources.Resources.In,
                     DocStatus = s.DocStatus == 0 ? Resources.Resources.Pending : Resources.Resources.Ready,
                     ContainerStatus = s.ContainerStatus == 0 ? Resources.Resources.Empty : Resources.Resources.Full,
                     Date = s.InsertedAt.ToString("dd-MM-yyyy HH:mm"),
@@ -77,7 +84,7 @@ namespace ContainersWeb.Controllers
                     s.ContainerLicensePlate,
                     Tracking = s.TrackingType == TrackingType.Contenedor ? Resources.Resources.Container :
                                    s.TrackingType == TrackingType.Camion ? Resources.Resources.Truck :
-                                   s.TrackingType == TrackingType.Rastra ? Resources.Resources.Rastra : "" 
+                                   s.TrackingType == TrackingType.Rastra ? Resources.Resources.Rastra : ""
                 });
 
             return Json(containers, JsonRequestBehavior.AllowGet);
@@ -87,7 +94,8 @@ namespace ContainersWeb.Controllers
         {
             try
             {
-                List<ContainerTrackingSearchViewModel> dtsource = db.ContainerTracking.ToList().Select(s => new ContainerTrackingSearchViewModel() {
+                List<ContainerTrackingSearchViewModel> dtsource = db.ContainerTracking.ToList().Select(s => new ContainerTrackingSearchViewModel()
+                {
                     ContainerTrackingId = s.ContainerTrackingId,
                     ContainerNumber = s.ContainerNumber,
                     ContainerLicensePlate = s.ContainerLicensePlate,
@@ -102,7 +110,7 @@ namespace ContainersWeb.Controllers
                     Type = s.Type == 0 ? Resources.Resources.Out : Resources.Resources.In,
                     InsertedAt = s.InsertedAt.ToString("dd-MM-yyyy HH:mm"),
                     UpdatedAt = s.UpdatedAt.ToString("dd-MM-yyyy HH:mm")
-                }).ToList();       
+                }).ToList();
 
                 List<String> columnSearch = new List<string>();
 
@@ -130,7 +138,7 @@ namespace ContainersWeb.Controllers
 
         // GET: ContainerTrackings
         public ActionResult Index()
-        {           
+        {
             return View();
         }
 
@@ -140,8 +148,9 @@ namespace ContainersWeb.Controllers
 
             record.Date = DateTime.Now;
             record.User = User.Identity.Name;
+            record.IsInternalMove = true;
 
-            ViewBag.Number = new SelectList(GetContainersIn().Where(w => w.CompanyDestinationId > 0 && w.CompanyOriginId > 0), "ContainerNumber", "ContainerNumber");
+            ViewBag.Number = new SelectList(GetContainersIn(), "ContainerNumber", "ContainerNumber");
             var region = db.Regions.Where(w => w.Name.Contains("Zona Externa")).FirstOrDefault();
             ViewBag.CompanyDestinationId = new SelectList(db.Companies.Where(w => w.IsActive == true && w.RegionId != region.RegionId), "CompanyId", "Name");
 
@@ -154,63 +163,102 @@ namespace ContainersWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Move([Bind(Include = "Number,CompanyOriginId,CompanyDestinationId,Date,User,GateIn,GateOut")] MoveViewModel record)
+        public ActionResult Move([Bind(Include = "Number,CompanyOriginId,CompanyDestinationId,Date,User,GateIn,GateOut,IsInternalMove")] MoveViewModel record)
         {
             ContainerTracking tmp = db.ContainerTracking.Where(w => w.ContainerNumber == record.Number).OrderByDescending(d => d.InsertedAt).Take(1).FirstOrDefault();
 
-            //if (ModelState.IsValid) {
-
-                if (tmp != null)
+            if (tmp != null)
+            {
+                ContainerTracking recordOut = new ContainerTracking()
                 {
+                    ChasisNumber = tmp.ChasisNumber,
+                    ContainerLabel = tmp.ContainerLabel,
+                    ContainerNumber = tmp.ContainerNumber,
+                    ContainerStatus = tmp.ContainerStatus,
+                    ContainerLicensePlate = tmp.ContainerLicensePlate,
+                    TrackingType = tmp.TrackingType,
+                    DriverId = tmp.DriverId,
+                    DocNumber = tmp.DocNumber,
+                    UpdatedAt = DateTime.Now,
+                    InsertedAt = DateTime.Now,
+                    InsertedBy = User.Identity.Name,
+                    DocStatus = tmp.DocStatus,
+                    Type = Models.Type.Salida,
+                    GateId = record.GateOut,
+                    CorrelAduana = tmp.CorrelAduana,
+                    SecuritySupervisorId = tmp.SecuritySupervisorId,
+                    IsInternalMove = record.IsInternalMove
+                };
 
-                    ContainerTracking recordOut = new ContainerTracking()
-                    {
-                        CompanyOriginId = tmp.CompanyDestinationId,
-                        CompanyDestinationId = record.CompanyDestinationId,
-                        ChasisNumber = tmp.ChasisNumber,
-                        ContainerLabel = tmp.ContainerLabel,
-                        ContainerNumber = tmp.ContainerNumber,
-                        ContainerStatus = tmp.ContainerStatus,
-                        ContainerLicensePlate = tmp.ContainerLicensePlate,
-                        DriverId = tmp.DriverId,
-                        DocNumber = tmp.DocNumber,
-                        UpdatedAt = DateTime.Now,
-                        InsertedAt = DateTime.Now,
-                        InsertedBy = User.Identity.Name,
-                        DocStatus = tmp.DocStatus,
-                        Type = Models.Type.Salida,
-                        GateId = record.GateOut,
-                        CorrelAduana = tmp.CorrelAduana
-                    };
+                ContainerTracking recordIn = new ContainerTracking()
+                {
+                    CompanyOriginId = tmp.CompanyDestinationId,
+                    CompanyDestinationId = record.CompanyDestinationId,
+                    TrackingType = tmp.TrackingType,
+                    ChasisNumber = tmp.ChasisNumber,
+                    ContainerLabel = tmp.ContainerLabel,
+                    ContainerNumber = tmp.ContainerNumber,
+                    ContainerStatus = tmp.ContainerStatus,
+                    ContainerLicensePlate = tmp.ContainerLicensePlate,
+                    DriverId = tmp.DriverId,
+                    DocNumber = tmp.DocNumber,
+                    UpdatedAt = DateTime.Now,
+                    InsertedAt = DateTime.Now,
+                    InsertedBy = User.Identity.Name,
+                    DocStatus = tmp.DocStatus,
+                    Type = Models.Type.Entrada,
+                    GateId = record.GateIn,
+                    CorrelAduana = tmp.CorrelAduana,
+                    SecuritySupervisorId = tmp.SecuritySupervisorId,
+                    IsInternalMove = record.IsInternalMove
+                };
 
-                    ContainerTracking recordIn = new ContainerTracking()
-                    {
-                        CompanyOriginId = tmp.CompanyDestinationId,
-                        CompanyDestinationId = record.CompanyDestinationId,
-                        ChasisNumber = tmp.ChasisNumber,
-                        ContainerLabel = tmp.ContainerLabel,
-                        ContainerNumber = tmp.ContainerNumber,
-                        ContainerStatus = tmp.ContainerStatus,
-                        ContainerLicensePlate = tmp.ContainerLicensePlate,
-                        DriverId = tmp.DriverId,
-                        DocNumber = tmp.DocNumber,
-                        UpdatedAt = DateTime.Now,
-                        InsertedAt = DateTime.Now,
-                        InsertedBy = User.Identity.Name,
-                        DocStatus = tmp.DocStatus,
-                        Type = Models.Type.Entrada,
-                        GateId = record.GateIn,
-                        CorrelAduana = tmp.CorrelAduana
-                    };
+                db.ContainerTracking.Add(recordOut);
+                db.ContainerTracking.Add(recordIn);
 
-                    db.ContainerTracking.Add(recordOut);
-                    db.ContainerTracking.Add(recordIn);
+                db.SaveChanges();
 
-                    db.SaveChanges();
+                //Copy Origin and destination from record Out
+                if (record.CompanyDestinationId > 0)
+                {
+                        Destination recordOutOrigin = new Destination()
+                        {
+                            CompanyDestinationId = (int)record.CompanyDestinationId,
+                            ContainerTrackingId = recordOut.ContainerTrackingId
+                        };
 
-                    return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+                        Destination recordInOrigin = new Destination()
+                        {
+                            CompanyDestinationId = (int)record.CompanyDestinationId,
+                            ContainerTrackingId = recordIn.ContainerTrackingId
+                        };
+                        db.Destinations.Add(recordOutOrigin);
+                        db.Destinations.Add(recordInOrigin);
                 }
-            //}
+
+                if (tmp.Destinations != null)
+                {
+                    foreach (var destination in tmp.Destinations)
+                    {
+                        Origin recordOutDestination = new Origin()
+                        {
+                            CompanyOriginId = destination.CompanyDestinationId,
+                            ContainerTrackingId = recordOut.ContainerTrackingId
+                        };
+                        Origin recordInDestination = new Origin()
+                        {
+                            CompanyOriginId = destination.CompanyDestinationId,
+                            ContainerTrackingId = recordIn.ContainerTrackingId
+                        };
+                        db.Origins.Add(recordOutDestination);
+                        db.Origins.Add(recordInDestination);
+                    }
+                }
+
+                db.SaveChanges();
+
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
 
             ViewBag.Number = new SelectList(db.ContainerTracking.Where(w => w.CompanyOriginId > 0 && w.CompanyDestinationId > 0 && w.Type == Models.Type.Entrada).GroupBy(x => x.ContainerNumber).Select(g => g.FirstOrDefault()), "ContainerNumber", "ContainerNumber");
             ViewBag.CompanyDestinationId = new SelectList(db.Companies.Where(w => w.IsActive == true), "CompanyId", "Name");
@@ -224,7 +272,7 @@ namespace ContainersWeb.Controllers
             var container = new ContainerTracking();
             container.InsertedAt = DateTime.Now;
             container.InsertedBy = User.Identity.Name;
-                    
+
             return PartialView("Create", container);
         }
 
@@ -262,12 +310,15 @@ namespace ContainersWeb.Controllers
 
         public ActionResult In()
         {
-            var container = new ContainerTracking();
-            container.InsertedAt = DateTime.Now;
-            container.InsertedBy = User.Identity.Name;
+            var tracking = new TrackingViewModel();
+            tracking.InsertedAt = DateTime.Now;
+            tracking.InsertedBy = User.Identity.Name;
+
+            var region = db.Regions.Where(w => w.Name.Contains("Zona Externa")).FirstOrDefault();
+            tracking.Destinations = new SelectList(db.Companies.Where(w => w.IsActive == true && w.RegionId != region.RegionId), "CompanyId", "Name");
 
             ViewBag.GateId = new SelectList(db.Regions.Where(w => !w.Name.Contains("Zona Externa")), "RegionId", "Name");
-            return PartialView("In", container);
+            return PartialView("In", tracking);
         }
 
         // POST: ContainerTrackings/Create
@@ -275,24 +326,37 @@ namespace ContainersWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult In([Bind(Include = "ContainerTrackingId,Type,CompanyOriginId,CompanyDestinationId,DocStatus,ContainerNumber,ContainerStatus,ContainerLicensePlate,ContainerLabel,ChasisNumber,DocNumber,CorrelAduana,DriverId,SecuritySupervisorId,InsertedAt,InsertedBy,UpdatedAt,UpdatedBy,GateId,TrackingType")] ContainerTracking containerTracking)
+        public ActionResult In([Bind(Include = "ContainerTrackingId,Type,CompanyOriginId,CompanyDestinationId,DocStatus,ContainerNumber,ContainerStatus,ContainerLicensePlate,ContainerLabel,ChasisNumber,DocNumber,CorrelAduana,DriverId,SecuritySupervisorId,InsertedAt,InsertedBy,UpdatedAt,UpdatedBy,GateId,TrackingType,Destinations,IsConsolidate")] TrackingViewModel containerTracking)
         {
+            containerTracking.ContainerLicensePlate = containerTracking.TrackingType == TrackingType.Camion ? containerTracking.ContainerNumber : "";
             containerTracking.UpdatedAt = DateTime.Now;
             containerTracking.DocStatus = DocStatus.Pendiente;
             containerTracking.Type = Models.Type.Entrada;
 
-            ContainerTrackingHelper validator = new ContainerTrackingHelper(db);
-
             if (ModelState.IsValid)
             {
-                if (containerTracking.TrackingType == TrackingType.Camion)
-                {
-                    containerTracking.ContainerLicensePlate = containerTracking.ContainerNumber;
-                }
+                TrackingHelper validator = new TrackingHelper(db);
 
-                if (validator.ValidateOnCreate(containerTracking))
+                if (validator.ValidateInOut(containerTracking))
                 {
-                    db.ContainerTracking.Add(containerTracking);
+                    var model = (ContainerTracking)containerTracking;
+                    db.ContainerTracking.Add(model);
+                    db.SaveChanges();
+
+                    if (containerTracking.CompanyDestinationId != null)
+                    {
+                        foreach (var destinationId in containerTracking.CompanyDestinationId)
+                        {
+                            Destination newDestination = new Destination()
+                            {
+                                ContainerTrackingId = model.ContainerTrackingId,
+                                CompanyDestinationId = destinationId
+                            };
+
+                            db.Destinations.Add(newDestination);
+                        }
+                    }
+
                     db.SaveChanges();
 
                     MyLogger.GetInstance.Info(Resources.Resources.CreatedText + " Id: " + containerTracking.ContainerTrackingId + " ContainerNumber: " + containerTracking.ContainerNumber);
@@ -304,6 +368,7 @@ namespace ContainersWeb.Controllers
                     ModelState.AddModelError("ContainerNumber", validator.Message);
                 }
             }
+
             ViewBag.GateId = new SelectList(db.Regions.Where(w => !w.Name.Contains("Zona Externa")), "RegionId", "Name");
             return PartialView("In", containerTracking);
         }
@@ -342,89 +407,23 @@ namespace ContainersWeb.Controllers
             return PartialView("Out", container);
         }
 
-        public ActionResult Out2()
-        {
-            var containerTracking = new ContainerTracking();
-            containerTracking.InsertedAt = DateTime.Now;
-            containerTracking.InsertedBy = User.Identity.Name;
-            containerTracking.UpdatedAt = DateTime.Now;
-            containerTracking.UpdatedBy = User.Identity.Name;
-
-            ViewBag.ContainerNumber = new SelectList(GetContainersIn(), "ContainerNumber", "ContainerNumber");
-            ViewBag.GateId = new SelectList(db.Regions.Where(w => !w.Name.Contains("Zona Externa")), "RegionId", "Name");
-
-            var companiesDestination = db.Companies.Where(w => w.IsActive == true);
-            var companiesOrigin = companiesDestination;
-            var region = db.Regions.Where(w => w.Name.Contains("Zona Externa")).FirstOrDefault();
-
-            if (containerTracking.Type == Models.Type.Entrada)
-            {
-                companiesDestination = companiesDestination.Where(w => w.RegionId != region.RegionId);
-            }
-            else
-            {
-                companiesOrigin = companiesOrigin.Where(w => w.RegionId != region.RegionId);
-            }
-
-            ViewBag.CompanyDestinationId = new SelectList(companiesDestination, "CompanyId", "Name", containerTracking.CompanyDestinationId);
-            ViewBag.CompanyOriginId = new SelectList(companiesOrigin, "CompanyId", "Name", containerTracking.CompanyOriginId);
-            ViewBag.DriverId = new SelectList(db.Drivers.Where(w => w.IsActive == true), "DriverId", "Name", containerTracking.DriverId);
-            ViewBag.SecuritySupervisorId = new SelectList(db.SecuritySupervisors.Where(w => w.IsActive == true), "SecuritySupervisorId", "Name", containerTracking.SecuritySupervisorId);
-
-            return PartialView("Out", containerTracking);
-        }
-
-
         // POST: ContainerTrackings/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Out2([Bind(Include = "ContainerTrackingId,Type,CompanyOriginId,CompanyDestinationId,DocStatus,ContainerNumber,ContainerStatus,ContainerLicensePlate,ContainerLabel,ChasisNumber,DocNumber,CorrelAduana,DriverId,SecuritySupervisorId,InsertedAt,InsertedBy,UpdatedAt,UpdatedBy,GateId,TrackingType")] ContainerTracking containerTracking)
-        {
-            containerTracking.UpdatedAt = DateTime.Now;
-            containerTracking.DocStatus = DocStatus.Pendiente;
-            containerTracking.Type = Models.Type.Salida;
-
-            ContainerTrackingHelper validator = new ContainerTrackingHelper(db);
-
-            if (ModelState.IsValid)
-            {
-                if (validator.ValidateOnOut(containerTracking))
-                {
-                    db.ContainerTracking.Add(containerTracking);
-                    db.SaveChanges();
-
-                    MyLogger.GetInstance.Info(Resources.Resources.ExitText + " Id: " + containerTracking.ContainerTrackingId + " ContainerNumber: " + containerTracking.ContainerNumber);
-
-                    return Json(new { success = true }, JsonRequestBehavior.AllowGet);
-                }
-                else
-                {
-                    ModelState.AddModelError("ContainerNumber", validator.Message);
-                }
-            }
-
-            ViewBag.ContainerNumber = new SelectList(GetContainersIn(), "ContainerNumber", "ContainerNumber");
-            return PartialView("Out", containerTracking);
-        }
-
-        // POST: ContainerTrackings/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Out([Bind(Include = "ContainerTrackingId,Type,CompanyOriginId,CompanyDestinationId,DocStatus,ContainerNumber,ContainerStatus,ContainerLicensePlate,ContainerLabel,ChasisNumber,DocNumber,CorrelAduana,DriverId,SecuritySupervisorId,InsertedAt,InsertedBy,UpdatedAt,UpdatedBy,GateId,TrackingType")] ContainerTracking containerTracking)
+        public ActionResult Out([Bind(Include = "ContainerTrackingId,Type,CompanyOriginId,CompanyDestinationId,DocStatus,ContainerNumber,ContainerStatus,ContainerLicensePlate,ContainerLabel,ChasisNumber,DocNumber,CorrelAduana,DriverId,SecuritySupervisorId,InsertedAt,InsertedBy,UpdatedAt,UpdatedBy,GateId,TrackingType,IsConsolidate")] ContainerTracking containerTracking)
         {
             var tmp = db.ContainerTracking.Where(w => w.ContainerNumber == containerTracking.ContainerNumber).OrderByDescending(o => o.ContainerTrackingId).FirstOrDefault();
 
-            if(tmp != null)
+            if (tmp != null)
             {
                 containerTracking.TrackingType = tmp.TrackingType;
                 containerTracking.Type = tmp.Type;
                 containerTracking.ContainerStatus = tmp.ContainerStatus;
 
-                if(containerTracking.TrackingType == TrackingType.Camion) { 
+                if (containerTracking.TrackingType == TrackingType.Camion)
+                {
                     containerTracking.ContainerLicensePlate = tmp.ContainerNumber;
                 }
             }
@@ -463,29 +462,27 @@ namespace ContainersWeb.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ContainerTracking containerTracking = db.ContainerTracking.Find(id);
+            TrackingViewModel containerTracking = (TrackingViewModel)db.ContainerTracking.Find(id);
+
             if (containerTracking == null)
             {
                 return HttpNotFound();
             }
-            //containerTracking.UpdatedAt = DateTime.Now;
-            //containerTracking.UpdatedBy = User.Identity.Name;
 
-            var companiesDestination = db.Companies.Where(w => w.IsActive == true);
-            var companiesOrigin = companiesDestination;
             var region = db.Regions.Where(w => w.Name.Contains("Zona Externa")).FirstOrDefault();
+            var companiesDestination = containerTracking.Type == Models.Type.Entrada ? db.Companies.Where(w => w.RegionId != region.RegionId && w.IsActive == true)
+                  : db.Companies.Where(w => w.IsActive == true);
+            var companiesOrigin = containerTracking.Type == Models.Type.Salida ? db.Companies.Where(w => w.RegionId != region.RegionId && w.IsActive == true)
+                  : db.Companies.Where(w => w.IsActive == true);
 
-            if (containerTracking.Type == Models.Type.Entrada)
-            {              
-                companiesDestination = companiesDestination.Where(w => w.RegionId != region.RegionId);
-            }else
-            {
-                companiesOrigin = companiesOrigin.Where(w => w.RegionId != region.RegionId);
-            }
+
+            var selectedOrigin = db.Origins.Where(w => w.ContainerTrackingId == containerTracking.ContainerTrackingId).Select(s => s.CompanyOriginId).ToArray();
+            containerTracking.Origins = new MultiSelectList(companiesOrigin, "CompanyId", "Name", selectedOrigin);
+
+            var selectedDestination = db.Destinations.Where(w => w.ContainerTrackingId == containerTracking.ContainerTrackingId).Select(s => s.CompanyDestinationId).ToArray();
+            containerTracking.Destinations = new MultiSelectList(companiesDestination, "CompanyId", "Name", selectedDestination);
 
             ViewBag.GateId = new SelectList(db.Regions.Where(w => !w.Name.Contains("Zona Externa")), "RegionId", "Name", containerTracking.GateId);
-            ViewBag.CompanyDestinationId = new SelectList(companiesDestination, "CompanyId", "Name", containerTracking.CompanyDestinationId);
-            ViewBag.CompanyOriginId = new SelectList(companiesOrigin, "CompanyId", "Name", containerTracking.CompanyOriginId);
             ViewBag.DriverId = new SelectList(db.Drivers.Where(w => w.IsActive == true), "DriverId", "Name", containerTracking.DriverId);
             ViewBag.SecuritySupervisorId = new SelectList(db.SecuritySupervisors.Where(w => w.IsActive == true), "SecuritySupervisorId", "Name", containerTracking.SecuritySupervisorId);
             return PartialView("Edit", containerTracking);
@@ -496,107 +493,119 @@ namespace ContainersWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ContainerTrackingId,Type,CompanyOriginId,CompanyDestinationId,DocStatus,ContainerNumber,ContainerStatus,ContainerLicensePlate,ContainerLabel,ChasisNumber,DocNumber,CorrelAduana,DriverId,SecuritySupervisorId,InsertedAt,InsertedBy,UpdatedAt,UpdatedBy,GateId,DUA,TrackingType,Observations")] ContainerTracking containerTracking)
+        public ActionResult Edit([Bind(Include = "ContainerTrackingId,Type,CompanyOriginId,CompanyDestinationId,DocStatus,ContainerNumber,ContainerStatus,ContainerLicensePlate,ContainerLabel,ChasisNumber,DocNumber,CorrelAduana,DriverId,SecuritySupervisorId,InsertedAt,InsertedBy,UpdatedAt,UpdatedBy,GateId,DUA,TrackingType,Observations,IsInternalMove,IsConsolidate")] TrackingViewModel containerTracking)
         {
             containerTracking.UpdatedAt = DateTime.Now;
             containerTracking.UpdatedBy = User.Identity.Name;
 
-            ContainerTrackingHelper validator = new ContainerTrackingHelper(db);
+            TrackingHelper validator = new TrackingHelper(db);
 
             if (ModelState.IsValid)
             {
-                if (validator.ValidateOnEdit(containerTracking))
+
+                if (validator.ValidateEdit(containerTracking))
                 {
-                    db.Entry(containerTracking).State = EntityState.Modified;
+                    var model = (ContainerTracking)containerTracking;
+                    db.Entry(model).State = EntityState.Modified;
                     db.SaveChanges();
 
-                    MyLogger.GetInstance.Info(Resources.Resources.EditText + " Id: "+containerTracking.ContainerTrackingId+ " ContainerNumber: "+containerTracking.ContainerNumber);                    
+                    ContainerTracking result = db.ContainerTracking.Include(i => i.Origins).Include(d => d.Destinations).Where(w => w.ContainerTrackingId == model.ContainerTrackingId).FirstOrDefault();
+
+                    //clean origins and destinations before edit
+                    if(result != null) {
+                        if(result.Origins.Count > 0)
+                            db.Origins.RemoveRange(result.Origins);
+
+                        if(result.Destinations.Count > 0)
+                            db.Destinations.RemoveRange(model.Destinations);
+                    }
+
+                    //create new origins and destinations
+                    if (containerTracking.CompanyDestinationId != null)
+                    {                       
+                        foreach (var destinationId in containerTracking.CompanyDestinationId)
+                        {
+                            Destination newDestination = new Destination()
+                            {
+                                ContainerTrackingId = model.ContainerTrackingId,
+                                CompanyDestinationId = destinationId
+                            };
+
+                            db.Destinations.Add(newDestination);
+                        }
+                    }
+
+                    if (containerTracking.CompanyOriginId != null)
+                    {
+
+                        foreach (var originId in containerTracking.CompanyOriginId)
+                        {
+                            Origin newOrigin = new Origin()
+                            {
+                                ContainerTrackingId = model.ContainerTrackingId,
+                                CompanyOriginId = originId
+                            };
+
+                            db.Origins.Add(newOrigin);
+                        }
+                    }
+
+                    db.SaveChanges();
+
+                    MyLogger.GetInstance.Info(Resources.Resources.EditText + " Id: " + containerTracking.ContainerTrackingId + " ContainerNumber: " + containerTracking.ContainerNumber);
 
                     return Json(new { success = true }, JsonRequestBehavior.AllowGet);
                 }
             }
+            var region = db.Regions.Where(w => w.Name.Contains("Zona Externa")).FirstOrDefault();
+            var companiesDestination = containerTracking.Type == Models.Type.Entrada ? db.Companies.Where(w => w.RegionId != region.RegionId && w.IsActive == true)
+                  : db.Companies.Where(w => w.IsActive == true);
+            var companiesOrigin = containerTracking.Type == Models.Type.Salida ? db.Companies.Where(w => w.RegionId != region.RegionId && w.IsActive == true)
+                  : db.Companies.Where(w => w.IsActive == true);
+
+
+            var selectedOrigin = db.Origins.Where(w => w.ContainerTrackingId == containerTracking.ContainerTrackingId).Select(s => s.CompanyOriginId).ToArray();
+            containerTracking.Origins = new MultiSelectList(companiesOrigin, "CompanyId", "Name", selectedOrigin);
+
+            var selectedDestination = db.Destinations.Where(w => w.ContainerTrackingId == containerTracking.ContainerTrackingId).Select(s => s.CompanyDestinationId).ToArray();
+            containerTracking.Destinations = new MultiSelectList(companiesDestination, "CompanyId", "Name", selectedDestination);
+
             ViewBag.GateId = new SelectList(db.Regions.Where(w => !w.Name.Contains("Zona Externa")), "RegionId", "Name", containerTracking.GateId);
-            ViewBag.CompanyDestinationId = new SelectList(db.Companies.Where(w => w.IsActive == true), "CompanyId", "Name", containerTracking.CompanyDestinationId);
-            ViewBag.CompanyOriginId = new SelectList(db.Companies.Where(w => w.IsActive == true), "CompanyId", "Name", containerTracking.CompanyOriginId);
             ViewBag.DriverId = new SelectList(db.Drivers.Where(w => w.IsActive == true), "DriverId", "Name", containerTracking.DriverId);
             ViewBag.SecuritySupervisorId = new SelectList(db.SecuritySupervisors.Where(w => w.IsActive == true), "SecuritySupervisorId", "Name", containerTracking.SecuritySupervisorId);
             return PartialView("Edit", containerTracking);
         }
 
-        // GET: ContainerTrackings/Edit/5
-        [AccessAuthorizeAttribute(Roles = "Admin")]
-        public ActionResult EditDocument(int? id)
+        public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ContainerTracking containerTracking = db.ContainerTracking.Find(id);
+            TrackingViewModel containerTracking = (TrackingViewModel)db.ContainerTracking.Find(id);
+
             if (containerTracking == null)
             {
                 return HttpNotFound();
             }
-            containerTracking.UpdatedAt = DateTime.Now;
-            //containerTracking.UpdatedBy = User.Identity.Name;
 
-            var companiesDestination = db.Companies.Where(w => w.IsActive == true);
-            var companiesOrigin = companiesDestination;
             var region = db.Regions.Where(w => w.Name.Contains("Zona Externa")).FirstOrDefault();
+            var companiesDestination = containerTracking.Type == Models.Type.Entrada ? db.Companies.Where(w => w.RegionId != region.RegionId && w.IsActive == true)
+                  : db.Companies.Where(w => w.IsActive == true);
+            var companiesOrigin = containerTracking.Type == Models.Type.Salida ? db.Companies.Where(w => w.RegionId != region.RegionId && w.IsActive == true)
+                  : db.Companies.Where(w => w.IsActive == true);
 
-            if (containerTracking.Type == Models.Type.Entrada)
-            {
-                companiesDestination = companiesDestination.Where(w => w.RegionId != region.RegionId);
-            }
-            else
-            {
-                companiesOrigin = companiesOrigin.Where(w => w.RegionId != region.RegionId);
-            }
+
+            var selectedOrigin = db.Origins.Where(w => w.ContainerTrackingId == containerTracking.ContainerTrackingId).Select(s => s.CompanyOriginId).ToArray();
+            containerTracking.Origins = new MultiSelectList(companiesOrigin, "CompanyId", "Name", selectedOrigin);
+
+            var selectedDestination = db.Destinations.Where(w => w.ContainerTrackingId == containerTracking.ContainerTrackingId).Select(s => s.CompanyDestinationId).ToArray();
+            containerTracking.Destinations = new MultiSelectList(companiesDestination, "CompanyId", "Name", selectedDestination);
 
             ViewBag.GateId = new SelectList(db.Regions.Where(w => !w.Name.Contains("Zona Externa")), "RegionId", "Name", containerTracking.GateId);
-            ViewBag.CompanyDestinationId = new SelectList(companiesDestination, "CompanyId", "Name", containerTracking.CompanyDestinationId);
-            ViewBag.CompanyOriginId = new SelectList(companiesOrigin, "CompanyId", "Name", containerTracking.CompanyOriginId);
             ViewBag.DriverId = new SelectList(db.Drivers.Where(w => w.IsActive == true), "DriverId", "Name", containerTracking.DriverId);
             ViewBag.SecuritySupervisorId = new SelectList(db.SecuritySupervisors.Where(w => w.IsActive == true), "SecuritySupervisorId", "Name", containerTracking.SecuritySupervisorId);
-            return PartialView("EditDocument", containerTracking);
-        }
-
-        // POST: ContainerTrackings/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [AccessAuthorizeAttribute(Roles = "Admin")]
-        public ActionResult EditDocument([Bind(Include = "ContainerTrackingId,Type,CompanyOriginId,CompanyDestinationId,DocStatus,ContainerNumber,ContainerStatus,ContainerLicensePlate,ContainerLabel,ChasisNumber,DocNumber,CorrelAduana,DriverId,SecuritySupervisorId,InsertedAt,InsertedBy,UpdatedAt,UpdatedBy,GateId,DUA,TrackingType,Observations")] ContainerTracking containerTracking)
-        {
-            containerTracking.UpdatedAt = DateTime.Now;
-            containerTracking.UpdatedBy = User.Identity.Name;
-
-            ContainerTrackingHelper validator = new ContainerTrackingHelper(db);
-
-            if (ModelState.IsValid)
-            {
-                if (validator.ValidateOnEdit(containerTracking))
-                {
-                    try {
-                        db.Entry(containerTracking).State = EntityState.Modified;
-                        db.SaveChanges();
-
-                        MyLogger.GetInstance.Info(Resources.Resources.EditText + " Id: " + containerTracking.ContainerTrackingId + " ContainerNumber: " + containerTracking.ContainerNumber);
-
-                        return Json(new { success = true }, JsonRequestBehavior.AllowGet);
-                    }
-                    catch(Exception e)
-                    {
-                        ViewBag.Message = e.Message;
-                    }
-                }
-            }
-            ViewBag.GateId = new SelectList(db.Regions.Where(w => !w.Name.Contains("Zona Externa")), "RegionId", "Name", containerTracking.GateId);
-            ViewBag.CompanyDestinationId = new SelectList(db.Companies.Where(w => w.IsActive == true), "CompanyId", "Name", containerTracking.CompanyDestinationId);
-            ViewBag.CompanyOriginId = new SelectList(db.Companies.Where(w => w.IsActive == true), "CompanyId", "Name", containerTracking.CompanyOriginId);
-            ViewBag.DriverId = new SelectList(db.Drivers.Where(w => w.IsActive == true), "DriverId", "Name", containerTracking.DriverId);
-            ViewBag.SecuritySupervisorId = new SelectList(db.SecuritySupervisors.Where(w => w.IsActive == true), "SecuritySupervisorId", "Name", containerTracking.SecuritySupervisorId);
-            return PartialView("EditDocument", containerTracking);
+            return PartialView("Details", containerTracking);
         }
 
         [AccessAuthorizeAttribute(Roles = "Admin")]

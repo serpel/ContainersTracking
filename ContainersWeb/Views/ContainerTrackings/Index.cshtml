@@ -6,11 +6,7 @@
     <link href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.1/semantic.min.css" rel="stylesheet"/>
     <link href="https://cdn.datatables.net/1.10.12/css/dataTables.semanticui.min.css" rel="stylesheet" />
     <link href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.semanticui.min.css" rel="stylesheet" />
-    <link href="~/Content/css/select2.min.css" rel="stylesheet" />
-   
-    @*<link href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" rel="stylesheet" />
-    <link href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.bootstrap.min.css" rel="stylesheet" />
-    <link href="~/Content/css/select2.min.css" rel="stylesheet" />*@
+  
 }
 
 <div class="row-fluid">
@@ -79,7 +75,7 @@
     <script src="//cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
     <script src="//cdn.datatables.net/buttons/1.2.2/js/buttons.colVis.min.js"></script>
  
-    <script src="~/Scripts/select2.min.js"></script>
+    <script src="~/Content/assets/plugins/bootstrap-select2/select2.min.js" type="text/javascript"></script>
     <script src="~/Scripts/moment.min.js"></script>
     <script type="text/javascript">
 
@@ -161,18 +157,22 @@
                         var isAdmin = '@User.IsInRole("Admin")';
                         //var url = window.location.href;
 
+                        var detailsUrl = '@Url.Action("Details", "ContainerTrackings")';
                         var editUrl = '@Url.Action("Edit", "ContainerTrackings")';
-                        var editDocumentUrl = '@Url.Action("EditDocument", "ContainerTrackings")';
+                        //var editDocumentUrl = '@Url.Action("EditDocument", "ContainerTrackings")';
                         var deleteUrl = '@Url.Action("Delete", "ContainerTrackings")';
 
-                        var editUrl = isAdmin == 'False' ? (editUrl + '/' + data) : (editDocumentUrl + '/' + data);
+                        var detailsUrl = detailsUrl + '/' + data;
+                        var editUrl = editUrl + '/' + data;
                         var deleteUrl = deleteUrl + '/' + data;
 
-                        var editButton = "<a class='btn btn-default' data-modal='' href='" + editUrl + "' title='Edit'><span class='glyphicon glyphicon-pencil'></span></a>&nbsp;";
+                        var detailsButton = "<a class='btn btn-default' data-modal='' href='" + detailsUrl + "' title='Edit'><span class='glyphicon glyphicon-list-alt'></span></a>&nbsp;";
+                        var editButton = "<a class='btn btn-success' data-modal='' href='" + editUrl + "' title='Edit'><span class='glyphicon glyphicon-pencil'></span></a>&nbsp;";
                         var deleteButton = "<a class='btn btn-danger' data-modal='' href='" + deleteUrl + "' title='Delete'><span class='glyphicon glyphicon-trash'></span></a>";
 
                         var options = "<div class=''>" +
                                         editButton +
+                                        detailsButton +
                                         (isAdmin == 'True' ? deleteButton : "") +
                                       "</div>";
 

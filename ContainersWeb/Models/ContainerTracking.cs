@@ -48,13 +48,49 @@ namespace ContainersWeb.Models
 
         public string InsertedBy { get; set; }
         public string UpdatedBy { get; set; }
+        public bool IsInternalMove { get; set; }
+        public bool IsConsolidate { get; set; }
 
         public virtual Region Gate { get; set; }
         public virtual Driver Driver { get; set; }
         public virtual SecuritySupervisor SecuritySupervisor { get; set; }
-        [ForeignKey("CompanyOriginId"), Column(Order = 0)]
-        public virtual Company CompanyOrigin { get; set; }
-        [ForeignKey("CompanyDestinationId"), Column(Order = 1)]
-        public virtual Company CompanyDestination { get; set; }
+
+        public virtual ICollection<Origin> Origins { get; set; }
+        public virtual ICollection<Destination> Destinations { get; set; }
+
+        public ContainerTracking()
+        {
+            IsInternalMove = false;
+            IsConsolidate = false;
+        }
+
+        public static explicit operator ContainerTracking(TrackingViewModel v)
+        {
+            return new ContainerTracking()
+            {
+                ContainerTrackingId = v.ContainerTrackingId,
+                ChasisNumber = v.ChasisNumber,
+                ContainerLabel = v.ContainerLabel,
+                ContainerNumber = v.ContainerNumber,
+                DUA = v.DUA,
+                CorrelAduana = v.CorrelAduana,
+                DocNumber = v.DocNumber,
+                DocStatus = v.DocStatus,
+                Type = v.Type,
+                InsertedAt = v.InsertedAt,
+                UpdatedAt = v.UpdatedAt,
+                InsertedBy = v.InsertedBy,
+                UpdatedBy = v.UpdatedBy,
+                ContainerLicensePlate = v.ContainerLicensePlate,
+                ContainerStatus = v.ContainerStatus,
+                DriverId = v.DriverId,
+                Observations = v.Observations,
+                SecuritySupervisorId = v.SecuritySupervisorId,
+                TrackingType = v.TrackingType,
+                GateId = v.GateId,
+                IsInternalMove = v.IsInternalMove,
+                IsConsolidate = v.IsConsolidate                     
+            };
+        }
     }
 }

@@ -18,7 +18,8 @@ namespace ContainersWeb.Controllers
             var today = DateTime.Now;
             var list = db.ContainerTracking.Where(w => w.InsertedAt.Day == today.Day &&
                                               w.InsertedAt.Month == today.Month &&
-                                              w.InsertedAt.Year == today.Year).ToList();
+                                              w.InsertedAt.Year == today.Year &&
+                                              w.IsInternalMove == false).ToList();
 
             ViewBag.TruckPending = list.Where(w => w.DocStatus == DocStatus.Pendiente
                                                 && w.TrackingType == TrackingType.Camion).Count();
